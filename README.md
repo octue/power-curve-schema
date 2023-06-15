@@ -1,6 +1,6 @@
 # power-curve-schema
 
-The IEC 61400-16 standard will require that Wind Turbine Power Curves be distributed in a particular data format. This repository is a working area for developing a schema to describe that format.
+The IEC 61400-16 standard will require that Wind Turbine Power Curves be distributed in a particular data format, or _schema_. This repository is a working area for developing that schema.
 
 ## Purpose
 
