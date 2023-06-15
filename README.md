@@ -2,6 +2,8 @@
 
 The IEC 61400-16 standard will require that Wind Turbine Power Curves be distributed in a particular data format, or _schema_. This repository is a working area for developing that schema.
 
+A first draft (see below) was introduced in [this presentation](https://github.com/octue/power-curve-schema/blob/main/docs/presentations/Development%20status%20of%20a%20schema%20for%20wind%20turbine%20power%20curves%20-%20Octue%20-%2016%20%20May%202023.pdf) and as a group of collaborators we'll build upon that to address limitations and improve flexibility.
+
 ## Purpose
 
 Documents for distribution of power curves contain highly sensitive data - access to which should be carefully managed for good commercial and technical reasons. This appears to conflict with the industry's progress toward digitalization, especially seamless data exchange, which enables reduction in:
