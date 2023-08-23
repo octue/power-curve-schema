@@ -58,7 +58,6 @@
   },
   "required": [
     "label",
-    "library_version",
     "document_version",
     "turbine_metadata",
     "design_parameters",
@@ -77,18 +76,6 @@
         "pattern": "Correct format of the label is kebab-case (lowercase, numeric digits and hyphens only)"
       },
       "examples": ["example-simple"]
-    },
-    "library_version": {
-      "$id": "#/properties/library_version",
-      "type": "string",
-      "title": "Library version",
-      "description": "The power-curve-utilities library version (e.g. 0.0.1) used to create this turbine file.",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
-      "message": {
-        "required": "Library version is a required property",
-        "pattern": "The version must be a semantic form, like 0.0.1 (see https://semver.org/)"
-      },
-      "examples": ["0.0.1"]
     },
     "document_version": {
       "$id": "#/properties/document_version",
@@ -635,5 +622,5 @@
       }
     }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }
