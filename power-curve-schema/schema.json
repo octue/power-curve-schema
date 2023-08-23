@@ -154,14 +154,14 @@
           "type": "string",
           "title": "Drive type",
           "description": "The drive type of the turbine",
-          "enum": ["geared", "direct"]
+          "enum": ["geared", "direct", "other"]
         },
         "regulation_type": {
           "$id": "#/properties/turbine_metadata/properties/regulation_type",
           "type": "string",
           "title": "Regulation type",
           "description": "The regulation type of the turbine.",
-          "enum": ["pitch", "stall"]
+          "enum": ["pitch", "stall", "other"]
         }
       },
       "additionalProperties": true
