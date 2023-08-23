@@ -57,7 +57,6 @@
     }
   },
   "required": [
-    "label",
     "document_version",
     "turbine_metadata",
     "design_parameters",
@@ -68,11 +67,10 @@
     "label": {
       "$id": "#/properties/label",
       "type": "string",
-      "title": "Turbine label",
-      "description": "A slugified string key uniquely identifying the turbine model, e.g. siemens-swt-whatever",
+      "title": "Power curve label",
+      "description": "An optional slugified string key used to reference this power curve, eg siemens-swt-whatever. This is best used as an identifier within a database or graph (in the same way that mode labels are used to reference a given mode within the power curve - see the 'modes' property)",
       "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
       "message": {
-        "required": "Turbine label is a required property",
         "pattern": "Correct format of the label is kebab-case (lowercase, numeric digits and hyphens only)"
       },
       "examples": ["example-simple"]
