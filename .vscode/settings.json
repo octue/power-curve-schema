@@ -1,0 +1,14 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.py$",
+        "isAsync": true,
+        "cmd": "cd ~/source/octue/power-curve-schema/docs/summariser && poetry run python make_summary.py"
+      }
+    ]
+  }
+}
