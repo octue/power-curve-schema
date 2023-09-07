@@ -39,9 +39,11 @@ A system of labelling documents with metadata is already well established, the [
 
 ### Special Considerations
 
-- At least one `Identifier` label should be added. The first such label should contain a globally unique identifier for this document (ie two documents should never exist with the same global identifier but different contents).
-- The `Source` label (or multiples of it) should be used to reference the source material(s) or document(s), for example a manufacturer-issued PDF. Whilst not required, it is STRONGLY recommended that this reference be a URI to the original document rather than containing simply a document number.
-- A `Format` label must be added containing the value `IEC61400-16`. This allows readers to determine the nature of the document to be containing a power curve as per this standard [(c.f. discussion here](https://github.com/octue/power-curve-schema/issues/18).
+- At least one `Identifier` label is required. The first such label should contain a globally unique identifier for this document (ie two documents should never exist with the same global identifier but different contents).
+
+- The `Source` label (or multiples of it) should be used to reference the source material(s) or document(s), for example a manufacturer-issued PDF. Whilst not required, it is STRONGLY recommended that this reference be a URI to the original document rather than containing simply a document number (or that both be added in separate labels).
+
+- At least one `Format` label is required, which must have the value `IEC61400-16`. This allows readers to determine the nature of the document to be containing a power curve as per this standard [(c.f. discussion here](https://github.com/octue/power-curve-schema/issues/18).
 
 ## Turbine Metadata
 
