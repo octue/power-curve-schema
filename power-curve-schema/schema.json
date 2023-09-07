@@ -153,10 +153,10 @@
       },
       "additionalProperties": true
     },
-    "design_parameters": {
+    "design_basis": {
       "type": "object",
-      "title": "Design parameters",
-      "description": "Information about the design point the turbine was made for",
+      "title": "Design basis",
+      "description": "Information about the design point (environmental conditions) the power curves in this document are certified for.",
       "required": [],
       "properties": {
         "iec_class": {
