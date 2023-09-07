@@ -58,6 +58,12 @@ def generic_turbine_metadata():
         }
     }
 
+@pytest.fixture()
+def generic_design_basis():
+    return {
+        "design_basis": {
+        }
+    }
 
 @pytest.fixture()
 def one_dimensional_mode():
@@ -298,7 +304,11 @@ def two_dimensional_mode():
 
 @pytest.fixture(scope="session")
 def loaded_generic_117_3():
-    """Provides the generic 117m 3.45MW turbine as a test instance, loaded only once per session"""
+    """Provides the generic 117m 3.45MW turbine as a test instance, loaded from disc only once per session
+    NOTE: Do not use this fixture directly, to avoid mutation of fixtures for other tests.
+    Instead, use a deep copy of this fixture (to accelerate tests copmared to loading from disc on each test).
+    """
+
     with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-117-3.json"), 'r', encoding="utf-8") as fp:
         instance = json.load(fp)
     return instance
@@ -311,7 +321,10 @@ def generic_117_3(loaded_generic_117_3):
 
 @pytest.fixture(scope="session")
 def loaded_generic_274_20():
-    """Provides the generic 274m 20MW turbine as a test instance, loaded only once per session"""
+    """Provides the generic 274m 20MW turbine as a test instance, loaded from disc only once per session
+    NOTE: Do not use this fixture directly, to avoid mutation of fixtures for other tests.
+    Instead, use a deep copy of this fixture (to accelerate tests copmared to loading from disc on each test).
+    """
     with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-274-20.json"), 'r', encoding="utf-8") as fp:
         instance = json.load(fp)
     return instance
