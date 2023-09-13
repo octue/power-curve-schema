@@ -93,6 +93,8 @@
         "manufacturer_name",
         "manufacturer_display_name",
         "rated_power",
+        "rated_rpm",
+        "cut_in_rpm",
         "rotor_diameter",
         "model_description",
         "available_hub_heights",
@@ -144,12 +146,6 @@
             "The 1.x Series platform was designed as a basis for a range of small-scale onshore turbines versatile for a range of site conditions."
           ]
         },
-        "rated_power": {
-          "type": "number",
-          "title": "Rated power [W]",
-          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
-          "examples": [5000000]
-        },
         "rotor_diameter": {
           "type": "number",
           "title": "Rotor diameter [m]",
@@ -158,13 +154,43 @@
           "exclusiveMinimum": 0,
           "exclusiveMaximum": 1000
         },
+        "drive_type": {
+          "type": "string",
+          "title": "Drive type",
+          "description": "The drive type of the turbine",
+          "enum": ["geared", "direct", "other"]
+        },
+        "regulation_type": {
+          "type": "string",
+          "title": "Regulation type",
+          "description": "The regulation type of the turbine.",
+          "enum": ["pitch", "stall", "other"]
+        },
+        "rated_power": {
+          "type": "number",
+          "title": "Rated power [W]",
+          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
+          "examples": [5000000]
+        },
+        "cut_in_rpm": {
+          "type": "number",
+          "title": "Rotational speed at cut-in [RPM]",
+          "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+          "examples": [2]
+        },
+        "rated_rpm": {
+          "type": "number",
+          "title": "Rotational speed at rated power [RPM]",
+          "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+          "examples": [12]
+        },
         "available_hub_heights": {
           "title": "Available hub heights",
-          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights",
+          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights. This value may be overriden on a per-mode basis.",
           "anyOf": [
             {
               "type": "object",
-              "description": "Specify a range of available/recommended hub heights",
+              "description": "Specify a range of available/recommended hub heights [m]",
               "properties": {
                 "min": {
                   "type": "number",
@@ -179,24 +205,12 @@
             },
             {
               "type": "array",
-              "description": "1D array [1 x H] containing available/recommended hub heights [m].",
+              "description": "Specify a list of discrete available/recommended hub heights [m]",
               "items": {
                 "type": "number"
               }
             }
           ]
-        },
-        "drive_type": {
-          "type": "string",
-          "title": "Drive type",
-          "description": "The drive type of the turbine",
-          "enum": ["geared", "direct", "other"]
-        },
-        "regulation_type": {
-          "type": "string",
-          "title": "Regulation type",
-          "description": "The regulation type of the turbine.",
-          "enum": ["pitch", "stall", "other"]
         }
       }
     },

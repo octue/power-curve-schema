@@ -9,6 +9,8 @@
     "platform_name": "Series GT20.x",
     "platform_description": "The Series GT20.x platform is the basis for GT's next generation of super-size offshore wind turbines",
     "rated_power": 20000000,
+    "rated_rpm": 6,
+    "cut_in_rpm": 1,
     "rotor_diameter": 274.0,
     "available_hub_heights": [143],
     "drive_type": "geared",
