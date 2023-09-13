@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Turbine Power Curve",
-  "description": "Define a wind turbine power curve.",
+  "title": "Turbine Power Curves",
+  "description": "Define a set of power curves for a wind turbine.",
   "definitions": {
     "1darray": {
       "type": "array",
@@ -58,31 +58,57 @@
     }
   },
   "required": [
-    "document_version",
+    "document",
     "turbine_metadata",
-    "design_parameters",
+    "design_basis",
     "default_mode",
     "modes"
   ],
   "properties": {
-    "label": {
-      "type": "string",
-      "title": "Power curve label",
-      "description": "An optional slugified string key used to reference this power curve, eg siemens-swt-whatever. This is best used as an identifier within a database or graph (in the same way that mode labels are used to reference a given mode within the power curve - see the 'modes' property)",
-      "pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
-      "message": {
-        "pattern": "Correct format of the label is kebab-case (lowercase, numeric digits and hyphens only)"
-      },
-      "examples": ["example-simple"]
-    },
-    "document_version": {
-      "type": "string",
-      "title": "Document version",
-      "description": "Manufacturer's document reference (from which raw power curves data is taken)",
-      "message": {
-        "required": "Document version is a required property"
-      },
-      "examples": ["Vestas Document no. 0067-7067 V09, 2018-09-25"]
+    "document": {
+      "type": "object",
+      "title": "Document",
+      "description": "Information about this document",
+      "required": ["metadata"],
+      "properties": {
+        "metadata": {
+          "title": "Dublin-Core Metadata",
+          "description": "Add metadata according to the Dublin Core Metadata Initiative (DCMI) elements/1.1. See https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3 for detailed information on each element.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["term", "value"],
+            "properties": {
+              "term": {
+                "type": "string",
+                "title": "Term",
+                "description": "The DCMI Element label",
+                "enum": [
+                  "Contributor",
+                  "Coverage",
+                  "Creator",
+                  "Date",
+                  "Description",
+                  "Format",
+                  "Identifier",
+                  "Language",
+                  "Publisher",
+                  "Relation",
+                  "Rights",
+                  "Source",
+                  "Subject",
+                  "Type"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "title": "Value",
+                "description": "The metadata value"
+              }
+            }
+          }
+        }
+      }
     },
     "turbine_metadata": {
       "type": "object",
