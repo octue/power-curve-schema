@@ -130,13 +130,32 @@
           "examples": ["An example simple turbine with only one mode."]
         },
         "available_hub_heights": {
-          "type": "array",
           "title": "Available hub heights",
-          "description": "1D array [1 x H] containing hub heights [m] at which the turbine can be ordered.",
-          "additionalItems": true,
-          "items": {
-            "type": "number"
-          }
+          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Specify a range of available/recommended hub heights",
+              "properties": {
+                "min": {
+                  "type": "number",
+                  "description": "Minium hub height [m]"
+                },
+                "max": {
+                  "type": "number",
+                  "description": "Maximum hub height [m]"
+                }
+              },
+              "required": ["min"]
+            },
+            {
+              "type": "array",
+              "description": "1D array [1 x H] containing available/recommended hub heights [m].",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
         },
         "drive_type": {
           "type": "string",
@@ -150,8 +169,7 @@
           "description": "The regulation type of the turbine.",
           "enum": ["pitch", "stall", "other"]
         }
-      },
-      "additionalProperties": true
+      }
     },
     "design_basis": {
       "type": "object",
