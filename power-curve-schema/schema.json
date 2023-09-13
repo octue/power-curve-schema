@@ -92,7 +92,7 @@
         "model_name",
         "manufacturer_name",
         "manufacturer_display_name",
-        "nominal_rated_power",
+        "rated_power",
         "rotor_diameter",
         "description",
         "available_hub_heights",
@@ -119,10 +119,10 @@
           "maxLength": 40,
           "examples": ["Generic Turbines"]
         },
-        "nominal_rated_power": {
+        "rated_power": {
           "type": "number",
-          "title": "Nominal rated power [W]",
-          "description": "Nominal rated power of the turbine in W",
+          "title": "Rated power [W]",
+          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
           "examples": [5000000]
         },
         "rotor_diameter": {
