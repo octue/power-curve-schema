@@ -79,6 +79,24 @@ def test_invalid_manufacturer_display_names(
     assert manufacturer_display_name[1] in str(e)
 
 
+@pytest.mark.parametrize(
+    "rotor_diameter",
+    [
+        (0, "is less than or equal to the minimum of 0"),
+        (
+            1000,
+            "is greater than or equal to the maximum of 1000",
+        ),
+    ],
+)
+def test_invalid_rotor_diameters(subschema, generic_turbine_metadata, rotor_diameter):
+    """Ensure rotor diameter cannot be outside acceptable bounds"""
+    generic_turbine_metadata["turbine_metadata"]["rotor_diameter"] = rotor_diameter[0]
+    with pytest.raises(ValidationError) as e:
+        validate(instance=generic_turbine_metadata, schema=subschema)
+    assert rotor_diameter[1] in str(e)
+
+
 @pytest.mark.parametrize("drive_type", ["direct", "geared", "other"])
 def test_valid_drive_types(subschema, generic_turbine_metadata, drive_type):
     """There is a fixed set of available drive types"""

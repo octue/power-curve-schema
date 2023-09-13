@@ -128,8 +128,10 @@
         "rotor_diameter": {
           "type": "number",
           "title": "Rotor diameter [m]",
-          "description": "Nominal rotor diameter of the turbine in m",
-          "examples": [100.0]
+          "description": "Nominal rotor diameter of the turbine [m]",
+          "examples": [100.0],
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1000
         },
         "description": {
           "type": "string",
