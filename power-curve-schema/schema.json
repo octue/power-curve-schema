@@ -90,7 +90,8 @@
       "description": "General information (metadata) about the turbine",
       "required": [
         "model_name",
-        "manufacturer",
+        "manufacturer_name",
+        "manufacturer_display_name",
         "nominal_rated_power",
         "rotor_diameter",
         "description",
@@ -105,11 +106,18 @@
           "description": "Name of the turbine model (according to the manufacturer)",
           "examples": ["GT101"]
         },
-        "manufacturer": {
+        "manufacturer_name": {
           "type": "string",
           "title": "Manufacturer name",
-          "description": "Name of the manufacturer",
-          "examples": ["Example Turbines PLC"]
+          "description": "Full name of the manufacturer (eg a legal entity)",
+          "examples": ["Generic Turbines (US) Inc."]
+        },
+        "manufacturer_display_name": {
+          "type": "string",
+          "title": "Manufacturer display name",
+          "description": "Shortened or informal name of the manufacturer (for display purposes, eg in dropdown selectors). See also manufacturer_name.",
+          "maxLength": 40,
+          "examples": ["Generic Turbines"]
         },
         "nominal_rated_power": {
           "type": "number",

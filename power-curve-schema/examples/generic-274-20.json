@@ -3,7 +3,8 @@
   "document_version": "GENERIC0002",
   "turbine_metadata": {
     "model_name": "GT 20.0-274",
-    "manufacturer": "Generic Turbines Inc",
+    "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",
+    "manufacturer_display_name": "Generic Turbines",
     "nominal_rated_power": 20000000,
     "rotor_diameter": 274.0,
     "description": "Generic machine with 274m rotor diameter and rated at 20MW",

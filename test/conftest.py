@@ -45,20 +45,6 @@ def generic_document_metadata():
         ]
     }
 
-@pytest.fixture()
-def generic_turbine_metadata():
-    return {
-        "turbine_metadata": {
-            "model_name": "GT 3.45-117",
-            "manufacturer": "Generic Turbines Inc",
-            "nominal_rated_power": 3450000,
-            "rotor_diameter": 117.0,
-            "description": "Generic machine with 117m rotor rated at 3450 kW ",
-            "available_hub_heights": [91.5, 116.5, 141.5],
-            "drive_type": "geared",
-            "regulation_type": "pitch"
-        }
-    }
 
 @pytest.fixture()
 def generic_design_basis():
@@ -335,3 +321,10 @@ def loaded_generic_274_20():
 def generic_274_20(loaded_generic_274_20):
     """A fresh deep copy of the generic 274m 20MW turbine as a test instance"""
     return copy.deepcopy(loaded_generic_274_20)
+
+
+@pytest.fixture()
+def generic_turbine_metadata(generic_117_3):
+    return {
+        "turbine_metadata": generic_117_3.pop('turbine_metadata')
+    }
