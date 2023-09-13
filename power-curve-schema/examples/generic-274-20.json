@@ -1,6 +1,20 @@
 {
-  "label": "generic-274-20",
-  "document_version": "GENERIC0002",
+  "document": {
+    "metadata": [
+      {
+        "term": "Identifier",
+        "value": "my-uuid-2"
+      },
+      {
+        "term": "Format",
+        "value": "IEC61400-16-1"
+      },
+      {
+        "term": "Source",
+        "value": "Doc 56789 - Rev 01"
+      }
+    ]
+  },
   "turbine_metadata": {
     "model_name": "GT 20.0-274",
     "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the InfinityXYZ Generiblade system.",
