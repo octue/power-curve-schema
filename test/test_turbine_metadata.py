@@ -65,14 +65,26 @@ def test_non_blankable_properties(subschema, generic_turbine_metadata, property)
 
 @pytest.mark.parametrize(
     "property",
-    [
-        "model_description",
-    ],
+    ["model_description", "platform_name", "platform_description"],
 )
 def test_blankable_properties(subschema, generic_turbine_metadata, property):
     """Validation should fail if any required string property (other than model_description) contains a blank string"""
     generic_turbine_metadata["turbine_metadata"][property] = ""
     validate(instance=generic_turbine_metadata, schema=subschema)
+
+
+@pytest.mark.parametrize(
+    "property",
+    ["model_name", "platform_name", "manufacturer_display_name"],
+)
+def test_name_length_limits(subschema, generic_turbine_metadata, property):
+    """Validation should fail if name properties exceed a character limit"""
+    generic_turbine_metadata["turbine_metadata"][
+        property
+    ] = "01234567890123456789012345678901234567890-"
+    with pytest.raises(ValidationError) as e:
+        validate(instance=generic_turbine_metadata, schema=subschema)
+    assert "is too long" in str(e)
 
 
 @pytest.mark.parametrize(

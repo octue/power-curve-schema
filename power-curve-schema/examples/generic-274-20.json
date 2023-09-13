@@ -6,6 +6,8 @@
     "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the InfinityXYZ Generiblade system.",
     "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",
     "manufacturer_display_name": "Generic Turbines",
+    "platform_name": "Series GT20.x",
+    "platform_description": "The Series GT20.x platform is the basis for GT's next generation of super-size offshore wind turbines",
     "rated_power": 20000000,
     "rotor_diameter": 274.0,
     "available_hub_heights": [143],

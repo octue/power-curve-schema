@@ -120,13 +120,29 @@
           "title": "Model name",
           "description": "Name of the turbine model (according to the manufacturer)",
           "minLength": 1,
+          "maxLength": 40,
           "examples": ["GT101"]
         },
         "model_description": {
           "type": "string",
           "title": "Model description",
-          "description": "General description about the turbine model, eg for search and  rendered into help popups for the turbine.",
+          "description": "General description about the turbine model, eg for giving a brief overview in a turbine selection tool.",
           "examples": ["An example simple turbine with only one mode."]
+        },
+        "platform_name": {
+          "type": "string",
+          "title": "Platform name",
+          "description": "Optional name of the platform on which this turbine model is based.",
+          "maxLength": 40,
+          "examples": ["1.x Series"]
+        },
+        "platform_description": {
+          "type": "string",
+          "title": "Platform description",
+          "description": "Optional general description of the platform on which this turbine model is based.",
+          "examples": [
+            "The 1.x Series platform was designed as a basis for a range of small-scale onshore turbines versatile for a range of site conditions."
+          ]
         },
         "rated_power": {
           "type": "number",
