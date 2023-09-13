@@ -104,6 +104,7 @@
           "type": "string",
           "title": "Manufacturer name",
           "description": "Full name of the manufacturer (eg a legal entity)",
+          "minLength": 1,
           "examples": ["Generic Turbines (US) Inc."]
         },
         "manufacturer_display_name": {
@@ -111,12 +112,14 @@
           "title": "Manufacturer display name",
           "description": "Shortened or informal name of the manufacturer (for display purposes, eg in dropdown selectors). See also manufacturer_name.",
           "maxLength": 40,
+          "minLength": 1,
           "examples": ["Generic Turbines"]
         },
         "model_name": {
           "type": "string",
           "title": "Model name",
           "description": "Name of the turbine model (according to the manufacturer)",
+          "minLength": 1,
           "examples": ["GT101"]
         },
         "model_description": {
