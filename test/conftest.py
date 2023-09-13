@@ -49,7 +49,7 @@ def generic_document_metadata():
 def generic_turbine_metadata():
     return {
         "turbine_metadata": {
-            "name": "GT 3.45-117",
+            "model_name": "GT 3.45-117",
             "manufacturer": "Generic Turbines Inc",
             "nominal_rated_power": 3450000,
             "rotor_diameter": 117.0,

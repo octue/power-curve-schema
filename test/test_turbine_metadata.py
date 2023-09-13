@@ -22,7 +22,7 @@ def test_missing_turbine_metadata(subschema):
     assert "'turbine_metadata' is a required property" in str(e)
  
 
-@pytest.mark.parametrize("property", ['name', 'manufacturer', 'nominal_rated_power', 'rotor_diameter', 'description', 'available_hub_heights', 'drive_type', 'regulation_type'])       
+@pytest.mark.parametrize("property", ['model_name', 'manufacturer', 'nominal_rated_power', 'rotor_diameter', 'description', 'available_hub_heights', 'drive_type', 'regulation_type'])       
 def test_missing_name(subschema, generic_turbine_metadata, property):
     """Validation should fail if any required property is missing from turbine metadata"""
     generic_turbine_metadata['turbine_metadata'].pop(property, None)

@@ -2,7 +2,7 @@
   "label": "generic-117-3",
   "document_version": "GENERIC0001",
   "turbine_metadata": {
-    "name": "Generic Turbines 3.45-117",
+    "model_name": "GT 3.45-117",
     "manufacturer": "Generic Turbines Inc",
     "nominal_rated_power": 3450000,
     "rotor_diameter": 117.0,

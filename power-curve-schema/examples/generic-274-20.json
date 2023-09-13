@@ -2,7 +2,7 @@
   "label": "generic-274-20",
   "document_version": "GENERIC0002",
   "turbine_metadata": {
-    "name": "GM 20.0-274",
+    "model_name": "GT 20.0-274",
     "manufacturer": "Generic Turbines Inc",
     "nominal_rated_power": 20000000,
     "rotor_diameter": 274.0,

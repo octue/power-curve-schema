@@ -89,7 +89,7 @@
       "title": "Turbine metadata",
       "description": "General information (metadata) about the turbine",
       "required": [
-        "name",
+        "model_name",
         "manufacturer",
         "nominal_rated_power",
         "rotor_diameter",
@@ -99,11 +99,11 @@
         "regulation_type"
       ],
       "properties": {
-        "name": {
+        "model_name": {
           "type": "string",
-          "title": "Turbine name",
+          "title": "Model name",
           "description": "Name of the turbine model (according to the manufacturer)",
-          "examples": ["Example Simple Turbine Name"]
+          "examples": ["GT101"]
         },
         "manufacturer": {
           "type": "string",
