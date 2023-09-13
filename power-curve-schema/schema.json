@@ -94,18 +94,12 @@
         "manufacturer_display_name",
         "rated_power",
         "rotor_diameter",
-        "description",
+        "model_description",
         "available_hub_heights",
         "drive_type",
         "regulation_type"
       ],
       "properties": {
-        "model_name": {
-          "type": "string",
-          "title": "Model name",
-          "description": "Name of the turbine model (according to the manufacturer)",
-          "examples": ["GT101"]
-        },
         "manufacturer_name": {
           "type": "string",
           "title": "Manufacturer name",
@@ -118,6 +112,18 @@
           "description": "Shortened or informal name of the manufacturer (for display purposes, eg in dropdown selectors). See also manufacturer_name.",
           "maxLength": 40,
           "examples": ["Generic Turbines"]
+        },
+        "model_name": {
+          "type": "string",
+          "title": "Model name",
+          "description": "Name of the turbine model (according to the manufacturer)",
+          "examples": ["GT101"]
+        },
+        "model_description": {
+          "type": "string",
+          "title": "Model description",
+          "description": "General description about the turbine model, eg for search and  rendered into help popups for the turbine.",
+          "examples": ["An example simple turbine with only one mode."]
         },
         "rated_power": {
           "type": "number",
@@ -132,12 +138,6 @@
           "examples": [100.0],
           "exclusiveMinimum": 0,
           "exclusiveMaximum": 1000
-        },
-        "description": {
-          "type": "string",
-          "title": "Turbine description",
-          "description": "Notes which will be rendered into help popups for the turbine.",
-          "examples": ["An example simple turbine with only one mode."]
         },
         "available_hub_heights": {
           "title": "Available hub heights",

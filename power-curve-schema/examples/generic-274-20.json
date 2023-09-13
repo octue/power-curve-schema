@@ -3,11 +3,11 @@
   "document_version": "GENERIC0002",
   "turbine_metadata": {
     "model_name": "GT 20.0-274",
+    "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the InfinityXYZ Generiblade system.",
     "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",
     "manufacturer_display_name": "Generic Turbines",
     "rated_power": 20000000,
     "rotor_diameter": 274.0,
-    "description": "Generic machine with 274m rotor diameter and rated at 20MW",
     "available_hub_heights": [143],
     "drive_type": "geared",
     "regulation_type": "pitch"

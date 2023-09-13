@@ -29,7 +29,7 @@ def test_missing_turbine_metadata(subschema):
         "manufacturer_name",
         "rated_power",
         "rotor_diameter",
-        "description",
+        "model_description",
         "available_hub_heights",
         "drive_type",
         "regulation_type",
