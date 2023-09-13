@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "Turbine Power Curve",
   "description": "Define a wind turbine power curve.",
@@ -65,7 +66,6 @@
   ],
   "properties": {
     "label": {
-      "$id": "#/properties/label",
       "type": "string",
       "title": "Power curve label",
       "description": "An optional slugified string key used to reference this power curve, eg siemens-swt-whatever. This is best used as an identifier within a database or graph (in the same way that mode labels are used to reference a given mode within the power curve - see the 'modes' property)",
@@ -76,7 +76,6 @@
       "examples": ["example-simple"]
     },
     "document_version": {
-      "$id": "#/properties/document_version",
       "type": "string",
       "title": "Document version",
       "description": "Manufacturer's document reference (from which raw power curves data is taken)",
@@ -86,7 +85,6 @@
       "examples": ["Vestas Document no. 0067-7067 V09, 2018-09-25"]
     },
     "turbine_metadata": {
-      "$id": "#/properties/turbine_metadata",
       "type": "object",
       "title": "Turbine metadata",
       "description": "General information (metadata) about the turbine",
@@ -102,60 +100,51 @@
       ],
       "properties": {
         "name": {
-          "$id": "#/properties/turbine_metadata/properties/name",
           "type": "string",
           "title": "Turbine name",
           "description": "Name of the turbine model (according to the manufacturer)",
           "examples": ["Example Simple Turbine Name"]
         },
         "manufacturer": {
-          "$id": "#/properties/turbine_metadata/properties/manufacturer",
           "type": "string",
           "title": "Manufacturer name",
           "description": "Name of the manufacturer",
           "examples": ["Example Turbines PLC"]
         },
         "nominal_rated_power": {
-          "$id": "#/properties/turbine_metadata/properties/nominal_rated_power",
           "type": "number",
           "title": "Nominal rated power [W]",
           "description": "Nominal rated power of the turbine in W",
           "examples": [5000000]
         },
         "rotor_diameter": {
-          "$id": "#/properties/turbine_metadata/properties/rotor_diameter",
           "type": "number",
           "title": "Rotor diameter [m]",
           "description": "Nominal rotor diameter of the turbine in m",
           "examples": [100.0]
         },
         "description": {
-          "$id": "#/properties/turbine_metadata/properties/description",
           "type": "string",
           "title": "Turbine description",
           "description": "Notes which will be rendered into help popups for the turbine.",
           "examples": ["An example simple turbine with only one mode."]
         },
         "available_hub_heights": {
-          "$id": "#/properties/turbine_metadata/properties/available_hub_heights",
           "type": "array",
           "title": "Available hub heights",
           "description": "1D array [1 x H] containing hub heights [m] at which the turbine can be ordered.",
           "additionalItems": true,
           "items": {
-            "$id": "#/properties/turbine_metadata/properties/available_hub_heights/items",
             "type": "number"
           }
         },
         "drive_type": {
-          "$id": "#/properties/turbine_metadata/properties/drive_type",
           "type": "string",
           "title": "Drive type",
           "description": "The drive type of the turbine",
           "enum": ["geared", "direct", "other"]
         },
         "regulation_type": {
-          "$id": "#/properties/turbine_metadata/properties/regulation_type",
           "type": "string",
           "title": "Regulation type",
           "description": "The regulation type of the turbine.",
@@ -164,15 +153,13 @@
       },
       "additionalProperties": true
     },
-    "design_parameters": {
-      "$id": "#/properties/design_parameters",
+    "design_basis": {
       "type": "object",
-      "title": "Design parameters",
-      "description": "Information about the design point the turbine was made for",
+      "title": "Design basis",
+      "description": "Information about the design point (environmental conditions) the power curves in this document are certified for.",
       "required": [],
       "properties": {
         "iec_class": {
-          "$id": "#/properties/design_parameters/properties/iec_class",
           "type": "string",
           "title": "IEC class",
           "description": "The IEC class rules under which the turbine was designed and certified",
@@ -180,7 +167,6 @@
           "examples": ["SomeTechnicalPaper:12345"]
         },
         "average_wind_speed": {
-          "$id": "#/properties/design_parameters/properties/average_wind_speed",
           "type": "number",
           "title": "Average wind speed [m/s]",
           "description": " The V_ave 10-minute average wind speed for which the turbine is certified in m/s",
@@ -188,7 +174,6 @@
           "examples": [40]
         },
         "extreme_wind_speed": {
-          "$id": "#/properties/design_parameters/properties/extreme_wind_speed",
           "type": "number",
           "title": "Extreme wind speed [m/s]",
           "description": " The V50 10-minute extreme wind speed for which the turbine is certified in m/s",
@@ -196,19 +181,16 @@
           "examples": [40]
         },
         "survival_wind_speed": {
-          "$id": "#/properties/design_parameters/properties/survival_wind_speed",
           "type": "number",
           "title": "Survival wind speed [m/s]",
           "description": "The Ve50 3s gust wind speed for which the turbine is certified m/s"
         },
         "turbulent_intensity_v50": {
-          "$id": "#/properties/design_parameters/properties/turbulent_intensity_v50",
           "type": "number",
           "title": "Turbulent Intensity [%]",
           "description": "The V50 design value of turbulent intensity I"
         },
         "turbulent_intensity_iec61400_ref": {
-          "$id": "#/properties/design_parameters/properties/turbulent_intensity_iec61400_ref",
           "title": "Turbulent Intensity [%]",
           "description": "The reference value of turbulent intensity I, according to IEC61400-1",
           "anyOf": [
@@ -233,31 +215,26 @@
           ]
         },
         "turbulent_intensity_iec61400_wft": {
-          "$id": "#/properties/design_parameters/properties/turbulent_intensity_iec61400_wft",
           "type": "number",
           "title": "Turbulent Intensity [%]",
           "description": "The V90 extreme value of turbulent intensity I, according to IEC61400-1, including wind farm turbulence @15m/s"
         },
         "weibull_scale_factor_c": {
-          "$id": "#/properties/design_parameters/properties/weibull_scale_factor_c",
           "type": "number",
           "title": "Weibull Scale Factor, C",
           "description": "The Weibull distribution scale factor"
         },
         "weibull_shape_factor_k": {
-          "$id": "#/properties/design_parameters/properties/weibull_shape_factor_k",
           "type": "number",
           "title": "Weibull Shape Factor, k",
           "description": "The Weibull distribution shape factor k"
         },
         "alpha": {
-          "$id": "#/properties/design_parameters/properties/alpha",
           "type": "number",
           "title": "Alpha",
           "description": "The design wind shear exponent"
         },
         "inflow_angle": {
-          "$id": "#/properties/design_parameters/properties/inflow_angle",
           "title": "Inflow Angle",
           "description": "The design vertical inflow angle",
           "anyOf": [
@@ -282,13 +259,11 @@
           ]
         },
         "grid_voltage": {
-          "$id": "#/properties/design_parameters/properties/grid_voltage",
           "type": "number",
           "title": "Grid voltage [V]",
           "description": "The design grid voltage in V"
         },
         "grid_frequencies": {
-          "$id": "#/properties/design_parameters/properties/grid_frequencies",
           "type": "array",
           "items": {
             "type": "number"
@@ -297,7 +272,6 @@
           "description": "The allowable design grid frequencies in Hz"
         },
         "operational_temperature": {
-          "$id": "#/properties/design_parameters/properties/operational_temperature",
           "title": "Operational temperature",
           "description": "The allowable range of operational temperature in degree celcius",
           "type": "object",
@@ -319,19 +293,16 @@
       "additionalProperties": false
     },
     "default_mode": {
-      "$id": "#/properties/default_mode",
       "type": "string",
       "title": "Default mode",
       "description": "The label of the mode that should be used by default (must match an entry in 'modes')"
     },
     "modes": {
-      "$id": "#/properties/modes",
       "type": "array",
       "title": "Modes",
       "description": "Different modes that the turbine can operate in / switch between",
       "additionalItems": true,
       "items": {
-        "$id": "#/properties/modes/items",
         "type": "object",
         "required": [
           "label",
@@ -346,32 +317,27 @@
         ],
         "properties": {
           "label": {
-            "$id": "#/properties/modes/items/properties/label",
             "type": "string",
             "title": "Mode label",
             "description": " A string key identifying the mode, e.g. `PO1 power-optimised`",
             "pattern": "^[A-Za-z0-9-_ ]{1,30}$"
           },
           "description": {
-            "$id": "#/properties/modes/items/properties/description",
             "type": "string",
             "title": "Mode description",
             "description": "Short human readable text which will be rendered into dropdowns and made searchable."
           },
           "rated_power": {
-            "$id": "#/properties/modes/items/properties/rated_power",
             "type": "number",
             "title": "Mode rated power (W)",
             "description": "Rated power of the turbine in this mode [W]"
           },
           "cut_in": {
-            "$id": "#/properties/modes/items/properties/cut_in",
             "title": "Cut in",
             "description": "A description of the cut in characteristics (a discontinuity in the power curve at low speeds)",
             "type": "object",
             "properties": {
               "kind": {
-                "$id": "#/properties/modes/items/properties/cut_in/properties/kind",
                 "title": "Cut in characteristic",
                 "description": "Select the kind of cut in characteristic to apply",
                 "default": "cut_in_step",
@@ -443,13 +409,11 @@
             ]
           },
           "cut_out": {
-            "$id": "#/properties/modes/items/properties/cut_out",
             "title": "Cut out",
             "description": "A description of the cut out characteristics (a discontinuity in the power curve at high wind speeds)",
             "type": "object",
             "properties": {
               "kind": {
-                "$id": "#/properties/modes/items/properties/cut_out/properties/kind",
                 "title": "Cut out characteristic",
                 "description": "Select the kind of cut out characteristic to apply",
                 "default": "cut_out_step",
@@ -524,36 +488,30 @@
             ]
           },
           "parameters": {
-            "$id": "#/properties/modes/items/properties/parameters",
             "type": "array",
             "title": "Parameters",
             "description": "Independent parameters for which the power curve is described",
             "additionalItems": true,
             "items": {
-              "$id": "#/properties/modes/items/properties/parameters/items",
               "type": "object",
               "required": ["label", "dimension", "points"],
               "properties": {
                 "label": {
-                  "$id": "#/properties/modes/items/properties/parameters/items/properties/label",
                   "type": "string",
                   "title": "Parameter label",
                   "description": "A slugified string key used to identify the parameter (e.g. air-density)"
                 },
                 "dimension": {
-                  "$id": "#/properties/modes/items/properties/parameters/items/properties/dimension",
                   "type": "integer",
                   "title": "Dimension",
                   "description": "Dimension of the power curve array along which this parameter varies (0-based)"
                 },
                 "points": {
-                  "$id": "#/properties/modes/items/properties/parameters/items/properties/points",
                   "type": "array",
                   "title": "Points",
                   "description": "Sampling points of this parameter corresponding to points on the power curve",
                   "additionalItems": true,
                   "items": {
-                    "$id": "#/properties/modes/items/properties/parameters/items/properties/points/items",
                     "type": "number"
                   }
                 }
@@ -561,19 +519,16 @@
             }
           },
           "cp_is_coefficient": {
-            "$id": "#/properties/modes/items/properties/cp_is_coefficient",
             "type": "boolean",
             "title": "Cp is Coefficient",
             "description": "True if the `cp` array is in nondimensional coefficient form, False if the `cp` array contains Power [W]."
           },
           "ct_is_coefficient": {
-            "$id": "#/properties/modes/items/properties/ct_is_coefficient",
             "type": "boolean",
             "title": "Ct is Coefficient",
             "description": "True if the `ct` array is in nondimensional coefficient form, False if the `ct` array contains Thrust [kgms^-2]."
           },
           "cp": {
-            "$id": "#/properties/modes/items/properties/cp",
             "title": "Power Curve [cp]",
             "description": "The coefficient of power, defined as an N-D array at the sample points described in 'Parameters'",
             "oneOf": [
@@ -595,7 +550,6 @@
             ]
           },
           "ct": {
-            "$id": "#/properties/modes/items/properties/ct",
             "title": "Thrust Curve [ct]",
             "description": "The coefficient of thrust, defined as an N-D array at the sample points described in 'Parameters'",
             "oneOf": [

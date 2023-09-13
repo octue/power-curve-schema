@@ -11,7 +11,7 @@
     "drive_type": "geared",
     "regulation_type": "pitch"
   },
-  "design_parameters": {
+  "design_basis": {
     "iec_class": "IEC S",
     "extreme_wind_speed": 30,
     "survival_wind_speed": 50,

@@ -11,7 +11,7 @@
     "drive_type": "geared",
     "regulation_type": "pitch"
   },
-  "design_parameters": {
+  "design_basis": {
     "turbulent_intensity_iec61400_ref": {
       "min": 5.62,
       "max": 13.48
