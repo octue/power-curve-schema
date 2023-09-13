@@ -1,21 +1,23 @@
-import pytest
-import json
-import copy
-import os
-
-
-ROOT_DIR =os.path.dirname(os.path.dirname(__file__))
-
-
 # Turn the black formatter off for this file to avoid long lists of numbers
 # being extended to one-line-per-element
 # fmt: off
+
+# Turn off pylint warnings unavoidable with pytest
+# pylint: disable=missing-module-docstring, redefined-outer-name, missing-function-docstring, line-too-long
+
+import copy
+import json
+import os
+import pytest
+
+
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 @pytest.fixture(scope="session")
 def loaded_schema():
     """Load the schema only once per test session for speed"""
-    with open(os.path.join(ROOT_DIR,"power-curve-schema/schema.json"), 'r', encoding="utf-8") as fp:
+    with open(os.path.join(ROOT_DIR, "power-curve-schema/schema.json"), 'r', encoding="utf-8") as fp:
         loaded = json.load(fp)
     return loaded
 
@@ -43,20 +45,6 @@ def generic_document_metadata():
         ]
     }
 
-@pytest.fixture()
-def generic_turbine_metadata():
-    return {
-        "turbine_metadata": {
-            "name": "Generic Turbines 3.45-117",
-            "manufacturer": "Generic Turbines Inc",
-            "nominal_rated_power": 3450000,
-            "rotor_diameter": 117.0,
-            "description": "Generic machine with 117m rotor rated at 3450 kW ",
-            "available_hub_heights": [91.5, 116.5, 141.5],
-            "drive_type": "geared",
-            "regulation_type": "pitch"
-        }
-    }
 
 @pytest.fixture()
 def generic_design_basis():
@@ -333,3 +321,10 @@ def loaded_generic_274_20():
 def generic_274_20(loaded_generic_274_20):
     """A fresh deep copy of the generic 274m 20MW turbine as a test instance"""
     return copy.deepcopy(loaded_generic_274_20)
+
+
+@pytest.fixture()
+def generic_turbine_metadata(generic_117_3):
+    return {
+        "turbine_metadata": generic_117_3.pop('turbine_metadata')
+    }

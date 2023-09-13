@@ -89,54 +89,70 @@
       "title": "Turbine metadata",
       "description": "General information (metadata) about the turbine",
       "required": [
-        "name",
-        "manufacturer",
-        "nominal_rated_power",
+        "model_name",
+        "manufacturer_name",
+        "manufacturer_display_name",
+        "rated_power",
+        "rated_rpm",
+        "cut_in_rpm",
         "rotor_diameter",
-        "description",
+        "model_description",
         "available_hub_heights",
         "drive_type",
         "regulation_type"
       ],
       "properties": {
-        "name": {
-          "type": "string",
-          "title": "Turbine name",
-          "description": "Name of the turbine model (according to the manufacturer)",
-          "examples": ["Example Simple Turbine Name"]
-        },
-        "manufacturer": {
+        "manufacturer_name": {
           "type": "string",
           "title": "Manufacturer name",
-          "description": "Name of the manufacturer",
-          "examples": ["Example Turbines PLC"]
+          "description": "Full name of the manufacturer (eg a legal entity)",
+          "minLength": 1,
+          "examples": ["Generic Turbines (US) Inc."]
         },
-        "nominal_rated_power": {
-          "type": "number",
-          "title": "Nominal rated power [W]",
-          "description": "Nominal rated power of the turbine in W",
-          "examples": [5000000]
+        "manufacturer_display_name": {
+          "type": "string",
+          "title": "Manufacturer display name",
+          "description": "Shortened or informal name of the manufacturer (for display purposes, eg in dropdown selectors). See also manufacturer_name.",
+          "maxLength": 40,
+          "minLength": 1,
+          "examples": ["Generic Turbines"]
+        },
+        "model_name": {
+          "type": "string",
+          "title": "Model name",
+          "description": "Name of the turbine model (according to the manufacturer)",
+          "minLength": 1,
+          "maxLength": 40,
+          "examples": ["GT101"]
+        },
+        "model_description": {
+          "type": "string",
+          "title": "Model description",
+          "description": "General description about the turbine model, eg for giving a brief overview in a turbine selection tool.",
+          "examples": ["An example simple turbine with only one mode."]
+        },
+        "platform_name": {
+          "type": "string",
+          "title": "Platform name",
+          "description": "Optional name of the platform on which this turbine model is based.",
+          "maxLength": 40,
+          "examples": ["1.x Series"]
+        },
+        "platform_description": {
+          "type": "string",
+          "title": "Platform description",
+          "description": "Optional general description of the platform on which this turbine model is based.",
+          "examples": [
+            "The 1.x Series platform was designed as a basis for a range of small-scale onshore turbines versatile for a range of site conditions."
+          ]
         },
         "rotor_diameter": {
           "type": "number",
           "title": "Rotor diameter [m]",
-          "description": "Nominal rotor diameter of the turbine in m",
-          "examples": [100.0]
-        },
-        "description": {
-          "type": "string",
-          "title": "Turbine description",
-          "description": "Notes which will be rendered into help popups for the turbine.",
-          "examples": ["An example simple turbine with only one mode."]
-        },
-        "available_hub_heights": {
-          "type": "array",
-          "title": "Available hub heights",
-          "description": "1D array [1 x H] containing hub heights [m] at which the turbine can be ordered.",
-          "additionalItems": true,
-          "items": {
-            "type": "number"
-          }
+          "description": "Nominal rotor diameter of the turbine [m]",
+          "examples": [100.0],
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1000
         },
         "drive_type": {
           "type": "string",
@@ -149,9 +165,54 @@
           "title": "Regulation type",
           "description": "The regulation type of the turbine.",
           "enum": ["pitch", "stall", "other"]
+        },
+        "rated_power": {
+          "type": "number",
+          "title": "Rated power [W]",
+          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
+          "examples": [5000000]
+        },
+        "cut_in_rpm": {
+          "type": "number",
+          "title": "Rotational speed at cut-in [RPM]",
+          "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+          "examples": [2]
+        },
+        "rated_rpm": {
+          "type": "number",
+          "title": "Rotational speed at rated power [RPM]",
+          "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+          "examples": [12]
+        },
+        "available_hub_heights": {
+          "title": "Available hub heights",
+          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights. This value may be overriden on a per-mode basis.",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Specify a range of available/recommended hub heights [m]",
+              "properties": {
+                "min": {
+                  "type": "number",
+                  "description": "Minium hub height [m]"
+                },
+                "max": {
+                  "type": "number",
+                  "description": "Maximum hub height [m]"
+                }
+              },
+              "required": ["min"]
+            },
+            {
+              "type": "array",
+              "description": "Specify a list of discrete available/recommended hub heights [m]",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
         }
-      },
-      "additionalProperties": true
+      }
     },
     "design_basis": {
       "type": "object",
