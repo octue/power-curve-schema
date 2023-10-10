@@ -15,19 +15,18 @@ Documents should use JavaScript Object Notation (or be trivially convertable int
 
 ```js
 {
-    "document_metadata": [
-        // A list of objects, each with a label and value...
+    "document": [
+        // Information related to this power curve document
     ],
-    "turbine_metadata": {
-        // An object ...
+    "turbine": {
+        // Information related to the physical turbine hardware
     },
     "design_basis": {
-        // An object ...
+        // Information related to the environmental limitations and certification pertaining to the power curves
     },
     "modes": [
-        // A list of objects, each with a label and mode data...
-    ],
-    "default_mode": "" // A string containing the label of whichever mode is the default
+        // The set of operational modes available for the turbine, each containing power curve data specific to that mode
+    ]
 }
 ```
 
