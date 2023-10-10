@@ -1,8 +1,7 @@
+# Turn off pylint warnings unavoidable with pytest
+# pylint: disable=redefined-outer-name, line-too-long, redefined-builtin, missing-module-docstring
+
 from jsonschema import validate
-from .helpers import get_subschema
-from .conftest import ROOT_DIR
-import os
-import json
 
 
 def test_generic_117_3(schema, generic_117_3):
