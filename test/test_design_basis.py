@@ -6,7 +6,7 @@ from .helpers import get_subschema
 
 @pytest.fixture
 def subschema(schema):
-    """Provide a schema that requires only the turbine_metadata part of the whole schema"""
+    """Provide a schema that requires only the design_basis part of the whole schema"""
     return get_subschema(schema, "design_basis")
 
 
@@ -20,4 +20,3 @@ def test_missing_design_basis(subschema):
     with pytest.raises(ValidationError) as e:
         validate(instance={}, schema=subschema)
     assert "'design_basis' is a required property" in str(e)
- 
