@@ -1,3 +1,7 @@
+# Turn off pylint warnings unavoidable with pytest
+# pylint: disable=redefined-outer-name, line-too-long, redefined-builtin, missing-module-docstring
+
+
 def test_missing_modes():
     """Validation should fail if there is no modes section"""
     assert 1 == 0

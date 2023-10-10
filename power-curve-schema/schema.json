@@ -110,10 +110,10 @@
         }
       }
     },
-    "turbine_metadata": {
+    "turbine": {
       "type": "object",
-      "title": "Turbine metadata",
-      "description": "General information (metadata) about the turbine",
+      "title": "Turbine",
+      "description": "General information about the physical turbine and its default operational values",
       "required": [
         "model_name",
         "manufacturer_name",
