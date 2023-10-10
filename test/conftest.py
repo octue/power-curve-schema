@@ -301,6 +301,7 @@ def loaded_generic_117_3():
         instance = json.load(fp)
     return instance
 
+
 @pytest.fixture()
 def generic_117_3(loaded_generic_117_3):
     """A fresh deep copy of the generic 117m 3.45MW turbine as a test instance"""
@@ -317,6 +318,7 @@ def loaded_generic_274_20():
         instance = json.load(fp)
     return instance
 
+
 @pytest.fixture()
 def generic_274_20(loaded_generic_274_20):
     """A fresh deep copy of the generic 274m 20MW turbine as a test instance"""
@@ -324,7 +326,7 @@ def generic_274_20(loaded_generic_274_20):
 
 
 @pytest.fixture()
-def generic_turbine_metadata(generic_117_3):
+def generic_turbine(generic_117_3):
     return {
-        "turbine_metadata": generic_117_3.pop('turbine_metadata')
+        "turbine": generic_117_3.pop('turbine')
     }

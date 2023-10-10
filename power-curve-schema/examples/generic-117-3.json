@@ -15,7 +15,7 @@
       }
     ]
   },
-  "turbine_metadata": {
+  "turbine": {
     "model_name": "GT 3.45-117",
     "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the GeneriX blade system.",
     "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",

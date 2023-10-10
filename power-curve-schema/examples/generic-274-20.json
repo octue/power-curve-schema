@@ -15,7 +15,7 @@
       }
     ]
   },
-  "turbine_metadata": {
+  "turbine": {
     "model_name": "GT 20.0-274",
     "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the InfinityXYZ Generiblade system.",
     "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",
