@@ -57,13 +57,7 @@
       "additionalItems": true
     }
   },
-  "required": [
-    "document",
-    "turbine_metadata",
-    "design_basis",
-    "default_mode",
-    "modes"
-  ],
+  "required": ["document", "turbine", "design_basis", "default_mode", "modes"],
   "properties": {
     "document": {
       "type": "object",
