@@ -10,5 +10,5 @@ def test_generic_117_3(schema, generic_117_3):
 
 
 def test_generic_274_20(schema, generic_274_20):
-    """Validation should fail if there is no turbine metadata section"""
+    """Validation should pass on the entire example document"""
     validate(instance=generic_274_20, schema=schema)
