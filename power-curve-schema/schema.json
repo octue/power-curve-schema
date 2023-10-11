@@ -57,7 +57,7 @@
       "additionalItems": true
     }
   },
-  "required": ["document", "turbine", "design_basis", "default_mode", "modes"],
+  "required": ["document", "turbine", "design_basis", "power_curves"],
   "properties": {
     "document": {
       "type": "object",

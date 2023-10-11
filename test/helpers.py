@@ -3,10 +3,9 @@ def get_subschema(schema, section):
     This is useful for testing because it allows us to reuse fixtures more flexibly and focus on only modifying data under test.
     """
 
-    schema["required"] = [section]
-    keep = ["modes", "default_mode"] if section == "modes" else [section]
+    schema["required"] = [section] if section in schema["required"] else []
     for key in [*schema["properties"].keys()]:
-        if key not in keep:
+        if key not in [section]:
             schema["properties"].pop(key, None)
 
     return schema
