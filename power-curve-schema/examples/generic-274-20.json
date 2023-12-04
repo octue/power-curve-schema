@@ -30,30 +30,46 @@
     "drive_type": "geared",
     "regulation_type": "pitch"
   },
-  "design_basis": {
-    "iec_class": "IEC S",
-    "extreme_wind_speed": 30,
-    "survival_wind_speed": 50,
-    "turbulent_intensity_iec61400_ref": {
-      "min": 4,
-      "max": 12
-    },
-    "alpha": 0.3,
-    "inflow_angle": {
-      "min": -2,
-      "max": 2
-    },
-    "operational_temperature": {
-      "min": -10,
-      "max": 25
+  "design_bases": [
+    {
+      "label": "basis_1",
+      "name": "Basis 1",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "standard": "IEC",
+        "standard_edition": "2"
+      },
+      "design_class": {
+        "label": "II"
+      },
+      "design_lifetime": 20,
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-10, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-10, 50]
+      },
+      "turbulence": {
+        "category": "A"
+      },
+      "grid_voltages": [220],
+      "grid_frequencies": [50, 60]
     }
-  },
+  ],
   "power_curves": {
     "default_mode": "standard",
     "modes": [
       {
         "label": "standard",
+        "name": "Standard",
         "description": "Standard full power mode",
+        "design_bases": ["basis_1"],
         "rated_power": 20000000,
         "cut": {
           "type": "in_out_re",
@@ -265,6 +281,7 @@
       {
         "label": "max-flow-close-wtg-spacing",
         "description": "Applicable for sites with approximately 4 to 6 rotor diameters spacing",
+        "design_bases": ["basis_1"],
         "rated_power": 20000000,
         "cut": {
           "type": "in_out_re",
@@ -471,6 +488,7 @@
       {
         "label": "max-flow-wide-wtg-spacing",
         "description": "Applicable for sites with approximately 6 to 10 rotor diameter spacing",
+        "design_bases": ["basis_1"],
         "rated_power": 20000000,
         "cut": {
           "type": "in_out_re",

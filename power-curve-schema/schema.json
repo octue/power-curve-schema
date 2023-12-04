@@ -57,7 +57,7 @@
       "additionalItems": true
     }
   },
-  "required": ["document", "turbine", "design_basis", "power_curves"],
+  "required": ["document", "turbine", "design_bases", "power_curves"],
   "properties": {
     "document": {
       "type": "object",
@@ -234,144 +234,422 @@
         }
       }
     },
-    "design_basis": {
-      "type": "object",
-      "title": "Design basis",
-      "description": "Information about the design point (environmental conditions) the power curves in this document are certified for.",
-      "required": [],
-      "properties": {
-        "iec_class": {
-          "type": "string",
-          "title": "IEC class",
-          "description": "The IEC class rules under which the turbine was designed and certified",
-          "default": "",
-          "examples": ["SomeTechnicalPaper:12345"]
-        },
-        "average_wind_speed": {
-          "type": "number",
-          "title": "Average wind speed [m/s]",
-          "description": " The V_ave 10-minute average wind speed for which the turbine is certified in m/s",
-          "default": 0,
-          "examples": [40]
-        },
-        "extreme_wind_speed": {
-          "type": "number",
-          "title": "Extreme wind speed [m/s]",
-          "description": " The V50 10-minute extreme wind speed for which the turbine is certified in m/s",
-          "default": 0,
-          "examples": [40]
-        },
-        "survival_wind_speed": {
-          "type": "number",
-          "title": "Survival wind speed [m/s]",
-          "description": "The Ve50 3s gust wind speed for which the turbine is certified m/s"
-        },
-        "turbulent_intensity_v50": {
-          "type": "number",
-          "title": "Turbulent Intensity [%]",
-          "description": "The V50 design value of turbulent intensity I"
-        },
-        "turbulent_intensity_iec61400_ref": {
-          "title": "Turbulent Intensity [%]",
-          "description": "The reference value of turbulent intensity I, according to IEC61400-1",
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "min": {
-                  "type": "number",
-                  "inclusiveMinimum": 0,
-                  "inclusiveMaximum": 30
-                },
-                "max": {
-                  "type": "number",
-                  "inclusiveMinimum": 0,
-                  "inclusiveMaximum": 30
-                }
-              }
-            }
-          ]
-        },
-        "turbulent_intensity_iec61400_wft": {
-          "type": "number",
-          "title": "Turbulent Intensity [%]",
-          "description": "The V90 extreme value of turbulent intensity I, according to IEC61400-1, including wind farm turbulence @15m/s"
-        },
-        "weibull_scale_factor_c": {
-          "type": "number",
-          "title": "Weibull Scale Factor, C",
-          "description": "The Weibull distribution scale factor"
-        },
-        "weibull_shape_factor_k": {
-          "type": "number",
-          "title": "Weibull Shape Factor, k",
-          "description": "The Weibull distribution shape factor k"
-        },
-        "alpha": {
-          "type": "number",
-          "title": "Alpha",
-          "description": "The design wind shear exponent"
-        },
-        "inflow_angle": {
-          "title": "Inflow Angle",
-          "description": "The design vertical inflow angle",
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "min": {
-                  "type": "number",
-                  "exclusiveMinimum": -20,
-                  "exclusiveMaximum": 20
-                },
-                "max": {
-                  "type": "number",
-                  "exclusiveMinimum": -20,
-                  "exclusiveMaximum": 20
-                }
-              }
-            }
-          ]
-        },
-        "grid_voltage": {
-          "type": "number",
-          "title": "Grid voltage [V]",
-          "description": "The design grid voltage in V"
-        },
-        "grid_frequencies": {
-          "type": "array",
-          "items": {
-            "type": "number"
+    "design_bases": {
+      "title": "Design bases",
+      "description": "A list of specifications for turbine certification / target environmental conditions",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Design basis",
+        "description": "Information about the design point (environmental conditions) the power curves in this document are certified for.",
+        "required": ["label", "name", "design_class", "turbulence", "standard_climate", "grid_voltages", "grid_frequencies" ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Basis label",
+            "description": "A string key identifying the design basis, eg `my_design_basis_1`",
+            "pattern": "^[a-z0-9_]{1,40}$",
+            "minLength": 1,
+            "maxLength": 40,
+            "examples": ["basis_1", "basis_2", "site_xyz_specific"]
           },
-          "title": "Grid frequencies [Hz]",
-          "description": "The allowable design grid frequencies in Hz"
-        },
-        "operational_temperature": {
-          "title": "Operational temperature",
-          "description": "The allowable range of operational temperature in degree celcius",
-          "type": "object",
-          "required": ["max"],
-          "properties": {
-            "min": {
-              "type": "number",
-              "exclusiveMinimum": -273.15,
-              "exclusiveMaximum": 1000
-            },
-            "max": {
-              "type": "number",
-              "exclusiveMinimum": -273.15,
-              "exclusiveMaximum": 1000
+          "name": {
+            "type": "string",
+            "title": "Basis name",
+            "description": "A human-readable name matching this basis label (eg for use in UIs)",
+            "minLength": 1,
+            "maxLength": 80,
+            "examples": ["Basis 1", "Basis 2", "Site XYZ Specific"]
+          },
+          "certification": {
+            "type":"object",
+            "title": "Certification details",
+            "description": "Information about the scheme under which this design basis was certified. This is not a required property, so if a turbine is as-yet uncertified, simply leave it out.",
+            "$comment": "We collect these three under a single 'certification' property as a convenitent way to require that either all or none are given",
+            "required": ["standard", "standard_edition","certificate_reference"],
+            "examples": [
+              {
+                "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+                "standard": "IEC",
+                "standard_edition": "2"
+              }
+            ],
+            "properties": {
+              "standard": {
+                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "description": "The certification scheme under which the power curves were certified.",
+                "anyOf": [{ "enum": ["IEC", "DiBT"] },{ "type": "string" }]
+              },
+              "standard_edition": {
+                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "description": "The edition of the standard used in turbine certification",
+                "type": "string",
+                "anyOf": [{ "enum": ["2", "3", "4"] }, { "type": "string" }]
+              },
+              "certificate_reference": {
+                "type": "string",
+                "title": "Certificate reference",
+                "examples": [
+                  "44 220 15454566-D-IEC Rev. 4",
+                  "IECRE.WE.TC.86.0179-R6"
+                ],
+                "description": "Identifies the certificate associated with the power curve. Note that multiple design bases may refer to the same certificate.",
+                "minLength": 1
+              }
             }
+          },
+          "design_class": {
+            "description": "A fully or partially predefined environmental class",
+            "type": "object",
+            "oneOf": [
+              { 
+                "type": "object",
+                "required": ["label"],
+                  "description": "Select from predefined IEC design classes I, II, and III.",
+                "properties": {
+                  "label": {
+                    "enum": ["I", "II", "III"]
+                  }     
+                },
+                "$comment": "S (T, CC to be confirmed) is a custom class, use other objects."
+              },
+              { 
+                "type": "object",
+                "description": "Specify IEC classes S, T, CC or an entirely custom design class",
+                "required": ["label"],
+                "properties": {
+                  "label": {
+                    "enum": ["S", "T", "CC", "Custom"]
+                  },   
+                  "annual_average_wind_speed": {
+                    "type": "number",
+                    "title": "Annual average wind speed 'Vave'",
+                    "description": "The annualised average wind speed for which the turbine is certified [m/s]",
+                    "examples": [10, 8.5, 7.5]
+                  },
+                  "annual_average_air_density": {
+                    "type": "number",
+                    "title": "Annual average air density 'rho'",
+                    "description": "The annualised average air density for which the turbine is certified [kg/m^3]",
+                    "examples": [1.15, 1.225, 1.25]
+                  },
+                  "reference_wind_speed": {
+                    "type": "number",
+                    "title": "Reference wind speed 'Vref'",
+                    "description": "The 50-year return value of 10-minute average wind speed for which the turbine is certified [m/s]. Note: the Ve50 (the 3s gust wind speed) can be calculated from V50 according to the standard ratio",
+                    "examples": [50, 42.5, 37.5]
+                  },
+                  "weibull_shape_factor": {
+                    "type": "number",
+                    "title": "Weibull shape factor, 'k'",
+                    "description": "The Weibull distribution shape factor k [dimensionless]. Tip: You can calculate the Weibull scale factor, 'c', from the weibull_shape_factor and the annual_average_wind_speed.",
+                    "examples": [1.5, 2, 2.5, 3, 3.5]
+                  },
+                  "vertical_shear_exponent": {
+                    "type": "number",
+                    "title": "Vertical shear exponent 'alpha'",
+                    "description": "The design wind vertical shear exponent [dimensionless]",
+                    "examples": [0.15, 0.3, 0.45, 0.6]
+                  },
+                  "inflow_angle": {
+                    "title": "Inflow angle",
+                    "description": "The design vertical inflow angle [degrees]",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "min": {
+                            "type": "number",
+                            "exclusiveMinimum": -20,
+                            "exclusiveMaximum": 20
+                          },
+                          "max": {
+                            "type": "number",
+                            "exclusiveMinimum": -20,
+                            "exclusiveMaximum": 20
+                          }
+                        }
+                      }
+                    ],
+                    "examples": [0, 2, {"min":-2, "max": 2}]
+                  },
+                  "design_lifetime": {
+                    "$comment": "Schema team - check if this also needs to be given for T, CC classes as well as S class",
+                    "title": "Design lifetime",
+                    "description": "Designed lifetime of the turbine in years, typically 20. Note that some design classes require particular minimum lifetimes.",
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "examples": [20, 30]
+                  }
+                }
+              }
+            ]
+          },
+          "turbulence": {
+            "title": "Turbulence category or distribution",
+            "description": "Specify the IEC turbulence category or one of several custom distributions.",
+            "anyOf": [
+              { 
+                "type": "object",
+                "description": "Specify predefined IEC turbulence categories",
+                "$comment": "This is defined as a single-property object rather than a direct string because it's more explicity to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
+                "required": ["category"],
+                "properties": {
+                  "category": {
+                    "description": "Select the IEC turbulence category", 
+                    "enum": ["A+", "A", "B", "C"] 
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Specify custom fixed Iref and optional slope parameter",
+                "required": ["category", "reference_turbulence_intensity"],
+                "properties": {
+                  "category": {
+                    "description": "Select the turbulence category", 
+                    "enum": ["Custom"] 
+                  },
+                  "reference_turbulence_intensity": {
+                    "type": "number",
+                    "title": "Turbulence intensity",
+                    "description": "Characteristic Iref value at 15m/s, specified as a fraction (eg 0.13)",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "slope": {
+                    "type": "number",
+                    "title": "Slope",
+                    "description": "Specify the slope parameter (a) for use with edition 2 definitions of turbulence. Typical values are 2 or 3. No slope parameter is used for editions 3 or 4.",
+                    "minimum": 0
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "required": ["wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
+                "properties": {
+                  "category": {
+                    "description": "Select the turbulence category", 
+                    "enum": ["Custom"] 
+                  },
+                  "wind_speed": {
+                    "type": "array",
+                    "title": "Wind Speed",
+                    "description": "Wind speed in m/s for each entry in the Normal and Extreme Turbulence Model arrays. Wind speed range must cover the entire operating range (below cut-in to above maximum cut-out).",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  },
+                  "normal_turbulence_intensity": {
+                    "type": "array",
+                    "title": "Normal Turbulence Intensity",
+                    "description": "Normal value of I for each wind speed, specified as a fraction (eg 0.13)",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  },
+                  "extreme_turbulence_intensity": {
+                    "type": "array",
+                    "title": "Extreme Turbulence Intensity",
+                    "description": "Extreme value of I for each wind speed, specified as a fraction (eg 0.13)",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
+                "$comment": "Schema team to check and add bin center values (there must be something on the X axis of this histogram) and further define what the bins are.",
+                "properties": {
+                  "category": {
+                    "description": "Select the turbulence category", 
+                    "enum": ["Custom"] 
+                  },
+                  "wind_speed": {
+                    "type": "array",
+                    "title": "Wind Speed",
+                    "description": "Wind speed in m/s for each entry in the Normal and Extreme Turbulence Model arrays. Wind speed range must cover the entire operating range (below cut-in to above maximum cut-out).",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  },
+                  "normal_turbulence_intensity": {
+                    "type": "array",
+                    "title": "Normal Turbulence Intensity",
+                    "description": "Normal value of I for each wind speed, specified as a fraction (eg 0.13)",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    }
+                  },
+                  "extreme_turbulence_intensity": {
+                    "type": "array",
+                    "title": "Extreme Turbulence Intensity",
+                    "description": "Extreme value of I for each wind speed, specified as a fraction (eg 0.13)",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              }
+            ],
+            "examples": [
+              { 
+                "category": "A"
+              },
+              {
+                "category": "Custom",
+                "reference_turbulence_intensity": 0.13,
+                "slope": 2
+              },
+              {
+                "category": "Custom",
+                "wind_speed": [1, 2, 25],
+                "normal_turbulence_intensity": [0.85, 0.5, 0.11],
+                "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
+              },
+              {
+                "category": "Custom",
+                "wind_speed": [1, 2, 25],
+                "normal_turbulence_intensity": [
+                  [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+                  [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+                  [0.116, 0.1889, 0.2613, 0.3337, 0.46]
+                ],
+                "normal_hours_per_lifetime": [
+                  [1633.89, 2145.8, 1551.13, 1434.6, 1321.1],
+                  [804.2, 956.3, 756.3, 645.6,543.7],
+                  [30.5, 60.4, 43.8, 38.5, 27.6]
+                ],
+                "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
+              }
+            ]
+          },
+          "standard_climate": {
+            "type": "object",
+            "description": "Define operating and survival temperatures in standard (usual) climates",
+            "properties": {
+              "operating_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              },
+              "survival_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              }
+            },
+            "examples": [
+              {
+                "operating_temperature_range": [-10, 40],
+                "survival_temperature_range": [-20, 50]
+              }
+            ]
+          },
+          "cold_climate": {
+            "type": "object",
+            "description": "Define operating and survival temperatures in cold climates",
+            "$comment": "Can we define why this is different in cold climates?",
+            "properties": {
+              "operating_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              },
+              "survival_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              }
+            },
+            "examples": [
+              {
+                "operating_temperature_range": [-20, 30],
+                "survival_temperature_range": [-20, 50]
+              }
+            ]
+          },
+          "hot_climate": {
+            "type": "object",
+            "description": "Define operating and survival temperatures in cold climates",
+            "$comment": "Can we define why this is different in cold climates?",
+            "properties": {
+              "operating_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              },
+              "survival_temperature_range": {
+                "type": "array",
+                "items" : {
+                  "type": "number",
+                  "minimum": -273.15,
+                  "maximum": 1000
+                }
+              }
+            },
+            "examples": [
+              {
+                "operating_temperature_range": [-10, 45],
+                "survival_temperature_range": [-10, 50]
+              }
+            ]
+          },
+          "grid_voltages": {
+            "type": "array",
+            "items": {"type":"number", "exclusiveMinimum": 0},
+            "title": "Grid voltages [V]",
+            "description": "The allowable design grid voltages in V",
+            "examples": [[240], [110, 240]]
+          },
+          "grid_frequencies": {
+            "title": "Grid frequencies [Hz]",
+            "description": "The allowable design grid frequencies in Hz",
+            "type": "array",
+            "items": {
+              "type": "number", "exclusiveMinimum": 0
+            },
+            "examples": [[50], [50, 60]]
           }
         }
-      },
-      "additionalProperties": false
+      }
     },
     "power_curves": {
       "type": "object",
@@ -395,7 +673,9 @@
             "type": "object",
             "required": [
               "label",
+              "name",
               "description",
+              "design_bases",
               "cut",
               "parameters",
               "cp_is_coefficient",
@@ -407,10 +687,26 @@
               "label": {
                 "type": "string",
                 "title": "Mode label",
-                "description": " A string key identifying the mode, e.g. `power-optimised-1`",
-                "pattern": "^[A-Za-z0-9-_ ]{1,30}$",
+                "description": " A string key identifying the mode, e.g. `power_optimised_1`",
+                "pattern": "^[a-z0-9_]{1,40}$",
                 "minLength": 1,
                 "maxLength": 40
+              },
+              "name": {
+                "type": "string",
+                "title": "Mode label",
+                "description": " A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              "design_bases": {
+                "type": "array",
+                "description": "A list of the design basis labels relevant to this power curve",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
               },
               "description": {
                 "type": "string",

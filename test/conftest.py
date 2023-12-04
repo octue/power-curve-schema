@@ -28,7 +28,6 @@ def schema(loaded_schema):
     return copy.deepcopy(loaded_schema)
 
 
-
 @pytest.fixture()
 def generic_document_metadata():
     return {
@@ -45,13 +44,6 @@ def generic_document_metadata():
         ]
     }
 
-
-@pytest.fixture()
-def generic_design_basis():
-    return {
-        "design_basis": {
-        }
-    }
 
 @pytest.fixture()
 def one_dimensional_mode():
