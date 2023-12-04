@@ -1,6 +1,9 @@
 # Apple metadata
 *.DS_Store
 
+# Scratch files
+scratch*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

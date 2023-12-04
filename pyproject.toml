@@ -6,11 +6,15 @@ authors = ["Tom Clark <tom@octue.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.12"
 pytest = "^7.4.0"
 jsonschema = "^4.19.0"
+jsonpath-ng = "^1.6.0"
 
 [tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+rstcloth = "^0.5.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

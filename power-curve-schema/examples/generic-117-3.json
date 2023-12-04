@@ -30,23 +30,127 @@
     "drive_type": "geared",
     "regulation_type": "pitch"
   },
-  "design_basis": {
-    "turbulent_intensity_iec61400_ref": {
-      "min": 5.62,
-      "max": 13.48
+  "design_bases": [
+    {
+      "label": "basis_1",
+      "name": "Basis 1",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "standard": "IEC",
+        "standard_edition": "2"
+      },
+      "design_class": {
+        "label": "II"
+      },
+      "design_lifetime": 20,
+      "turbulence": {
+        "category": "A"
+      },
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-10, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-10, 50]
+      },
+      "grid_voltages": [220],
+      "grid_frequencies": [50, 60]
     },
-    "alpha": 0.3,
-    "inflow_angle": {
-      "min": -2,
-      "max": 2
+    {
+      "label": "basis_2",
+      "name": "Basis 2 - Custom design class",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "standard": "IEC",
+        "standard_edition": "2"
+      },
+      "design_class": {
+        "label": "S",
+        "annual_average_wind_speed": 8.5,
+        "annual_average_air_density": 1.15,
+        "reference_wind_speed": 37.5,
+        "weibull_shape_factor": 0.4,
+        "vertical_shear_exponent": 0.3,
+        "inflow_angle": {
+          "min": -2,
+          "max": 2
+        },
+        "design_lifetime": 25
+      },
+      "turbulence": {
+        "category": "A"
+      },
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-10, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-10, 50]
+      },
+      "grid_voltages": [220],
+      "grid_frequencies": [50, 60]
+    },
+    {
+      "label": "basis_3",
+      "name": "Basis 3 - Custom turbulence definition",
+      "certification":{
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "standard": "IEC",
+        "standard_edition": "2"
+      },
+      "design_class": {
+        "label":"II"
+      },
+      "design_lifetime": 20,
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-10, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-10, 50]
+      },
+      "turbulence": {
+        "category": "Custom",
+        "wind_speed": [1, 2, 25],
+        "normal_turbulence_intensity": [
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46]
+        ],
+        "normal_hours_per_lifetime": [
+          [1633.89, 2145.8, 1551.13, 1434.6, 1321.1],
+          [804.2, 956.3, 756.3, 645.6,543.7],
+          [30.5, 60.4, 43.8, 38.5, 27.6]
+        ],
+        "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
+      },
+      "grid_voltages": [220],
+      "grid_frequencies": [50, 60]
     }
-  },
+  ],
   "power_curves": {
     "default_mode": "standard",
     "modes": [
       {
         "label": "standard",
+        "name": "Standard",
         "description": "Standard full power mode",
+        "design_bases": ["basis_1", "basis_2", "basis_3"],
         "rated_power": 3450000,
         "cut": {
           "type": "in_out_re",
