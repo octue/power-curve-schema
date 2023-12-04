@@ -140,7 +140,7 @@
         "model_name": {
           "type": "string",
           "title": "Model name",
-          "description": "Name of the turbine model (according to the manufacturer)",
+          "description": "Name of the turbine model as stated on the Type Certificate, Design Evaluation Confirmity Statement or Statement of Compliance.",
           "minLength": 1,
           "maxLength": 40,
           "examples": ["GT101"]
