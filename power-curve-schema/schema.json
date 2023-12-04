@@ -206,7 +206,7 @@
         },
         "available_hub_heights": {
           "title": "Available hub heights",
-          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights. This value may be overriden on a per-mode basis.",
+          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights [m]. This value may be overriden on a per-mode basis.",
           "anyOf": [
             {
               "type": "object",
@@ -230,18 +230,23 @@
                 "type": "number"
               }
             }
+          ],
+          "examples": [
+            {
+              "min": 120,
+              "max": 180
+            },
+            [120, 180]
           ]
         }
       }
     },
     "design_bases": {
       "title": "Design bases",
-      "description": "A list of specifications for turbine certification / target environmental conditions",
+      "description": "A list of design bases for turbine certification or describing site-specific environmental conditions. Each contains information about the design point (environmental conditions) for which the power curves in this document are intended.",
       "type": "array",
       "items": {
         "type": "object",
-        "title": "Design basis",
-        "description": "Information about the design point (environmental conditions) the power curves in this document are certified for.",
         "required": ["label", "name", "design_class", "turbulence", "standard_climate", "grid_voltages", "grid_frequencies" ],
         "properties": {
           "label": {
@@ -299,15 +304,17 @@
             }
           },
           "design_class": {
-            "description": "A fully or partially predefined environmental class",
+            "title": "Design class",
+            "description": "A fully or partially predefined environmental class, (eg IEC or other scheme)",
             "type": "object",
             "oneOf": [
               { 
                 "type": "object",
                 "required": ["label"],
-                  "description": "Select from predefined IEC design classes I, II, and III.",
                 "properties": {
                   "label": {
+                    "$comment": "TODO change this from `label` to `class_label`",
+                    "description": "Select from predefined IEC design classes I, II, and III.",
                     "enum": ["I", "II", "III"]
                   }     
                 },
@@ -315,10 +322,12 @@
               },
               { 
                 "type": "object",
-                "description": "Specify IEC classes S, T, CC or an entirely custom design class",
                 "required": ["label"],
                 "properties": {
                   "label": {
+                    "$comment": "TODO change this from `label` to `class_label`",
+                    "title": "Label",
+                    "description": "Specify IEC classes S, T, CC or an entirely custom design class",
                     "enum": ["S", "T", "CC", "Custom"]
                   },   
                   "annual_average_wind_speed": {
@@ -394,12 +403,12 @@
             "anyOf": [
               { 
                 "type": "object",
-                "description": "Specify predefined IEC turbulence categories",
-                "$comment": "This is defined as a single-property object rather than a direct string because it's more explicity to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
+                "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
                 "required": ["category"],
                 "properties": {
                   "category": {
-                    "description": "Select the IEC turbulence category", 
+                    "title": "Category",
+                    "description": "Specify a predefined IEC turbulence category", 
                     "enum": ["A+", "A", "B", "C"] 
                   }
                 }
@@ -410,8 +419,9 @@
                 "required": ["category", "reference_turbulence_intensity"],
                 "properties": {
                   "category": {
-                    "description": "Select the turbulence category", 
-                    "enum": ["Custom"] 
+                    "title": "Category",
+                    "description": "Specify the turbulence category to be custom", 
+                    "enum": ["Custom"]
                   },
                   "reference_turbulence_intensity": {
                     "type": "number",
@@ -422,7 +432,7 @@
                   },
                   "slope": {
                     "type": "number",
-                    "title": "Slope",
+                    "title": "Slope (a)",
                     "description": "Specify the slope parameter (a) for use with edition 2 definitions of turbulence. Typical values are 2 or 3. No slope parameter is used for editions 3 or 4.",
                     "minimum": 0
                   }
@@ -431,10 +441,11 @@
               {
                 "type": "object",
                 "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
-                "required": ["wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
+                "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
                 "properties": {
                   "category": {
-                    "description": "Select the turbulence category", 
+                    "title": "Category",
+                    "description": "Specify the turbulence category as custom", 
                     "enum": ["Custom"] 
                   },
                   "wind_speed": {
@@ -472,11 +483,11 @@
               {
                 "type": "object",
                 "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
-                "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
+                "required": ["category", "wind_speed", "normal_turbulence_intensity", "normal_hours_per_lifetime", "extreme_turbulence_intensity"],
                 "$comment": "Schema team to check and add bin center values (there must be something on the X axis of this histogram) and further define what the bins are.",
                 "properties": {
                   "category": {
-                    "description": "Select the turbulence category", 
+                    "description": "Set the turbulence category to custom", 
                     "enum": ["Custom"] 
                   },
                   "wind_speed": {
@@ -492,12 +503,23 @@
                   "normal_turbulence_intensity": {
                     "type": "array",
                     "title": "Normal Turbulence Intensity",
-                    "description": "Normal value of I for each wind speed, specified as a fraction (eg 0.13)",
+                    "description": "2d array containing normal value of I for each wind speed and hours bin, specified as a fraction (eg 0.13)",
                     "items": {
                       "type": "array",
                       "items": {
                         "minimum": 0,
                         "maximum": 1
+                      }
+                    }
+                  },
+                  "normal_hours_per_lifetime": {
+                    "type": "array",
+                    "title": "Normal hours per lifetime",
+                    "description": "2d array containing the number of hours spent for each entry, through-life, in the normal_turbulence_intensity array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "minimum": 0
                       }
                     }
                   },
