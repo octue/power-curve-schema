@@ -63,11 +63,11 @@
     }
   ],
   "power_curves": {
-    "default_mode": "standard",
+    "default_mode": "mode_1",
     "modes": [
       {
-        "label": "standard",
-        "name": "Standard",
+        "label": "mode_1",
+        "name": "Mode 1",
         "description": "Standard full power mode",
         "design_bases": ["basis_1"],
         "rated_power": 20000000,
@@ -279,7 +279,8 @@
         ]
       },
       {
-        "label": "max-flow-close-wtg-spacing",
+        "label": "mode_2",
+        "name": "Mode 2 (Max flow, close spacing)",
         "description": "Applicable for sites with approximately 4 to 6 rotor diameters spacing",
         "design_bases": ["basis_1"],
         "rated_power": 20000000,
@@ -486,7 +487,8 @@
         ]
       },
       {
-        "label": "max-flow-wide-wtg-spacing",
+        "label": "mode_3",
+        "name": "Mode 3 (Max flow, wide spacing)",
         "description": "Applicable for sites with approximately 6 to 10 rotor diameter spacing",
         "design_bases": ["basis_1"],
         "rated_power": 20000000,
