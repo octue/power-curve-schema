@@ -440,7 +440,7 @@
               },
               {
                 "type": "object",
-                "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) using turbulence intensity as a function of wind speed",
                 "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
                 "properties": {
                   "category": {
