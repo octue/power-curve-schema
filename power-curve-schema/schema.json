@@ -310,22 +310,20 @@
             "oneOf": [
               { 
                 "type": "object",
-                "required": ["label"],
+                "required": ["class_label"],
                 "properties": {
-                  "label": {
-                    "$comment": "TODO change this from `label` to `class_label`",
+                  "class_label": {
                     "description": "Select from predefined IEC design classes I, II, and III.",
                     "enum": ["I", "II", "III"]
                   }     
                 },
-                "$comment": "S (T, CC to be confirmed) is a custom class, use other objects."
+                "$comment": "S (T, CC to be confirmed) is a custom class, use other objects, what should we do for class IV turbines? Are they custom?"
               },
               { 
                 "type": "object",
-                "required": ["label"],
+                "required": ["class_label"],
                 "properties": {
-                  "label": {
-                    "$comment": "TODO change this from `label` to `class_label`",
+                  "class_label": {
                     "title": "Label",
                     "description": "Specify IEC classes S, T, CC or an entirely custom design class",
                     "enum": ["S", "T", "CC", "Custom"]

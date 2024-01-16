@@ -40,7 +40,7 @@
         "standard_edition": "2"
       },
       "design_class": {
-        "label": "II"
+        "class_label": "II"
       },
       "design_lifetime": 20,
       "standard_climate": {
