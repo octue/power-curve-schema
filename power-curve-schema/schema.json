@@ -1001,10 +1001,12 @@
                             "type": "array",
                             "additionalItems": true,
                             "items": {
-                              "type": "number"
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
                             },
                             "title": "Turbulence Intensity Values",
-                            "description": "Values of turbulence intensity I [-] (expressed as a fraction in the range 0,1) for which this power curve is tabulated"
+                            "description": "Values of turbulence intensity I [-] (expressed as a factor in the range 0,1 rather than a percentage) for which this power curve is tabulated"
                           }
                         },
                         "required": [
