@@ -1,7 +1,7 @@
-from os.path import join, dirname
-from json import load, dumps
-from jsonpath_ng import parse
+from json import dumps, load
+from os.path import dirname, join
 
+from jsonpath_ng import parse
 from rstcloth import RstCloth
 
 TERMS_LIST = [
