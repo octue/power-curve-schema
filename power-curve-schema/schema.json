@@ -910,28 +910,209 @@
                 "additionalItems": true,
                 "items": {
                   "type": "object",
-                  "required": ["label", "dimension", "points"],
+                  "required": [
+                    "label",
+                    "dimension",
+                    "values"
+                  ],
                   "properties": {
                     "label": {
                       "type": "string",
+                      "enum": [
+                        "air-density",
+                        "wind-speed",
+                        "turbulence-intensity",
+                        "turbulence-lengthscale",
+                        "monin-obukhov-stability",
+                        "shear-coefficient",
+                        "wind-direction"
+                      ],
                       "title": "Parameter label",
-                      "description": "A slugified string key used to identify the parameter (e.g. air-density)"
+                      "description": "A slugified string key used to identify the parameter (e.g. air-density)."
                     },
                     "dimension": {
                       "type": "integer",
                       "title": "Dimension",
                       "description": "Dimension of the power curve array along which this parameter varies (0-based)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "air-density"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Air Density Values",
+                            "description": "Values of air density [kg/m^3] for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
                     },
-                    "points": {
-                      "type": "array",
-                      "title": "Points",
-                      "description": "Sampling points of this parameter corresponding to points on the power curve",
-                      "additionalItems": true,
-                      "items": {
-                        "type": "number"
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "wind-speed"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Wind Speed Values",
+                            "description": "Values of free-stream wind speed [m/s] at hub height for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "turbulence-intensity"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Turbulence Intensity Values",
+                            "description": "Values of turbulence intensity I [-] (expressed as a fraction in the range 0,1) for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "turbulence-lengthscale"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Turbulence Lengthscale Values",
+                            "description": "Values of turbulence integral lengthscale l [m] for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "monin-obukhov-stability"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Monin-Obukhov Stability Values",
+                            "description": "Values of the the Monin-Obukhov stability parameter zeta [-] for which this power curve is tabulated. Values of zero indicate neutral conditions, vegative condi"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "shear-coefficient"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Shear Coefficient Values",
+                            "description": "Values of wind shear coefficient alpha [-] for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "label": {
+                            "const": "wind-direction"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "values": {
+                            "type": "array",
+                            "additionalItems": true,
+                            "items": {
+                              "type": "number"
+                            },
+                            "title": "Wind Direction Values",
+                            "description": "Values of wind direction [???? degrees clockwise from true north????] for which this power curve is tabulated"
+                          }
+                        },
+                        "required": [
+                          "values"
+                        ]
                       }
                     }
-                  }
+                  ]
                 }
               },
               "cp_is_coefficient": {
