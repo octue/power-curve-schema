@@ -248,13 +248,13 @@ design_bases.design_class
 A fully or partially predefined environmental class, (eg IEC or other
 scheme)
 
-design_bases.design_class[0].label
-++++++++++++++++++++++++++++++++++
+design_bases.design_class[0].class_label
+++++++++++++++++++++++++++++++++++++++++
 
 Select from predefined IEC design classes I, II, and III.
 
-design_bases.design_class[1].label
-++++++++++++++++++++++++++++++++++
+design_bases.design_class[1].class_label
+++++++++++++++++++++++++++++++++++++++++
 
 Specify IEC classes S, T, CC or an entirely custom design class
 
