@@ -206,11 +206,12 @@
         },
         "available_hub_heights": {
           "title": "Available hub heights",
-          "description": "Specify either a discrete list or a continuous range of available/recommended hub heights [m]. This value may be overriden on a per-mode basis.",
+          "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
           "anyOf": [
             {
+              "title": "Specify a range of available hub heights [m]",
               "type": "object",
-              "description": "Specify a range of available/recommended hub heights [m]",
+              "description": "Specify a range of available hub heights [m]",
               "properties": {
                 "min": {
                   "type": "number",
@@ -224,8 +225,9 @@
               "required": ["min"]
             },
             {
+              "title": "Specify a list of discrete available hub heights [m]",
               "type": "array",
-              "description": "Specify a list of discrete available/recommended hub heights [m]",
+              "description": "Specify a list of discrete available hub heights [m]",
               "items": {
                 "type": "number"
               }
@@ -283,13 +285,13 @@
               "standard": {
                 "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
                 "description": "The certification scheme under which the power curves were certified.",
-                "anyOf": [{ "enum": ["IEC", "DiBT"] },{ "type": "string" }]
+                "anyOf": [{"title": "Choose predefined scheme","enum": ["IEC", "DiBT"] },{ "title": "Specify other scheme", "type": "string" }]
               },
               "standard_edition": {
                 "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
                 "description": "The edition of the standard used in turbine certification",
                 "type": "string",
-                "anyOf": [{ "enum": ["2", "3", "4"] }, { "type": "string" }]
+                "anyOf": [{  "title": "Choose predefined standard edition","enum": ["2", "3", "4"] }, { "title": "Specify other standard edition", "type": "string" }]
               },
               "certificate_reference": {
                 "type": "string",
@@ -309,6 +311,7 @@
             "type": "object",
             "oneOf": [
               { 
+                "title": "Standard IEC design class",
                 "type": "object",
                 "required": ["class_label"],
                 "properties": {
@@ -320,6 +323,7 @@
                 "$comment": "S (T, CC to be confirmed) is a custom class, use other objects, what should we do for class IV turbines? Are they custom?"
               },
               { 
+                "title": "Special or custom design class",
                 "type": "object",
                 "required": ["class_label"],
                 "properties": {
@@ -363,9 +367,11 @@
                     "description": "The design vertical inflow angle [degrees]",
                     "anyOf": [
                       {
+                        "title": "Single inflow angle",
                         "type": "number"
                       },
                       {
+                        "title": "Range of inflow angles",
                         "type": "object",
                         "properties": {
                           "min": {
@@ -400,6 +406,7 @@
             "description": "Specify the IEC turbulence category or one of several custom distributions.",
             "anyOf": [
               { 
+                "title": "Standard IEC Turbulence Category",
                 "type": "object",
                 "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
                 "required": ["category"],
@@ -412,6 +419,7 @@
                 }
               },
               {
+                "title": "Custom Iref and slope parameters",
                 "type": "object",
                 "description": "Specify custom fixed Iref and optional slope parameter",
                 "required": ["category", "reference_turbulence_intensity"],
@@ -437,6 +445,7 @@
                 }
               },
               {
+                "title": "Normal and Extreme Turbulence Models varying with Wind Speed",
                 "type": "object",
                 "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) using turbulence intensity as a function of wind speed",
                 "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
@@ -479,6 +488,7 @@
                 }
               },
               {
+                "title": "Normal and Extreme Turbulence Models varying with Wind Speed and Lifetime Hours",
                 "type": "object",
                 "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
                 "required": ["category", "wind_speed", "normal_turbulence_intensity", "normal_hours_per_lifetime", "extreme_turbulence_intensity"],
