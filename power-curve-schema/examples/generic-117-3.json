@@ -28,7 +28,8 @@
     "rotor_diameter": 117.0,
     "available_hub_heights": [91.5, 116.5, 141.5],
     "drive_type": "geared",
-    "regulation_type": "pitch"
+    "regulation_type": "pitch",
+    "grid_frequencies": [50, 60]
   },
   "design_bases": [
     {
@@ -57,9 +58,7 @@
       "hot_climate": {
         "operating_temperature_range": [-10, 45],
         "survival_temperature_range": [-10, 50]
-      },
-      "grid_voltages": [220],
-      "grid_frequencies": [50, 60]
+      }
     },
     {
       "label": "basis_2",
