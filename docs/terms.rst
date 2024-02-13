@@ -133,9 +133,8 @@ Examples:
 turbine.available_hub_heights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specify either a discrete list or a continuous range of
-available/recommended hub heights [m]. This value may be overriden on a
-per-mode basis.
+Specify either a discrete list or a continuous range of available hub
+heights [m]. This value may be overriden on a per-mode basis.
 
 Examples:
 
@@ -151,6 +150,26 @@ Examples:
    [
        120,
        180
+   ]
+
+turbine.grid_frequencies
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The allowable design grid frequencies in Hz
+
+Examples:
+
+.. code-block:: js
+
+   [
+       50
+   ]
+
+.. code-block:: js
+
+   [
+       50,
+       60
    ]
 
 design_bases
@@ -666,44 +685,4 @@ design_bases.hot_climate.operating_temperature_range
 
 design_bases.hot_climate.survival_temperature_range
 +++++++++++++++++++++++++++++++++++++++++++++++++++
-
-design_bases.grid_voltages
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The allowable design grid voltages in V
-
-Examples:
-
-.. code-block:: js
-
-   [
-       240
-   ]
-
-.. code-block:: js
-
-   [
-       110,
-       240
-   ]
-
-design_bases.grid_frequencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The allowable design grid frequencies in Hz
-
-Examples:
-
-.. code-block:: js
-
-   [
-       50
-   ]
-
-.. code-block:: js
-
-   [
-       50,
-       60
-   ]
 

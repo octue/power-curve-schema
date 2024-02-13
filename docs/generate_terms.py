@@ -18,6 +18,7 @@ TERMS_LIST = [
     "properties.turbine.properties.rated_power",
     "properties.turbine.properties.cut_in_rpm",
     "properties.turbine.properties.available_hub_heights",
+    "properties.turbine.properties.grid_frequencies",
     "properties.design_bases",
     "properties.design_bases.items.properties.label",
     "properties.design_bases.items.properties.name",
@@ -58,8 +59,6 @@ TERMS_LIST = [
     "properties.design_bases.items.properties.hot_climate",
     "properties.design_bases.items.properties.hot_climate.properties.operating_temperature_range",
     "properties.design_bases.items.properties.hot_climate.properties.survival_temperature_range",
-    "properties.design_bases.items.properties.grid_voltages",
-    "properties.design_bases.items.properties.grid_frequencies",
 ]
 
 

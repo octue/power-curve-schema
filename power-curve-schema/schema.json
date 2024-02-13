@@ -119,7 +119,8 @@
         "model_description",
         "available_hub_heights",
         "drive_type",
-        "regulation_type"
+        "regulation_type",
+        "grid_frequencies"
       ],
       "properties": {
         "manufacturer_name": {
@@ -240,6 +241,15 @@
             },
             [120, 180]
           ]
+        },
+        "grid_frequencies": {
+          "title": "Grid frequencies [Hz]",
+          "description": "The allowable design grid frequencies in Hz",
+          "type": "array",
+          "items": {
+            "type": "number", "exclusiveMinimum": 0
+          },
+          "examples": [[50], [50, 60]]
         }
       }
     },
@@ -249,7 +259,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["label", "name", "design_class", "turbulence", "standard_climate", "grid_voltages", "grid_frequencies" ],
+        "required": ["label", "name", "design_class", "turbulence", "standard_climate"],
         "properties": {
           "label": {
             "type": "string",
@@ -661,22 +671,6 @@
                 "survival_temperature_range": [-10, 50]
               }
             ]
-          },
-          "grid_voltages": {
-            "type": "array",
-            "items": {"type":"number", "exclusiveMinimum": 0},
-            "title": "Grid voltages [V]",
-            "description": "The allowable design grid voltages in V",
-            "examples": [[240], [110, 240]]
-          },
-          "grid_frequencies": {
-            "title": "Grid frequencies [Hz]",
-            "description": "The allowable design grid frequencies in Hz",
-            "type": "array",
-            "items": {
-              "type": "number", "exclusiveMinimum": 0
-            },
-            "examples": [[50], [50, 60]]
           }
         }
       }
