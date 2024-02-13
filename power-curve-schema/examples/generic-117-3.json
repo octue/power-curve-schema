@@ -49,7 +49,7 @@
       },
       "standard_climate": {
         "operating_temperature_range": [-10, 40],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       },
       "cold_climate": {
         "operating_temperature_range": [-20, 40],
@@ -57,7 +57,7 @@
       },
       "hot_climate": {
         "operating_temperature_range": [-10, 45],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       }
     },
     {
@@ -86,7 +86,7 @@
       },
       "standard_climate": {
         "operating_temperature_range": [-10, 40],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       },
       "cold_climate": {
         "operating_temperature_range": [-20, 40],
@@ -94,7 +94,7 @@
       },
       "hot_climate": {
         "operating_temperature_range": [-10, 45],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       }
     },
     {
@@ -111,7 +111,7 @@
       "design_lifetime": 20,
       "standard_climate": {
         "operating_temperature_range": [-10, 40],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       },
       "cold_climate": {
         "operating_temperature_range": [-20, 40],
@@ -119,7 +119,7 @@
       },
       "hot_climate": {
         "operating_temperature_range": [-10, 45],
-        "survival_temperature_range": [-10, 50]
+        "survival_temperature_range": [-20, 50]
       },
       "turbulence": {
         "category": "Custom",

@@ -668,7 +668,7 @@
             "examples": [
               {
                 "operating_temperature_range": [-10, 45],
-                "survival_temperature_range": [-10, 50]
+                "survival_temperature_range": [-20, 50]
               }
             ]
           }
