@@ -147,10 +147,38 @@
         "description": "Standard full power mode",
         "design_bases": ["basis_1", "basis_2", "basis_3"],
         "rated_power": 3450000,
-        "cut": {
-          "type": "in_out_re",
-          "value": [3, 25, 23]
-        },
+        "cuts": [
+          {
+            "kind": "low_cut_in",
+            "wind_speed": 3,
+            "period": 600
+          },
+          {
+            "kind": "low_cut_out",
+            "wind_speed": 2.5,
+            "period": 600
+          },
+          {
+            "kind": "high_cut_out",
+            "wind_speed": 25,
+            "period": 600
+          },
+          {
+            "kind": "high_cut_in",
+            "wind_speed": 22,
+            "period": 240
+          },
+          {
+            "kind": "high_cut_out",
+            "wind_speed": 28,
+            "period": 30
+          },
+          {
+            "kind": "high_cut_out",
+            "wind_speed": 34,
+            "period": 3
+          }
+        ],
         "parameters": [
           {
             "label": "air-density",

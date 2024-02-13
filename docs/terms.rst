@@ -675,7 +675,7 @@ Examples:
            45
        ],
        "survival_temperature_range": [
-           -10,
+           -20,
            50
        ]
    }
