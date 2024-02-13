@@ -500,9 +500,8 @@
               {
                 "title": "Normal and Extreme Turbulence Models varying with Wind Speed and Lifetime Hours",
                 "type": "object",
-                "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours, and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
                 "required": ["category", "wind_speed", "normal_turbulence_intensity", "normal_hours_per_lifetime", "extreme_turbulence_intensity"],
-                "$comment": "Schema team to check and add bin center values (there must be something on the X axis of this histogram) and further define what the bins are.",
                 "properties": {
                   "category": {
                     "description": "Set the turbulence category to custom", 
@@ -521,7 +520,7 @@
                   "normal_turbulence_intensity": {
                     "type": "array",
                     "title": "Normal Turbulence Intensity",
-                    "description": "2d array containing normal value of I for each wind speed and hours bin, specified as a fraction (eg 0.13)",
+                    "description": "2d array containing normal value of I for each wind speed (row) and probability interval (column), specified as a fraction (eg 0.13). Probability intervals represent evenly spaced bins covering the domain [0,1].",
                     "items": {
                       "type": "array",
                       "items": {
@@ -532,8 +531,8 @@
                   },
                   "normal_hours_per_lifetime": {
                     "type": "array",
-                    "title": "Normal hours per lifetime",
-                    "description": "2d array containing the number of hours spent for each entry, through-life, in the normal_turbulence_intensity array",
+                    "title": "Normal hours per lifetime [h]",
+                    "description": "2d array containing the number of hours spent, through-life, for each wind speed (row) and probability interval (column) [h]",
                     "items": {
                       "type": "array",
                       "items": {
