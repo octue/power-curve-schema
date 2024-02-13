@@ -95,9 +95,7 @@
       "hot_climate": {
         "operating_temperature_range": [-10, 45],
         "survival_temperature_range": [-10, 50]
-      },
-      "grid_voltages": [220],
-      "grid_frequencies": [50, 60]
+      }
     },
     {
       "label": "basis_3",
@@ -137,9 +135,7 @@
           [30.5, 60.4, 43.8, 38.5, 27.6]
         ],
         "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
-      },
-      "grid_voltages": [220],
-      "grid_frequencies": [50, 60]
+      }
     }
   ],
   "power_curves": {
