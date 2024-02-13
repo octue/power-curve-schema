@@ -700,7 +700,7 @@
               "name",
               "description",
               "design_bases",
-              "cut",
+              "cuts",
               "parameters",
               "cp_is_coefficient",
               "ct_is_coefficient",
@@ -742,168 +742,38 @@
                 "title": "Mode rated power (W)",
                 "description": "Rated power of the turbine in this mode [W]"
               },
-              "cut_in": {
-                "title": "Cut in",
-                "description": "A description of the cut in characteristics (a discontinuity in the power curve at low speeds)",
-                "type": "object",
-                "properties": {
-                  "kind": {
-                    "title": "Cut in characteristic",
-                    "description": "Select the kind of cut in characteristic to apply",
-                    "default": "cut_in_step",
-                    "enum": [
-                      "cut_in_step",
-                      "cut_in_triangle",
-                      "cut_in_recut_out"
-                    ]
+              "cuts": {
+                "title": "Cut in and cut out conditions",
+                "type": "array",
+                "description": "A list of the cut in and out conditions relevant to this power curve",
+                "items": {
+                  "type": "object",
+                  "required": ["kind", "wind_speed", "period"],
+                  "properties": {
+                    "kind": {
+                      "title": "Cut in characteristic",
+                      "description": "Select the kind of cut in characteristic to apply",
+                      "enum": [
+                        "low_cut_in",
+                        "high_cut_in",
+                        "low_cut_out",
+                        "high_cut_out"
+                      ]
+                    },
+                    "wind_speed": {
+                      "title": "Reference wind speed [m/s]",
+                      "description": "The wind speed at which the cut in/out will apply [m/s]",
+                      "type": "number"
+                    },
+                    "period": {
+                      "title": "Period [s]",
+                      "description": "The number of seconds that the reference wind speed is met to apply the cut in/out action [s]",
+                      "type": "number"
+                    }
                   }
                 },
-                "allOf": [
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_in_step"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "cut_in_speed": {
-                          "title": "Cut in speed [m/s]",
-                          "type": "number",
-                          "default": 0
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_in_triangle"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "cut_in_start_speed": {
-                          "title": "Cut in ramp start speed [m/s]",
-                          "type": "number"
-                        },
-                        "cut_in_end_speed": {
-                          "title": "Cut in ramp end speed [m/s]",
-                          "type": "number"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_in_recut_out"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "cut_in_speed": {
-                          "title": "Cut in speed [m/s]",
-                          "type": "number"
-                        },
-                        "recut_out_speed": {
-                          "title": "Re-cut out speed [m/s]",
-                          "description": "As wind speed decreases back to zero, this is the speed at which the turbine will cut out. Should be less than the cut in speed.",
-                          "type": "number"
-                        }
-                      }
-                    }
-                  }
-                ]
-              },
-              "cut_out": {
-                "title": "Cut out",
-                "description": "A description of the cut out characteristics (a discontinuity in the power curve at high wind speeds)",
-                "type": "object",
-                "properties": {
-                  "kind": {
-                    "title": "Cut out characteristic",
-                    "description": "Select the kind of cut out characteristic to apply",
-                    "default": "cut_out_step",
-                    "enum": [
-                      "cut_out_step",
-                      "cut_out_triangle",
-                      "cut_out_recut_in"
-                    ]
-                  }
-                },
-                "allOf": [
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_out_step"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "cut_out_speed": {
-                          "title": "Cut out speed [m/s]",
-                          "description": "Wind speed above which the turbine is cut out, and below which it cuts back in",
-                          "type": "number"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_out_triangle"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "start_speed": {
-                          "title": "Cut out ramp start speed [m/s]",
-                          "description": "Wind speed above which the power starts to ramp down",
-                          "type": "number"
-                        },
-                        "end_speed": {
-                          "title": "Cut out ramp end speed [m/s]",
-                          "description": "Wind speed above which the cut out ramp is complete",
-                          "type": "number"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "if": {
-                      "properties": {
-                        "kind": {
-                          "const": "cut_out_recut_in"
-                        }
-                      }
-                    },
-                    "then": {
-                      "properties": {
-                        "cut_out_speed": {
-                          "title": "Cut out speed [m/s]",
-                          "description": "Wind speed above which the turbine is cut out",
-                          "type": "number"
-                        },
-                        "recut_out_speed": {
-                          "title": "Re-cut in speed [m/s]",
-                          "description": "As wind speed decreases back toward zero, this is the speed at which the turbine will cut back in. Should be less than the cut out speed.",
-                          "type": "number"
-                        }
-                      }
-                    }
-                  }
-                ]
+                "minItems": 0,
+                "uniqueItems": true
               },
               "parameters": {
                 "type": "array",
