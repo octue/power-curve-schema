@@ -304,7 +304,7 @@
             ],
             "properties": {
               "standard": {
-                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
                 "description": "The certification scheme under which the power curves were certified.",
                 "anyOf": [
                   {
@@ -315,7 +315,7 @@
                 ]
               },
               "standard_edition": {
-                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
                 "description": "The edition of the standard used in turbine certification",
                 "type": "string",
                 "anyOf": [
@@ -356,7 +356,7 @@
                     "enum": ["I", "II", "III"]
                   }
                 },
-                "$comment": "S (T, CC to be confirmed) is a custom class, use other objects, what should we do for class IV turbines? Are they custom?"
+                "$comment": "TODO Schema team - what should we do for class IV turbines? Are they custom?"
               },
               {
                 "title": "Special or custom design class",
@@ -653,7 +653,7 @@
           "cold_climate": {
             "type": "object",
             "description": "Define operating and survival temperatures in cold climates",
-            "$comment": "Can we define why this is different in cold climates?",
+            "$comment": "TODO Schema team - Can we define why this is different in cold climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -681,8 +681,8 @@
           },
           "hot_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in cold climates",
-            "$comment": "Can we define why this is different in cold climates?",
+            "description": "Define operating and survival temperatures in hot climates",
+            "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
