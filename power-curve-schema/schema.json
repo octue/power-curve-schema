@@ -64,6 +64,7 @@
       "title": "Document",
       "description": "Information about this document",
       "required": ["metadata"],
+      "$comment": "We've added metadata into a property of `document` to facilitate addition of more prescriptive or specific (ie non dublin-core) properties in the future",
       "properties": {
         "metadata": {
           "title": "Dublin-Core Metadata",
