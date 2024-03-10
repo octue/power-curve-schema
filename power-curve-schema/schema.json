@@ -4,13 +4,6 @@
   "title": "Turbine Power Curves",
   "description": "Define a set of power curves for a wind turbine.",
   "definitions": {
-    "1darray": {
-      "type": "array",
-      "items": {
-        "type": "number"
-      },
-      "additionalItems": true
-    },
     "2darray": {
       "type": "array",
       "items": {
