@@ -48,6 +48,75 @@
         "additionalItems": true
       },
       "additionalItems": true
+    },
+    "rated_power": {
+      "type": "number",
+      "title": "Rated power [W]",
+      "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [5000000]
+    },
+    "cut_in_rpm": {
+      "type": "number",
+      "title": "Rotational speed at cut-in [RPM]",
+      "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [2]
+    },
+    "rated_rpm": {
+      "type": "number",
+      "title": "Rotational speed at rated power [RPM]",
+      "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [12]
+    },
+    "available_hub_heights": {
+      "title": "Available hub heights",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
+      "anyOf": [
+        {
+          "title": "Specify a range of available hub heights [m]",
+          "type": "object",
+          "description": "Specify a range of available hub heights [m]",
+          "properties": {
+            "min": {
+              "type": "number",
+              "description": "Minium hub height [m]"
+            },
+            "max": {
+              "type": "number",
+              "description": "Maximum hub height [m]"
+            }
+          },
+          "required": ["min"]
+        },
+        {
+          "title": "Specify a list of discrete available hub heights [m]",
+          "type": "array",
+          "description": "Specify a list of discrete available hub heights [m]",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        }
+      ],
+      "examples": [
+        {
+          "min": 120,
+          "max": 180
+        },
+        [120, 180]
+      ]
+    },
+    "grid_frequencies": {
+      "title": "Grid frequencies [Hz]",
+      "description": "The allowable design grid frequencies in Hz",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "examples": [[50], [50, 60]]
     }
   },
   "required": ["document", "turbine", "design_bases", "power_curves"],
@@ -182,69 +251,19 @@
           "enum": ["pitch", "stall", "other"]
         },
         "rated_power": {
-          "type": "number",
-          "title": "Rated power [W]",
-          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
-          "examples": [5000000]
+          "$ref": "#/definitions/rated_power"
         },
         "cut_in_rpm": {
-          "type": "number",
-          "title": "Rotational speed at cut-in [RPM]",
-          "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
-          "examples": [2]
+          "$ref": "#/definitions/cut_in_rpm"
         },
         "rated_rpm": {
-          "type": "number",
-          "title": "Rotational speed at rated power [RPM]",
-          "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
-          "examples": [12]
+          "$ref": "#/definitions/rated_rpm"
         },
         "available_hub_heights": {
-          "title": "Available hub heights",
-          "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
-          "anyOf": [
-            {
-              "title": "Specify a range of available hub heights [m]",
-              "type": "object",
-              "description": "Specify a range of available hub heights [m]",
-              "properties": {
-                "min": {
-                  "type": "number",
-                  "description": "Minium hub height [m]"
-                },
-                "max": {
-                  "type": "number",
-                  "description": "Maximum hub height [m]"
-                }
-              },
-              "required": ["min"]
-            },
-            {
-              "title": "Specify a list of discrete available hub heights [m]",
-              "type": "array",
-              "description": "Specify a list of discrete available hub heights [m]",
-              "items": {
-                "type": "number"
-              }
-            }
-          ],
-          "examples": [
-            {
-              "min": 120,
-              "max": 180
-            },
-            [120, 180]
-          ]
+          "$ref": "#/definitions/available_hub_heights"
         },
         "grid_frequencies": {
-          "title": "Grid frequencies [Hz]",
-          "description": "The allowable design grid frequencies in Hz",
-          "type": "array",
-          "items": {
-            "type": "number",
-            "exclusiveMinimum": 0
-          },
-          "examples": [[50], [50, 60]]
+          "$ref": "#/definitions/grid_frequencies"
         }
       }
     },
@@ -715,6 +734,7 @@
           "type": "string",
           "title": "Default mode",
           "description": "The label of the mode that should be used by default (must match an entry in 'modes')",
+          "pattern": "^[a-z0-9_]{1,40}$",
           "minLength": 1,
           "maxLength": 40
         },
@@ -735,20 +755,21 @@
               "cp_is_coefficient",
               "ct_is_coefficient",
               "cp",
-              "ct"
+              "ct",
+              "overrides"
             ],
             "properties": {
               "label": {
                 "type": "string",
                 "title": "Mode label",
-                "description": " A string key identifying the mode, e.g. `power_optimised_1`",
+                "description": "A string key identifying the mode, e.g. `power_optimised_1`",
                 "pattern": "^[a-z0-9_]{1,40}$",
                 "minLength": 1,
                 "maxLength": 40
               },
               "name": {
                 "type": "string",
-                "title": "Mode label",
+                "title": "Mode name",
                 "description": " A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`",
                 "minLength": 1,
                 "maxLength": 40
@@ -765,12 +786,11 @@
               "description": {
                 "type": "string",
                 "title": "Mode description",
-                "description": "Short human readable text which will be rendered into dropdowns and made searchable."
-              },
-              "rated_power": {
-                "type": "number",
-                "title": "Mode rated power (W)",
-                "description": "Rated power of the turbine in this mode [W]"
+                "description": "Short human readable text describing the purpose of this mode, which will be rendered into dropdowns and made searchable.",
+                "examples": [
+                  "For general purpose operation in standard climates, or early stage site design",
+                  "For use in noise-reduced situations eg close to population areas or sites of special scientific interest"
+                ]
               },
               "cuts": {
                 "title": "Cut in and cut out conditions",
@@ -1052,6 +1072,40 @@
                     "$ref": "#/definitions/4darray"
                   }
                 ]
+              },
+              "overrides": {
+                "title": "Mode-Specific Overrides",
+                "description": "Allows override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power, or require a more restrictive range of hub heights for structural reasons",
+                "type": "object",
+                "required": [],
+                "examples": [
+                  {
+                    "rated_power": 20e6
+                  },
+                  {
+                    "available_hub_heights": [100, 120]
+                  },
+                  {
+                    "cut_in_rpm": 2.1
+                  },
+                  {
+                    "rated_rpm": 11.8
+                  }
+                ],
+                "properties": {
+                  "rated_power": {
+                    "$ref": "#/definitions/rated_power"
+                  },
+                  "cut_in_rpm": {
+                    "$ref": "#/definitions/cut_in_rpm"
+                  },
+                  "rated_rpm": {
+                    "$ref": "#/definitions/rated_rpm"
+                  },
+                  "available_hub_heights": {
+                    "$ref": "#/definitions/available_hub_heights"
+                  }
+                }
               }
             }
           }
