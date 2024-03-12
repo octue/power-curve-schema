@@ -634,6 +634,12 @@ design_bases.hot_climate.operating_temperature_range
 design_bases.hot_climate.survival_temperature_range
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 
+power_curves
+------------
+
+Contains power and thrust curves along with data specific to each
+operational mode of the turbine
+
 power_curves.default_mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

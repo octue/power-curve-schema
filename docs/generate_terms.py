@@ -59,6 +59,7 @@ TERMS_LIST = [
     "properties.design_bases.items.properties.hot_climate",
     "properties.design_bases.items.properties.hot_climate.properties.operating_temperature_range",
     "properties.design_bases.items.properties.hot_climate.properties.survival_temperature_range",
+    "properties.power_curves",
     "properties.power_curves.properties.default_mode",
     "properties.power_curves.properties.modes",
     "properties.power_curves.properties.modes.items.properties.label",
