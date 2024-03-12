@@ -828,7 +828,7 @@
               "parameters": {
                 "type": "array",
                 "title": "Parameters",
-                "description": "Independent parameters for which the power curve is described",
+                "description": "Independent parameters for which the power and thrust curves are described",
                 "additionalItems": true,
                 "items": {
                   "type": "object",
@@ -1073,9 +1073,92 @@
                   }
                 ]
               },
+              "noise": {
+                "title": "Noise",
+                "description": "Specify the Sound Pressure Level emitted by the turbine in this mode of operation",
+                "type": "object",
+                "$comment": "The 'noise' property is not required, in order to facilitate backward compatibility (entering data from existing power curve data sheets which may not contain this data). OEMs should treat this as required, however, and future versions of the standard should consider moving to requiring this field.",
+                "required": [
+                  "reference",
+                  "weighting",
+                  "wind_speed",
+                  "total_sound_pressure_level"
+                ],
+                "properties": {
+                  "reference": {
+                    "title": "Reference",
+                    "description": "TODO Schema team define this term",
+                    "type": "string",
+                    "enum": ["Nacelle"],
+                    "default": "Nacelle"
+                  },
+                  "weighting": {
+                    "title": "Weighting",
+                    "description": "TODO Schema team define this term",
+                    "type": "string",
+                    "enum": ["A", "B", "C", "D", "None"],
+                    "default": "None"
+                  },
+                  "wind_speed": {
+                    "title": "Wind speed",
+                    "description": "Array of wind speed values for which the Sound Pressure Levels are given. The length of this array must match the leading dimension of the Sound Pressure Level matrix and the length of hte total_sound_pressure_level array.",
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "additionalItems": true
+                  },
+                  "sound_pressure_level": {
+                    "title": "Sound Pressure Level",
+                    "description": "The sound pressure level [db], specified as a matrix for a range of wind speeds and frequencies.",
+                    "$comment": "The sound_pressure_level property is not required for the same reason that its parent, the `noise` property is not required. It is however strongly recommended, again for the same reason.",
+                    "type": "array",
+                    "anyOf": [
+                      {
+                        "$comment": "Schema team: We decided not to include actual frequency ranges, which would have to be an enum specified within a sound_pressure_level object, to avoid requiring a schema for constant data and to simplify the overall pattern.",
+                        "title": "Sound Pressure Level (one-third octave intervals)",
+                        "description": "A matrix of sound pressure levels, one for each wind speed in the `wind_speed` property, and for frequencies in 1/3 octave intervals (29 values: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000] hz).",
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "length": 29
+                          }
+                        },
+                        "additionalItems": true
+                      },
+                      {
+                        "$comment": "TODO Schema team - find the reference from which these frequency ranges originated",
+                        "title": "Sound Pressure Level (full octave intervals)",
+                        "description": "A matrix of sound pressure levels, one for each wind speed in the `wind_speed` property, and for frequencies in full octave intervals (10 values: [31, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000] hz).",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "length": 10
+                          }
+                        },
+                        "additionalItems": true
+                      }
+                    ]
+                  },
+                  "total_sound_pressure_level": {
+                    "title": "Total Sound Pressure Level ",
+                    "description": "The total sound pressure level [db], summated across the frequency range using the specified weighting, for each wind speed",
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "additionalItems": true
+                  }
+                }
+              },
               "overrides": {
                 "title": "Mode-Specific Overrides",
-                "description": "Allows override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power, or require a more restrictive range of hub heights for structural reasons",
+                "description": "Override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power, or require a more restrictive range of hub heights for structural reasons",
                 "type": "object",
                 "required": [],
                 "examples": [
