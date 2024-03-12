@@ -8,8 +8,8 @@
 import copy
 import json
 import os
-import pytest
 
+import pytest
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -45,25 +45,49 @@ def generic_document_metadata():
     }
 
 
+@pytest.fixture
+def valid_cuts():
+    return [
+          {
+            "kind": "low_cut_in",
+            "wind_speed": 3,
+            "period": 600
+          },
+          {
+            "kind": "low_cut_out",
+            "wind_speed": 2.5,
+            "period": 600
+          },
+          {
+            "kind": "high_cut_out",
+            "wind_speed": 25,
+            "period": 600
+          },
+          {
+            "kind": "high_cut_in",
+            "wind_speed": 23,
+            "period": 600
+          }
+        ]
+
 @pytest.fixture()
-def one_dimensional_mode():
+def one_dimensional_mode(valid_cuts):
     return {
-        "label": "one-dimensional",
+        "label": "one_dimensional",
+        "name": "One Dimensional",
+        "design_bases": ['basis-1'],
         "description": "A typical mode where there are values for only the reference air density. In practicality this is the same as a two-dimensional example, just with a single air density value.",
-        "cut": {
-            "type": "in_out_re",
-            "value": [3, 25, 23]
-        },
+        "cuts": valid_cuts,
         "parameters": [
             {
                 "label": "air-density",
                 "dimension": 0,
-                "points": [1.225]
+                "values": [1.225]
             },
             {
                 "label": "wind-speed",
                 "dimension": 1,
-                "points": [
+                "values": [
                     3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0,9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5,15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0,20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0
                 ]
             }
@@ -75,33 +99,34 @@ def one_dimensional_mode():
         ],
         "ct": [
             [0.873, 0.849, 0.834, 0.828, 0.827, 0.825, 0.82, 0.816, 0.805, 0.804, 0.794, 0.79, 0.789, 0.772, 0.733, 0.666, 0.58, 0.494, 0.421, 0.362, 0.316, 0.281, 0.249, 0.223, 0.199, 0.18, 0.164, 0.149, 0.137, 0.125, 0.115, 0.107, 0.098, 0.091, 0.085, 0.079, 0.074, 0.07, 0.066, 0.062, 0.058, 0.055, 0.052, 0.049, 0.046]
-        ]
+        ],
+        "overrides": {}
     }
 
 
 @pytest.fixture()
-def two_dimensional_mode():
+def two_dimensional_mode(valid_cuts):
    return  {
-        "label": "two-dimensional",
+        "label": "two_dimensional",
+        "name": "Two Dimensional",
         "description": "A typical mode where both air density and wind speed vary",
-        "cut": {
-            "type": "in_out_re",
-            "value": [3, 30, 30]
-        },
+        "design_bases": ['basis-1'],
+        "cuts": valid_cuts,
         "parameters": [
             {
                 "label": "air-density",
                 "dimension": 0,
-                "points": [1.1, 1.125, 1.15, 1.175, 1.2, 1.225, 1.25, 1.275]
+                "values": [1.1, 1.125, 1.15, 1.175, 1.2, 1.225, 1.25, 1.275]
             },
             {
                 "label": "wind-speed",
                 "dimension": 1,
-                "points": [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0]
+                "values": [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0]
             }
         ],
         "cp_is_coefficient": False,
         "ct_is_coefficient": True,
+        "overrides": {},
         "cp": [
             [
             76000.0, 310666.667, 641333.333, 1073333.3299999998,

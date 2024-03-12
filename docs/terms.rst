@@ -109,68 +109,14 @@ The regulation type of the turbine.
 turbine.rated_power
 ~~~~~~~~~~~~~~~~~~~
 
-Nominal rated power of the turbine in W. Used for preliminary sizing and
-search. This value may be overridden on a per-mode basis.
-
-Examples:
-
-.. code-block:: js
-
-   5000000
-
 turbine.cut_in_rpm
 ~~~~~~~~~~~~~~~~~~
-
-Nominal rotational speed at cut-in (specify 0 for stall-regulated
-devices) [RPM]. This value may be overriden on a per-mode basis.
-
-Examples:
-
-.. code-block:: js
-
-   2
 
 turbine.available_hub_heights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specify either a discrete list or a continuous range of available hub
-heights [m]. This value may be overriden on a per-mode basis.
-
-Examples:
-
-.. code-block:: js
-
-   {
-       "min": 120,
-       "max": 180
-   }
-
-.. code-block:: js
-
-   [
-       120,
-       180
-   ]
-
 turbine.grid_frequencies
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
-The allowable design grid frequencies in Hz
-
-Examples:
-
-.. code-block:: js
-
-   [
-       50
-   ]
-
-.. code-block:: js
-
-   [
-       50,
-       60
-   ]
 
 design_bases
 ------------
@@ -593,14 +539,16 @@ Model arrays. Wind speed range must cover the entire operating range
 design_bases.turbulence[3].normal_turbulence_intensity
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-2d array containing normal value of I for each wind speed and hours bin,
-specified as a fraction (eg 0.13)
+2d array containing normal value of I for each wind speed (row) and
+probability interval (column), specified as a fraction (eg 0.13).
+Probability intervals represent evenly spaced bins covering the domain
+[0,1].
 
 design_bases.turbulence[3].normal_hours_per_lifetime
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-2d array containing the number of hours spent for each entry,
-through-life, in the normal_turbulence_intensity array
+2d array containing the number of hours spent, through-life, for each
+wind speed (row) and probability interval (column) [h]
 
 design_bases.turbulence[3].extreme_turbulence_intensity
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -663,7 +611,7 @@ design_bases.cold_climate.survival_temperature_range
 design_bases.hot_climate
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Define operating and survival temperatures in cold climates
+Define operating and survival temperatures in hot climates
 
 Examples:
 
@@ -685,4 +633,135 @@ design_bases.hot_climate.operating_temperature_range
 
 design_bases.hot_climate.survival_temperature_range
 +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+power_curves.default_mode
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The label of the mode that should be used by default (must match an
+entry in 'modes')
+
+power_curves.modes
+~~~~~~~~~~~~~~~~~~
+
+Different modes that the turbine can operate in / switch between
+
+power_curves.modes.label
+++++++++++++++++++++++++
+
+A string key identifying the mode, e.g. `power_optimised_1`
+
+power_curves.modes.name
++++++++++++++++++++++++
+
+ A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`
+
+power_curves.modes.design_bases
++++++++++++++++++++++++++++++++
+
+A list of the design basis labels relevant to this power curve
+
+power_curves.modes.description
+++++++++++++++++++++++++++++++
+
+Short human readable text describing the purpose of this mode, which
+will be rendered into dropdowns and made searchable.
+
+Examples:
+
+.. code-block:: js
+
+   "For general purpose operation in standard climates, or early stage site design"
+
+.. code-block:: js
+
+   "For use in noise-reduced situations eg close to population areas or sites of special scientific interest"
+
+power_curves.modes.cuts
++++++++++++++++++++++++
+
+A list of the cut in and out conditions relevant to this power curve
+
+
+Select the kind of cut in characteristic to apply
+
+
+The wind speed at which the cut in/out will apply [m/s]
+
+
+The number of seconds that the reference wind speed is met to apply the
+cut in/out action [s]
+
+power_curves.modes.parameters
++++++++++++++++++++++++++++++
+
+Independent parameters for which the power curve is described
+
+
+A slugified string key used to identify the parameter (e.g.
+air-density).
+
+
+Dimension of the power curve array along which this parameter varies
+(0-based)
+
+power_curves.modes.cp_is_coefficient
+++++++++++++++++++++++++++++++++++++
+
+True if the `cp` array is in nondimensional coefficient form, False if
+the `cp` array contains Power [W].
+
+power_curves.modes.ct_is_coefficient
+++++++++++++++++++++++++++++++++++++
+
+True if the `ct` array is in nondimensional coefficient form, False if
+the `ct` array contains Thrust [kgms^-2].
+
+power_curves.modes.cp
++++++++++++++++++++++
+
+The coefficient of power, defined as an N-D array at the sample points
+described in 'Parameters'
+
+power_curves.modes.ct
++++++++++++++++++++++
+
+The coefficient of thrust, defined as an N-D array at the sample points
+described in 'Parameters'
+
+power_curves.modes.overrides
+++++++++++++++++++++++++++++
+
+Allows override of certain data in the `turbine` section, where that
+data conflicts with requirements of a mode. For example, some operating
+modes may reduce rated power, or require a more restrictive range of hub
+heights for structural reasons
+
+Examples:
+
+.. code-block:: js
+
+   {
+       "rated_power": 20000000.0
+   }
+
+.. code-block:: js
+
+   {
+       "available_hub_heights": [
+           100,
+           120
+       ]
+   }
+
+.. code-block:: js
+
+   {
+       "cut_in_rpm": 2.1
+   }
+
+.. code-block:: js
+
+   {
+       "rated_rpm": 11.8
+   }
 

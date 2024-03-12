@@ -4,13 +4,6 @@
   "title": "Turbine Power Curves",
   "description": "Define a set of power curves for a wind turbine.",
   "definitions": {
-    "1darray": {
-      "type": "array",
-      "items": {
-        "type": "number"
-      },
-      "additionalItems": true
-    },
     "2darray": {
       "type": "array",
       "items": {
@@ -55,6 +48,75 @@
         "additionalItems": true
       },
       "additionalItems": true
+    },
+    "rated_power": {
+      "type": "number",
+      "title": "Rated power [W]",
+      "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [5000000]
+    },
+    "cut_in_rpm": {
+      "type": "number",
+      "title": "Rotational speed at cut-in [RPM]",
+      "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [2]
+    },
+    "rated_rpm": {
+      "type": "number",
+      "title": "Rotational speed at rated power [RPM]",
+      "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "minimum": 0,
+      "examples": [12]
+    },
+    "available_hub_heights": {
+      "title": "Available hub heights",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
+      "anyOf": [
+        {
+          "title": "Specify a range of available hub heights [m]",
+          "type": "object",
+          "description": "Specify a range of available hub heights [m]",
+          "properties": {
+            "min": {
+              "type": "number",
+              "description": "Minium hub height [m]"
+            },
+            "max": {
+              "type": "number",
+              "description": "Maximum hub height [m]"
+            }
+          },
+          "required": ["min"]
+        },
+        {
+          "title": "Specify a list of discrete available hub heights [m]",
+          "type": "array",
+          "description": "Specify a list of discrete available hub heights [m]",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        }
+      ],
+      "examples": [
+        {
+          "min": 120,
+          "max": 180
+        },
+        [120, 180]
+      ]
+    },
+    "grid_frequencies": {
+      "title": "Grid frequencies [Hz]",
+      "description": "The allowable design grid frequencies in Hz",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "examples": [[50], [50, 60]]
     }
   },
   "required": ["document", "turbine", "design_bases", "power_curves"],
@@ -64,6 +126,7 @@
       "title": "Document",
       "description": "Information about this document",
       "required": ["metadata"],
+      "$comment": "We've added metadata into a property of `document` to facilitate addition of more prescriptive or specific (ie non dublin-core) properties in the future",
       "properties": {
         "metadata": {
           "title": "Dublin-Core Metadata",
@@ -188,68 +251,19 @@
           "enum": ["pitch", "stall", "other"]
         },
         "rated_power": {
-          "type": "number",
-          "title": "Rated power [W]",
-          "description": "Nominal rated power of the turbine in W. Used for preliminary sizing and search. This value may be overridden on a per-mode basis.",
-          "examples": [5000000]
+          "$ref": "#/definitions/rated_power"
         },
         "cut_in_rpm": {
-          "type": "number",
-          "title": "Rotational speed at cut-in [RPM]",
-          "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
-          "examples": [2]
+          "$ref": "#/definitions/cut_in_rpm"
         },
         "rated_rpm": {
-          "type": "number",
-          "title": "Rotational speed at rated power [RPM]",
-          "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
-          "examples": [12]
+          "$ref": "#/definitions/rated_rpm"
         },
         "available_hub_heights": {
-          "title": "Available hub heights",
-          "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
-          "anyOf": [
-            {
-              "title": "Specify a range of available hub heights [m]",
-              "type": "object",
-              "description": "Specify a range of available hub heights [m]",
-              "properties": {
-                "min": {
-                  "type": "number",
-                  "description": "Minium hub height [m]"
-                },
-                "max": {
-                  "type": "number",
-                  "description": "Maximum hub height [m]"
-                }
-              },
-              "required": ["min"]
-            },
-            {
-              "title": "Specify a list of discrete available hub heights [m]",
-              "type": "array",
-              "description": "Specify a list of discrete available hub heights [m]",
-              "items": {
-                "type": "number"
-              }
-            }
-          ],
-          "examples": [
-            {
-              "min": 120,
-              "max": 180
-            },
-            [120, 180]
-          ]
+          "$ref": "#/definitions/available_hub_heights"
         },
         "grid_frequencies": {
-          "title": "Grid frequencies [Hz]",
-          "description": "The allowable design grid frequencies in Hz",
-          "type": "array",
-          "items": {
-            "type": "number", "exclusiveMinimum": 0
-          },
-          "examples": [[50], [50, 60]]
+          "$ref": "#/definitions/grid_frequencies"
         }
       }
     },
@@ -259,7 +273,13 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["label", "name", "design_class", "turbulence", "standard_climate"],
+        "required": [
+          "label",
+          "name",
+          "design_class",
+          "turbulence",
+          "standard_climate"
+        ],
         "properties": {
           "label": {
             "type": "string",
@@ -279,11 +299,15 @@
             "examples": ["Basis 1", "Basis 2", "Site XYZ Specific"]
           },
           "certification": {
-            "type":"object",
+            "type": "object",
             "title": "Certification details",
             "description": "Information about the scheme under which this design basis was certified. This is not a required property, so if a turbine is as-yet uncertified, simply leave it out.",
-            "$comment": "We collect these three under a single 'certification' property as a convenitent way to require that either all or none are given",
-            "required": ["standard", "standard_edition","certificate_reference"],
+            "$comment": "We collect these three under a single 'certification' property as a convenient way to require that either all or none are given",
+            "required": [
+              "standard",
+              "standard_edition",
+              "certificate_reference"
+            ],
             "examples": [
               {
                 "certificate_reference": "IECRE.WE.TC.20.0099-R6",
@@ -293,15 +317,30 @@
             ],
             "properties": {
               "standard": {
-                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
                 "description": "The certification scheme under which the power curves were certified.",
-                "anyOf": [{"title": "Choose predefined scheme","enum": ["IEC", "DiBT"] },{ "title": "Specify other scheme", "type": "string" }]
+                "anyOf": [
+                  {
+                    "title": "Choose predefined scheme",
+                    "enum": ["IEC", "DiBT"]
+                  },
+                  { "title": "Specify other scheme", "type": "string" }
+                ]
               },
               "standard_edition": {
-                "$comment": "Note - use of anyOf allows specification of any string value, but adding an enum indicates the precise values to be selected should your value be in the prescribed list",
+                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
                 "description": "The edition of the standard used in turbine certification",
                 "type": "string",
-                "anyOf": [{  "title": "Choose predefined standard edition","enum": ["2", "3", "4"] }, { "title": "Specify other standard edition", "type": "string" }]
+                "anyOf": [
+                  {
+                    "title": "Choose predefined standard edition",
+                    "enum": ["2", "3", "4"]
+                  },
+                  {
+                    "title": "Specify other standard edition",
+                    "type": "string"
+                  }
+                ]
               },
               "certificate_reference": {
                 "type": "string",
@@ -320,7 +359,7 @@
             "description": "A fully or partially predefined environmental class, (eg IEC or other scheme)",
             "type": "object",
             "oneOf": [
-              { 
+              {
                 "title": "Standard IEC design class",
                 "type": "object",
                 "required": ["class_label"],
@@ -328,11 +367,11 @@
                   "class_label": {
                     "description": "Select from predefined IEC design classes I, II, and III.",
                     "enum": ["I", "II", "III"]
-                  }     
+                  }
                 },
-                "$comment": "S (T, CC to be confirmed) is a custom class, use other objects, what should we do for class IV turbines? Are they custom?"
+                "$comment": "TODO Schema team - what should we do for class IV turbines? Are they custom?"
               },
-              { 
+              {
                 "title": "Special or custom design class",
                 "type": "object",
                 "required": ["class_label"],
@@ -341,7 +380,7 @@
                     "title": "Label",
                     "description": "Specify IEC classes S, T, CC or an entirely custom design class",
                     "enum": ["S", "T", "CC", "Custom"]
-                  },   
+                  },
                   "annual_average_wind_speed": {
                     "type": "number",
                     "title": "Annual average wind speed 'Vave'",
@@ -397,7 +436,7 @@
                         }
                       }
                     ],
-                    "examples": [0, 2, {"min":-2, "max": 2}]
+                    "examples": [0, 2, { "min": -2, "max": 2 }]
                   },
                   "design_lifetime": {
                     "$comment": "Schema team - check if this also needs to be given for T, CC classes as well as S class",
@@ -415,7 +454,7 @@
             "title": "Turbulence category or distribution",
             "description": "Specify the IEC turbulence category or one of several custom distributions.",
             "anyOf": [
-              { 
+              {
                 "title": "Standard IEC Turbulence Category",
                 "type": "object",
                 "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
@@ -423,8 +462,8 @@
                 "properties": {
                   "category": {
                     "title": "Category",
-                    "description": "Specify a predefined IEC turbulence category", 
-                    "enum": ["A+", "A", "B", "C"] 
+                    "description": "Specify a predefined IEC turbulence category",
+                    "enum": ["A+", "A", "B", "C"]
                   }
                 }
               },
@@ -436,7 +475,7 @@
                 "properties": {
                   "category": {
                     "title": "Category",
-                    "description": "Specify the turbulence category to be custom", 
+                    "description": "Specify the turbulence category to be custom",
                     "enum": ["Custom"]
                   },
                   "reference_turbulence_intensity": {
@@ -458,12 +497,17 @@
                 "title": "Normal and Extreme Turbulence Models varying with Wind Speed",
                 "type": "object",
                 "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) using turbulence intensity as a function of wind speed",
-                "required": ["category", "wind_speed", "normal_turbulence_intensity", "extreme_turbulence_intensity"],
+                "required": [
+                  "category",
+                  "wind_speed",
+                  "normal_turbulence_intensity",
+                  "extreme_turbulence_intensity"
+                ],
                 "properties": {
                   "category": {
                     "title": "Category",
-                    "description": "Specify the turbulence category as custom", 
-                    "enum": ["Custom"] 
+                    "description": "Specify the turbulence category as custom",
+                    "enum": ["Custom"]
                   },
                   "wind_speed": {
                     "type": "array",
@@ -501,11 +545,17 @@
                 "title": "Normal and Extreme Turbulence Models varying with Wind Speed and Lifetime Hours",
                 "type": "object",
                 "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours, and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
-                "required": ["category", "wind_speed", "normal_turbulence_intensity", "normal_hours_per_lifetime", "extreme_turbulence_intensity"],
+                "required": [
+                  "category",
+                  "wind_speed",
+                  "normal_turbulence_intensity",
+                  "normal_hours_per_lifetime",
+                  "extreme_turbulence_intensity"
+                ],
                 "properties": {
                   "category": {
-                    "description": "Set the turbulence category to custom", 
-                    "enum": ["Custom"] 
+                    "description": "Set the turbulence category to custom",
+                    "enum": ["Custom"]
                   },
                   "wind_speed": {
                     "type": "array",
@@ -554,7 +604,7 @@
               }
             ],
             "examples": [
-              { 
+              {
                 "category": "A"
               },
               {
@@ -578,7 +628,7 @@
                 ],
                 "normal_hours_per_lifetime": [
                   [1633.89, 2145.8, 1551.13, 1434.6, 1321.1],
-                  [804.2, 956.3, 756.3, 645.6,543.7],
+                  [804.2, 956.3, 756.3, 645.6, 543.7],
                   [30.5, 60.4, 43.8, 38.5, 27.6]
                 ],
                 "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
@@ -591,7 +641,7 @@
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -599,7 +649,7 @@
               },
               "survival_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -616,11 +666,11 @@
           "cold_climate": {
             "type": "object",
             "description": "Define operating and survival temperatures in cold climates",
-            "$comment": "Can we define why this is different in cold climates?",
+            "$comment": "TODO Schema team - Can we define why this is different in cold climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -628,7 +678,7 @@
               },
               "survival_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -644,12 +694,12 @@
           },
           "hot_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in cold climates",
-            "$comment": "Can we define why this is different in cold climates?",
+            "description": "Define operating and survival temperatures in hot climates",
+            "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -657,7 +707,7 @@
               },
               "survival_temperature_range": {
                 "type": "array",
-                "items" : {
+                "items": {
                   "type": "number",
                   "minimum": -273.15,
                   "maximum": 1000
@@ -684,6 +734,7 @@
           "type": "string",
           "title": "Default mode",
           "description": "The label of the mode that should be used by default (must match an entry in 'modes')",
+          "pattern": "^[a-z0-9_]{1,40}$",
           "minLength": 1,
           "maxLength": 40
         },
@@ -704,20 +755,21 @@
               "cp_is_coefficient",
               "ct_is_coefficient",
               "cp",
-              "ct"
+              "ct",
+              "overrides"
             ],
             "properties": {
               "label": {
                 "type": "string",
                 "title": "Mode label",
-                "description": " A string key identifying the mode, e.g. `power_optimised_1`",
+                "description": "A string key identifying the mode, e.g. `power_optimised_1`",
                 "pattern": "^[a-z0-9_]{1,40}$",
                 "minLength": 1,
                 "maxLength": 40
               },
               "name": {
                 "type": "string",
-                "title": "Mode label",
+                "title": "Mode name",
                 "description": " A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`",
                 "minLength": 1,
                 "maxLength": 40
@@ -734,12 +786,11 @@
               "description": {
                 "type": "string",
                 "title": "Mode description",
-                "description": "Short human readable text which will be rendered into dropdowns and made searchable."
-              },
-              "rated_power": {
-                "type": "number",
-                "title": "Mode rated power (W)",
-                "description": "Rated power of the turbine in this mode [W]"
+                "description": "Short human readable text describing the purpose of this mode, which will be rendered into dropdowns and made searchable.",
+                "examples": [
+                  "For general purpose operation in standard climates, or early stage site design",
+                  "For use in noise-reduced situations eg close to population areas or sites of special scientific interest"
+                ]
               },
               "cuts": {
                 "title": "Cut in and cut out conditions",
@@ -781,11 +832,7 @@
                 "additionalItems": true,
                 "items": {
                   "type": "object",
-                  "required": [
-                    "label",
-                    "dimension",
-                    "values"
-                  ],
+                  "required": ["label", "dimension", "values"],
                   "properties": {
                     "label": {
                       "type": "string",
@@ -828,9 +875,7 @@
                             "description": "Values of air density [kg/m^3] for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -853,9 +898,7 @@
                             "description": "Values of free-stream wind speed [m/s] at hub height for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -880,9 +923,7 @@
                             "description": "Values of turbulence intensity I [-] (expressed as a factor in the range 0,1 rather than a percentage) for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -905,9 +946,7 @@
                             "description": "Values of turbulence integral lengthscale l [m] for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -930,9 +969,7 @@
                             "description": "Values of the the Monin-Obukhov stability parameter zeta [-] for which this power curve is tabulated. Values of zero indicate neutral conditions, vegative condi"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -955,9 +992,7 @@
                             "description": "Values of wind shear coefficient alpha [-] for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     },
                     {
@@ -980,9 +1015,7 @@
                             "description": "Values of wind direction [???? degrees clockwise from true north????] for which this power curve is tabulated"
                           }
                         },
-                        "required": [
-                          "values"
-                        ]
+                        "required": ["values"]
                       }
                     }
                   ]
@@ -1039,6 +1072,40 @@
                     "$ref": "#/definitions/4darray"
                   }
                 ]
+              },
+              "overrides": {
+                "title": "Mode-Specific Overrides",
+                "description": "Allows override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power, or require a more restrictive range of hub heights for structural reasons",
+                "type": "object",
+                "required": [],
+                "examples": [
+                  {
+                    "rated_power": 20e6
+                  },
+                  {
+                    "available_hub_heights": [100, 120]
+                  },
+                  {
+                    "cut_in_rpm": 2.1
+                  },
+                  {
+                    "rated_rpm": 11.8
+                  }
+                ],
+                "properties": {
+                  "rated_power": {
+                    "$ref": "#/definitions/rated_power"
+                  },
+                  "cut_in_rpm": {
+                    "$ref": "#/definitions/cut_in_rpm"
+                  },
+                  "rated_rpm": {
+                    "$ref": "#/definitions/rated_rpm"
+                  },
+                  "available_hub_heights": {
+                    "$ref": "#/definitions/available_hub_heights"
+                  }
+                }
               }
             }
           }
