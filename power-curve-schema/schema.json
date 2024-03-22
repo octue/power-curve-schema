@@ -1081,35 +1081,27 @@
                   }
                 ]
               },
-              "noise": {
-                "title": "Noise",
-                "description": "Specify the Sound Pressure Level emitted by the turbine in this mode of operation",
+              "acoustic_emissions": {
+                "title": "Acoustic emissions",
+                "description": "Specify the noise (Sound Pressure Level) emitted by the turbine in this mode of operation",
                 "type": "object",
-                "$comment": "The 'noise' property is not required, in order to facilitate backward compatibility (entering data from existing power curve data sheets which may not contain this data). OEMs should treat this as required, however, and future versions of the standard should consider moving to requiring this field.",
+                "$comment": "This property is not required, in order to facilitate backward compatibility (entering data from existing power curve data sheets which may not contain this data). OEMs should treat this as required, however, and future versions of the standard should consider moving to requiring this field.",
                 "required": [
-                  "reference",
                   "weighting",
                   "wind_speed",
                   "total_sound_pressure_level"
                 ],
                 "properties": {
-                  "reference": {
-                    "title": "Reference",
-                    "description": "TODO Schema team define this term",
-                    "type": "string",
-                    "enum": ["Nacelle"],
-                    "default": "Nacelle"
-                  },
                   "weighting": {
                     "title": "Weighting",
-                    "description": "TODO Schema team define this term",
+                    "description": "Weighting filter that has been applied to sound pressure level measurements (see IEC 61672:2003 for definitions of curves).",
                     "type": "string",
                     "enum": ["A", "B", "C", "D", "None"],
                     "default": "None"
                   },
                   "wind_speed": {
                     "title": "Wind speed",
-                    "description": "Array of wind speed values for which the Sound Pressure Levels are given. The length of this array must match the leading dimension of the Sound Pressure Level matrix and the length of hte total_sound_pressure_level array.",
+                    "description": "Array of wind speed values, referred to hub height, for which the Sound Pressure Levels are given. The length of this array must match the leading dimension of the Sound Pressure Level matrix and the length of hte total_sound_pressure_level array.",
                     "type": "array",
                     "items": {
                       "type": "number",
@@ -1120,7 +1112,7 @@
                   "sound_pressure_level": {
                     "title": "Sound Pressure Level",
                     "description": "The sound pressure level [db], specified as a matrix for a range of wind speeds and frequencies.",
-                    "$comment": "The sound_pressure_level property is not required for the same reason that its parent, the `noise` property is not required. It is however strongly recommended, again for the same reason.",
+                    "$comment": "The sound_pressure_level property is not required for the same reason that its parent, the `acoustic_emissions` property is not required. It is however strongly recommended, again for the same reason.",
                     "type": "array",
                     "anyOf": [
                       {

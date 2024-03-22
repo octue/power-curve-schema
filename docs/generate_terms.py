@@ -80,6 +80,11 @@ TERMS_LIST = [
     "properties.power_curves.properties.modes.items.properties.cp",
     "properties.power_curves.properties.modes.items.properties.ct",
     "properties.power_curves.properties.modes.items.properties.overrides",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions.properties.weighting",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions.properties.wind_speed",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions.properties.sound_pressure_level",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions.properties.total_sound_pressure_level",
 ]
 
 
