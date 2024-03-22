@@ -261,6 +261,50 @@
         "rated_power": {
           "$ref": "#/definitions/rated_power"
         },
+        "thermal_derating": {
+          "type": "object",
+          "required": [],
+          "examples": [
+            {
+              "cold": {
+                "derating": [
+                  {
+                    "$comment": "Example of a linear profile",
+                    "air_density": 1.0,
+                    "temperature": [10, -15],
+                    "power_limit": [2e6, 1.1e6]
+                  },
+                  {
+                    "air_density": 1.225,
+                    "temperature": [10, -15],
+                    "power_limit": [2e6, 1.1e6]
+                  }
+                ],
+                "shutdown_temperature": -15,
+                "restart_temperature": -12,
+                "restart_duration": 2
+              },
+              "hot": {
+                "derating": [
+                  {
+                    "air_density": 1.0,
+                    "$comment": "Example of a nonlinear profile",
+                    "temperature": [40, 41, 42, 43, 44, 45],
+                    "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
+                  },
+                  {
+                    "air_density": 1.225,
+                    "temperature": [40, 41, 42, 43, 44, 45],
+                    "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
+                  }
+                ],
+                "shutdown_temperature": 45,
+                "restart_temperature": 40,
+                "restart_duration": 0
+              }
+            }
+          ]
+        },
         "cut_in_rpm": {
           "$ref": "#/definitions/cut_in_rpm"
         },
@@ -1130,7 +1174,7 @@
                         "additionalItems": true
                       },
                       {
-                        "$comment": "TODO Schema team - find the reference from which these frequency ranges originated - possibly https://www.engineeringtoolbox.com/octave-bands-frequency-limits-d_1602.html",
+                        "$comment": "TODO Schema team - find the reference from which these frequency ranges originated - possibly https://www.engineeringtoolbox.com/octave-bands-frequency-limits-d_1602.html.",
                         "title": "Sound Pressure Level (full octave intervals)",
                         "description": "A matrix of sound pressure levels, one for each wind speed in the `wind_speed` property, and for frequencies in full octave intervals (10 values: [31, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000] hz).",
                         "items": {
