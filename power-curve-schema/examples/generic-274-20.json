@@ -27,6 +27,7 @@
     "cut_in_rpm": 1,
     "rotor_diameter": 274.0,
     "available_hub_heights": [140, 145, 150],
+    "number_of_blades": 3,
     "drive_type": "geared",
     "regulation_type": "pitch",
     "grid_frequencies": [50, 60]

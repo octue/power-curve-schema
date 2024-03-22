@@ -96,6 +96,21 @@ Examples:
 
    100.0
 
+turbine.number_of_blades
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The number of blades (typically 3, occasionally 2)
+
+Examples:
+
+.. code-block:: js
+
+   3
+
+.. code-block:: js
+
+   2
+
 turbine.drive_type
 ~~~~~~~~~~~~~~~~~~
 

@@ -13,6 +13,7 @@ TERMS_LIST = [
     "properties.turbine.properties.platform_name",
     "properties.turbine.properties.platform_description",
     "properties.turbine.properties.rotor_diameter",
+    "properties.turbine.properties.number_of_blades",
     "properties.turbine.properties.drive_type",
     "properties.turbine.properties.regulation_type",
     "properties.turbine.properties.rated_power",
