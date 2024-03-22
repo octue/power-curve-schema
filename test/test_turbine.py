@@ -2,9 +2,10 @@
 # pylint: disable=redefined-outer-name, line-too-long, redefined-builtin, missing-module-docstring
 
 
+import pytest
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
-import pytest
+
 from .helpers import get_subschema
 
 
@@ -39,6 +40,7 @@ def test_missing_turbine(subschema):
         "available_hub_heights",
         "drive_type",
         "regulation_type",
+        "number_of_blades",
     ],
 )
 def test_missing_properties(subschema, generic_turbine, property):
@@ -87,7 +89,9 @@ def test_name_length_limits(subschema, generic_turbine, property):
     assert "is too long" in str(e)
 
 
-@pytest.mark.parametrize("available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]])
+@pytest.mark.parametrize(
+    "available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]]
+)
 def test_available_hub_heights(subschema, generic_turbine, available_hub_heights):
     """Hub heights should be definable as a continuous range of values or as a list of numbers"""
     generic_turbine["turbine"]["available_hub_heights"] = available_hub_heights
@@ -105,9 +109,13 @@ def test_available_hub_heights(subschema, generic_turbine, available_hub_heights
         ),  # 41 characters
     ],
 )
-def test_invalid_manufacturer_display_names(subschema, generic_turbine, manufacturer_display_name):
+def test_invalid_manufacturer_display_names(
+    subschema, generic_turbine, manufacturer_display_name
+):
     """Ensure manufacturer_display_name is validated as a string of maximum length"""
-    generic_turbine["turbine"]["manufacturer_display_name"] = manufacturer_display_name[0]
+    generic_turbine["turbine"]["manufacturer_display_name"] = manufacturer_display_name[
+        0
+    ]
     with pytest.raises(ValidationError) as e:
         validate(instance=generic_turbine, schema=subschema)
     assert manufacturer_display_name[1] in str(e)
