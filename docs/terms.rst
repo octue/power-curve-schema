@@ -96,6 +96,21 @@ Examples:
 
    100.0
 
+turbine.number_of_blades
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The number of blades (typically 3, occasionally 2)
+
+Examples:
+
+.. code-block:: js
+
+   3
+
+.. code-block:: js
+
+   2
+
 turbine.drive_type
 ~~~~~~~~~~~~~~~~~~
 
@@ -633,6 +648,12 @@ design_bases.hot_climate.operating_temperature_range
 
 design_bases.hot_climate.survival_temperature_range
 +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+power_curves
+------------
+
+Contains power and thrust curves along with data specific to each
+operational mode of the turbine
 
 power_curves.default_mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~

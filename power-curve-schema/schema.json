@@ -172,6 +172,7 @@
       "title": "Turbine",
       "description": "General information about the physical turbine and its default operational values",
       "required": [
+        "number_of_blades",
         "model_name",
         "manufacturer_name",
         "manufacturer_display_name",
@@ -237,6 +238,13 @@
           "examples": [100.0],
           "exclusiveMinimum": 0,
           "exclusiveMaximum": 1000
+        },
+        "number_of_blades": {
+          "type": "number",
+          "title": "Number of blades",
+          "description": "The number of blades (typically 3, occasionally 2)",
+          "examples": [3, 2],
+          "exclusiveMinimum": 0
         },
         "drive_type": {
           "type": "string",
