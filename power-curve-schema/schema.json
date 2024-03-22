@@ -1130,7 +1130,7 @@
                         "additionalItems": true
                       },
                       {
-                        "$comment": "TODO Schema team - find the reference from which these frequency ranges originated",
+                        "$comment": "TODO Schema team - find the reference from which these frequency ranges originated - possibly https://www.engineeringtoolbox.com/octave-bands-frequency-limits-d_1602.html",
                         "title": "Sound Pressure Level (full octave intervals)",
                         "description": "A matrix of sound pressure levels, one for each wind speed in the `wind_speed` property, and for frequencies in full octave intervals (10 values: [31, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000] hz).",
                         "items": {
@@ -1146,7 +1146,7 @@
                   },
                   "total_sound_pressure_level": {
                     "title": "Total Sound Pressure Level ",
-                    "description": "The total sound pressure level [db], summated across the frequency range using the specified weighting, for each wind speed",
+                    "description": "The total sound pressure level [db], summated across the frequency range using the specified weighting, for each of the specified wind speeds",
                     "type": "array",
                     "items": {
                       "type": "number",
