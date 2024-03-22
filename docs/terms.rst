@@ -715,7 +715,8 @@ cut in/out action [s]
 power_curves.modes.parameters
 +++++++++++++++++++++++++++++
 
-Independent parameters for which the power curve is described
+Independent parameters for which the power and thrust curves are
+described
 
 
 A slugified string key used to identify the parameter (e.g.
@@ -752,9 +753,9 @@ described in 'Parameters'
 power_curves.modes.overrides
 ++++++++++++++++++++++++++++
 
-Allows override of certain data in the `turbine` section, where that
-data conflicts with requirements of a mode. For example, some operating
-modes may reduce rated power, or require a more restrictive range of hub
+Override of certain data in the `turbine` section, where that data
+conflicts with requirements of a mode. For example, some operating modes
+may reduce rated power, or require a more restrictive range of hub
 heights for structural reasons
 
 Examples:
@@ -785,4 +786,28 @@ Examples:
    {
        "rated_rpm": 11.8
    }
+
+power_curves.modes.acoustic_emissions
++++++++++++++++++++++++++++++++++++++
+
+Specify the noise (Sound Pressure Level) emitted by the turbine in this
+mode of operation
+
+
+Weighting filter that has been applied to sound pressure level
+measurements (see IEC 61672:2003 for definitions of curves).
+
+
+Array of wind speed values, referred to hub height, for which the Sound
+Pressure Levels are given. The length of this array must match the
+leading dimension of the Sound Pressure Level matrix and the length of
+hte total_sound_pressure_level array.
+
+
+The sound pressure level [db], specified as a matrix for a range of wind
+speeds and frequencies.
+
+
+The total sound pressure level [db], summated across the frequency range
+using the specified weighting, for each wind speed
 
