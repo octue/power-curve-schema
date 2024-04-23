@@ -80,6 +80,7 @@ TERMS_LIST = [
     "properties.power_curves.properties.modes.items.properties.cp",
     "properties.power_curves.properties.modes.items.properties.ct",
     "properties.power_curves.properties.modes.items.properties.overrides",
+    "properties.power_curves.properties.modes.items.properties.acoustic_emissions",
 ]
 
 
