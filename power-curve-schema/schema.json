@@ -121,8 +121,8 @@
     "acoustic_emissions_margin": {
       "title": "Margin",
       "description": "A recommended margin of error [dB] which may be added to the given sound pressure levels for practical use.",
-      "default": 0,
       "type": "number",
+      "examples": [0, 2],
       "minimum": 0
     },
     "acoustic_emissions_weighting": {
