@@ -159,13 +159,13 @@
     "document": {
       "type": "object",
       "title": "Document",
-      "description": "Information about this document",
+      "description": "Facilitates search, identification, audit, and other workflows associated with data and document management.",
       "required": ["metadata"],
       "$comment": "We've added metadata into a property of `document` to facilitate addition of more prescriptive or specific (ie non dublin-core) properties in the future",
       "properties": {
         "metadata": {
           "title": "Dublin-Core Metadata",
-          "description": "Add metadata according to the Dublin Core Metadata Initiative (DCMI) elements/1.1. See https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3 for detailed information on each element.",
+          "description": "A list of metadata items according to the Dublin Core Metadata Initiative (DCMI) elements/1.1. See https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#section-3 for detailed information on each element.",
           "type": "array",
           "items": {
             "type": "object",
@@ -312,7 +312,7 @@
     },
     "design_bases": {
       "title": "Design bases",
-      "description": "A list of design bases for turbine certification or describing site-specific environmental conditions. Each contains information about the design point (environmental conditions) for which the power curves in this document are intended.",
+      "description": "A list of multiple design bases, which can be referenced by one or more operating modes, to facilitate the definition of modes that are applicable to specific site conditions. Typically however, a single design basis will be provided.",
       "type": "array",
       "items": {
         "type": "object",
@@ -327,7 +327,7 @@
           "label": {
             "type": "string",
             "title": "Basis label",
-            "description": "A string key identifying the design basis, eg `my_design_basis_1`",
+            "description": "A string key identifying the design basis",
             "pattern": "^[a-z0-9_]{1,40}$",
             "minLength": 1,
             "maxLength": 40,
@@ -336,7 +336,7 @@
           "name": {
             "type": "string",
             "title": "Basis name",
-            "description": "A human-readable name matching this basis label (eg for use in UIs)",
+            "description": "A human-readable name matching this basis label (eg for use in a User Interface)",
             "minLength": 1,
             "maxLength": 80,
             "examples": ["Basis 1", "Basis 2", "Site XYZ Specific"]
@@ -344,7 +344,7 @@
           "certification": {
             "type": "object",
             "title": "Certification details",
-            "description": "Information about the scheme under which this design basis was certified. This is not a required property, so if a turbine is as-yet uncertified, simply leave it out.",
+            "description": "Information about the scheme under which this design basis was certified. If a turbine is as-yet uncertified, this property may be omitted.",
             "$comment": "We collect these three under a single 'certification' property as a convenient way to require that either all or none are given",
             "required": [
               "standard",
