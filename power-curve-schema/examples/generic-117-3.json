@@ -74,7 +74,7 @@
         "annual_average_wind_speed": 8.5,
         "annual_average_air_density": 1.15,
         "reference_wind_speed": 37.5,
-        "weibull_shape_factor": 0.4,
+        "weibull_shape_factor": 2.4,
         "vertical_shear_exponent": 0.3,
         "inflow_angle": {
           "min": -2,
@@ -140,8 +140,8 @@
     }
   ],
   "power_curves": {
-    "default_mode": "standard",
-    "modes": [
+    "default_operating_mode": "standard",
+    "operating_modes": [
       {
         "label": "standard",
         "name": "Standard",

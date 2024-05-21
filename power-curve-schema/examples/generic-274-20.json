@@ -63,8 +63,8 @@
     }
   ],
   "power_curves": {
-    "default_mode": "mode_1",
-    "modes": [
+    "default_operating_mode": "mode_1",
+    "operating_modes": [
       {
         "label": "mode_1",
         "name": "Mode 1",

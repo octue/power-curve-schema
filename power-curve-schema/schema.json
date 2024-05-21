@@ -408,11 +408,18 @@
                 "required": ["class_label"],
                 "properties": {
                   "class_label": {
-                    "description": "Select from predefined IEC design classes I, II, and III.",
+                    "description": "Specify a predefined IEC design class (I, II, or III)",
                     "enum": ["I", "II", "III"]
+                  },
+                  "class_modifiers": {
+                    "description": "Specify optional additional modifier on the design class (T and/or CC)",
+                    "type": "array",
+                    "items": {
+                      "enum": ["CC", "T"]
+                    },
+                    "maxItems": 2
                   }
-                },
-                "$comment": "TODO Schema team - what should we do for class IV turbines? Are they custom?"
+                }
               },
               {
                 "title": "Special or custom design class",
@@ -421,8 +428,16 @@
                 "properties": {
                   "class_label": {
                     "title": "Label",
-                    "description": "Specify IEC classes S, T, CC or an entirely custom design class",
-                    "enum": ["S", "T", "CC", "Custom"]
+                    "description": "Specify an IEC class with custom parameters (design classes S)",
+                    "enum": ["S"]
+                  },
+                  "class_modifiers": {
+                    "description": "Specify optional additional modifiers on the design class (CC)",
+                    "type": "array",
+                    "items": {
+                      "enum": ["CC"]
+                    },
+                    "maxItems": 1
                   },
                   "annual_average_wind_speed": {
                     "type": "number",
@@ -457,29 +472,8 @@
                   "inflow_angle": {
                     "title": "Inflow angle",
                     "description": "The design vertical inflow angle [degrees]",
-                    "anyOf": [
-                      {
-                        "title": "Single inflow angle",
-                        "type": "number"
-                      },
-                      {
-                        "title": "Range of inflow angles",
-                        "type": "object",
-                        "properties": {
-                          "min": {
-                            "type": "number",
-                            "exclusiveMinimum": -20,
-                            "exclusiveMaximum": 20
-                          },
-                          "max": {
-                            "type": "number",
-                            "exclusiveMinimum": -20,
-                            "exclusiveMaximum": 20
-                          }
-                        }
-                      }
-                    ],
-                    "examples": [0, 2, { "min": -2, "max": 2 }]
+                    "type": "number",
+                    "examples": [0, 8]
                   },
                   "design_lifetime": {
                     "$comment": "Schema team - check if this also needs to be given for T, CC classes as well as S class",
@@ -708,7 +702,7 @@
           },
           "cold_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in cold climates",
+            "description": "Define operating and survival temperatures in cold climates, if ",
             "$comment": "TODO Schema team - Can we define why this is different in cold climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
@@ -770,20 +764,20 @@
     "power_curves": {
       "type": "object",
       "title": "Power Curves",
-      "description": "Contains power and thrust curves along with data specific to each operational mode of the turbine",
+      "description": "Contains power and thrust curves along with data specific to each operating mode of the turbine",
       "required": ["default_mode", "modes"],
       "properties": {
-        "default_mode": {
+        "default_operating_mode": {
           "type": "string",
-          "title": "Default mode",
-          "description": "The label of the mode that should be used by default (must match an entry in 'modes')",
+          "title": "Default operating mode",
+          "description": "The label of the mode that should be used by default (must match an entry in 'operating_modes')",
           "pattern": "^[a-z0-9_]{1,40}$",
           "minLength": 1,
           "maxLength": 40
         },
-        "modes": {
+        "operating_modes": {
           "type": "array",
-          "title": "Modes",
+          "title": "Operating Modes",
           "description": "Different modes that the turbine can operate in / switch between",
           "additionalItems": true,
           "items": {
