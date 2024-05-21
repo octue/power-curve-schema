@@ -39,7 +39,7 @@ Data is divided into four main areas:
 - **Design Basis** is a specification of the conditions under which the power curve(s) are valid.
 - **Power Curves** comprises a list of the different operating modes available, each containing a power curve. Each mode contains informational metadata (eg the name and purpose of the mode) and power/thrust curves.
 
-> Note: Each mode in the power curves section may also contain overrides for some aspects of turbine metadata and the design basis. This allows for a wide range of scenarios and customisations such as derating (where in a particular mode, the rated power value might change).
+> Note: Each operating mode in the power curves section may also contain overrides for some aspects of turbine metadata and the design basis. This allows for a wide range of scenarios and customisations such as derating (where in a particular mode, the rated power value might change).
 
 Documents should use JavaScript Object Notation (or be trivially convertable into same). So at the top level a power curve document has the following fields:
 

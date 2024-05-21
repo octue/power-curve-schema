@@ -274,6 +274,14 @@
           "exclusiveMinimum": 0,
           "exclusiveMaximum": 1000
         },
+        "rotor_tilt": {
+          "type": "number",
+          "title": "Rotor tilt [degrees]",
+          "description": "Shaft angle relative to horizontal used for calculation of inflow losses [degrees]",
+          "examples": [3, 5],
+          "minimum": 0,
+          "exclusiveMaximum": 30
+        },
         "number_of_blades": {
           "type": "number",
           "title": "Number of blades",
