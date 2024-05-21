@@ -215,6 +215,7 @@
         "rated_rpm",
         "cut_in_rpm",
         "rotor_diameter",
+        "rotor_tilt",
         "model_description",
         "available_hub_heights",
         "drive_type",
@@ -773,7 +774,7 @@
       "type": "object",
       "title": "Power Curves",
       "description": "Contains power and thrust curves along with data specific to each operating mode of the turbine",
-      "required": ["default_mode", "modes"],
+      "required": ["default_operating_mode", "operating_modes"],
       "properties": {
         "default_operating_mode": {
           "type": "string",

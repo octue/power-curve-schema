@@ -26,6 +26,7 @@
     "rated_rpm": 6,
     "cut_in_rpm": 1,
     "rotor_diameter": 274.0,
+    "rotor_tilt": 5,
     "available_hub_heights": [140, 145, 150],
     "number_of_blades": 3,
     "drive_type": "geared",
