@@ -261,45 +261,22 @@
         "rated_power": {
           "$ref": "#/definitions/rated_power"
         },
-        // TODO TOM add an explanation about units and why we've chosen constant units into the working draft
-        // Describes the thermal operating envelope of the turbine including shutdowns, restarts and progressive derating including the effects of altitude or density
         "thermal_shutdown": {
+          "$comment": "SCHEMA TEAM look at notes in comment https://github.com/octue/power-curve-schema/issues/26#issuecomment-2150468998",
           "type": "object",
           "required": [],
           "examples": [
             {
-              // Cold temperature limits
               "cold": {
-                // TODO Make derating optional so we can have simple shutdown
-
-                // Define progressive (linear or nonlinear) deratings as the
-                // shutdown temperature is approached. This should contain a
-                // conservative estimate of the maximum power produced by the
-                // turbine under these conditions (noting that system complexity
-                // is high and many different components within the device have different
-                // thermal limits and hystereses). Multiple deratings can be provided for
-                // multiple air densities or altitudes.
                 "derating": [
                   {
                     "$comment": "Example of using altitude instead of air_density",
-                    // Altitude in m above WGS84 spheroid [m]. Altitude serves as a proxy
-                    // for air density which should be determined from altitude according
-                    // to ISO Standard 2533:1975.
                     "altitude": 1743,
-                    // Array of temperature values [degrees Centigrade] for which maximum
-                    // power limits are given, approaching the shutdown temperature. The
-                    // final element of the array should correspond to the shutdown
-                    // temperature. At intermediate values of temperature, a linear
-                    // interpolation of power is assumed.
                     "temperature": [10, -15],
-                    // Array of maximum power [W] values produced by the turbine at
-                    // corresponding values in the temperature array, at a given altitude
-                    // or air_density.
                     "power_limit": [2e6, 1.1e6]
                   },
                   {
                     "$comment": "Example of a linear profile",
-                    // Air density [kg/m^3] at which this derating profile applies.
                     "air_density": 1.0,
                     "temperature": [10, -15],
                     "power_limit": [2e6, 1.1e6]
@@ -310,7 +287,6 @@
                     "power_limit": [2e6, 1.1e6]
                   }
                 ],
-                // Put in description that this should meet the endpoint of the derate ranges
                 "shutdown_temperature": -15,
                 "restart_temperature": -12,
                 "restart_duration": 2
@@ -699,7 +675,7 @@
           },
           "standard_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in standard (usual) climates",
+            "description": "Define operating and survival temperatures in standard climates",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -727,8 +703,7 @@
           },
           "cold_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in cold climates",
-            "$comment": "TODO Schema team - Can we define why this is different in cold climates than it is in standard climates?",
+            "description": "As per standard climate in eventuality turbine is equipped with a cold weather package",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -756,7 +731,7 @@
           },
           "hot_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in hot climates",
+            "description": "As per standard climate in eventuality turbine is equipped with a hot weather package",
             "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {
