@@ -497,29 +497,8 @@
                   "inclination_angle": {
                     "title": "Inclination angle",
                     "description": "The design vertical inclination (inflow) angle [degrees]",
-                    "anyOf": [
-                      {
-                        "title": "Single inflow angle",
-                        "type": "number"
-                      },
-                      {
-                        "title": "Range of inflow angles",
-                        "type": "object",
-                        "properties": {
-                          "min": {
-                            "type": "number",
-                            "exclusiveMinimum": -20,
-                            "exclusiveMaximum": 20
-                          },
-                          "max": {
-                            "type": "number",
-                            "exclusiveMinimum": -20,
-                            "exclusiveMaximum": 20
-                          }
-                        }
-                      }
-                    ],
-                    "examples": [0, 2, { "min": -2, "max": 2 }]
+                    "type": "number",
+                    "examples": [8, 0, -8]
                   },
                   "design_lifetime": {
                     "$comment": "Schema team - check if this also needs to be given for T, CC classes as well as S class",
