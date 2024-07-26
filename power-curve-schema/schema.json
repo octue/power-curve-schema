@@ -493,7 +493,7 @@
             "description": "Specify the IEC turbulence category or one of several custom distributions.",
             "anyOf": [
               {
-                "title": "Standard IEC Turbulence Category",
+                "title": "Standard turbulence category",
                 "type": "object",
                 "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
                 "required": ["category"],
@@ -506,28 +506,52 @@
                 }
               },
               {
-                "title": "Custom Iref and slope parameters",
+                "title": "Special turbulence category",
                 "type": "object",
-                "description": "Specify custom fixed Iref and optional slope parameter",
+                "description": "Specify reference turbulence intensity",
                 "required": ["category", "reference_turbulence_intensity"],
                 "properties": {
                   "category": {
                     "title": "Category",
-                    "description": "Specify the turbulence category to be custom",
-                    "enum": ["Custom"]
+                    "description": "Specify a custom/special value of Reference turbulence intensity",
+                    "const": "S",
+                    "default": "S"
                   },
                   "reference_turbulence_intensity": {
                     "type": "number",
                     "title": "Turbulence intensity",
-                    "description": "Characteristic Iref value at 15m/s, specified as a fraction (eg 0.13)",
+                    "description": "Value of Iref, specified as a fraction (eg 0.13)",
                     "minimum": 0,
                     "maximum": 1
+                  }
+                }
+              },
+              {
+                "title": "Characteristic turbulence intensity and slope",
+                "type": "object",
+                "description": "Specify characteristic turbulence intensity and slope consistent with IEC61400-1 Ed2",
+                "required": ["category", "characteristic_turbulence_intensity"],
+                "properties": {
+                  "category": {
+                    "title": "Category",
+                    "description": "Specify characteristic turbulence consistent with IEC61400-1 Ed2",
+                    "const": "Ed2",
+                    "default": "Ed2"
+                  },
+                  "characteristic_turbulence_intensity": {
+                    "type": "number",
+                    "title": "Characteristic turbulence intensity",
+                    "description": "Value of turbulence intensity I at 15m/s, specified as a fraction (eg 0.13)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "examples": [0.11, 0.12]
                   },
                   "slope": {
                     "type": "number",
                     "title": "Slope (a)",
-                    "description": "Specify the slope parameter (a) for use with edition 2 definitions of turbulence. Typical values are 2 or 3. No slope parameter is used for editions 3 or 4.",
-                    "minimum": 0
+                    "description": "Specify the slope parameter (a). No slope parameter is used for 61400-1 editions 3 or 4.",
+                    "minimum": 0,
+                    "examples": [2, 3]
                   }
                 }
               },
@@ -535,17 +559,18 @@
                 "title": "Normal and Extreme Turbulence Models varying with Wind Speed",
                 "type": "object",
                 "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) using turbulence intensity as a function of wind speed",
+                "$comment": "The extreme_turbulence_intensity property is not required, to enable legacy entries from earlier standard editions, but should be included where possible",
                 "required": [
                   "category",
                   "wind_speed",
-                  "normal_turbulence_intensity",
-                  "extreme_turbulence_intensity"
+                  "normal_turbulence_intensity"
                 ],
                 "properties": {
                   "category": {
                     "title": "Category",
                     "description": "Specify the turbulence category as custom",
-                    "enum": ["Custom"]
+                    "const": "1d-NETM",
+                    "default": "1d-NETM"
                   },
                   "wind_speed": {
                     "type": "array",
@@ -580,9 +605,9 @@
                 }
               },
               {
-                "title": "Normal and Extreme Turbulence Models varying with Wind Speed and Lifetime Hours",
+                "title": "Normal and Extreme Turbulence Models (NETM) varying with Wind Speed and Lifetime Hours",
                 "type": "object",
-                "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours, and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "description": "Specify Normal Turbulence Model (NTM) as a function of wind speed and lifetime hours, and Extreme Turbulence Models (ETM) as a function of wind speed.",
                 "required": [
                   "category",
                   "wind_speed",
@@ -593,7 +618,8 @@
                 "properties": {
                   "category": {
                     "description": "Set the turbulence category to custom",
-                    "enum": ["Custom"]
+                    "const": "2d-NETM",
+                    "default": "2d-NETM"
                   },
                   "wind_speed": {
                     "type": "array",
@@ -646,18 +672,22 @@
                 "category": "A"
               },
               {
-                "category": "Custom",
-                "reference_turbulence_intensity": 0.13,
+                "category": "S",
+                "reference_turbulence_intensity": 0.13
+              },
+              {
+                "category": "Ed2",
+                "characteristic_turbulence_intensity": 0.13,
                 "slope": 2
               },
               {
-                "category": "Custom",
+                "category": "1d-NETM",
                 "wind_speed": [1, 2, 25],
                 "normal_turbulence_intensity": [0.85, 0.5, 0.11],
                 "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
               },
               {
-                "category": "Custom",
+                "category": "2d-NETM",
                 "wind_speed": [1, 2, 25],
                 "normal_turbulence_intensity": [
                   [0.116, 0.1889, 0.2613, 0.3337, 0.46],
