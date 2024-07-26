@@ -441,7 +441,8 @@
         "available_hub_heights",
         "drive_type",
         "regulation_type",
-        "grid_frequencies"
+        "grid_frequencies",
+        "thermal_shutdown"
       ],
       "properties": {
         "manufacturer_name": {
