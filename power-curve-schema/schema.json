@@ -118,6 +118,227 @@
       },
       "examples": [[50], [50, 60]]
     },
+    "thermal_shutdown": {
+      "title": "Thermal Shutdown and Deratings",
+      "description": "Define thermal shutdown characteristic",
+      "type": "object",
+      "properties": {
+        "cold": {
+          "title": "Low Temperature Thermal Shutdown",
+          "description": "Define low-temperature thermal shutdown characteristics",
+          "type": "object",
+          "properties": {
+            "shutdown_temperature": {
+              "title": "Shutdown Temperature",
+              "description": "Temperature below which the turbine will shut down",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_temperature": {
+              "title": "Restart Temperature",
+              "description": "Temperature above which the turbine will restart following a thermal shutdown",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_duration": {
+              "title": "Restart Duration",
+              "description": "Time delay between restart temperature being exceded and turbine switching on [s]",
+              "type": "number"
+            }
+          }
+        },
+        "hot": {
+          "title": "High Temperature Thermal Shutdown",
+          "description": "Define high-temperature thermal shutdown characteristics",
+          "type": "object",
+          "properties": {
+            "shutdown_temperature": {
+              "title": "Shutdown Temperature",
+              "description": "Temperature above which the turbine will shut down",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_temperature": {
+              "title": "Restart Temperature",
+              "description": "Temperature below which the turbine will restart following a thermal shutdown",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_duration": {
+              "title": "Restart Duration",
+              "description": "Time delay between temperature going below the restart temperature, and turbine switching on [s]",
+              "type": "number"
+            }
+          }
+        },
+        "derating": {
+          "title": "Derating",
+          "description": "Define any number of thermal derating curves to limit power performance in extreme temperature ranges. Curves can be based on either altitude or air density.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "title": "Altitude based derating",
+                "required": ["altitude", "power_limit", "temperature"],
+                "properties": {
+                  "altitude": {
+                    "description": "The altitude at which this derating curve applies [m above the WGS84 spheroid]",
+                    "type": "number"
+                  },
+                  "temperature": {
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "title": "Air density based derating",
+                "required": ["air_density", "power_limit", "temperature"],
+                "properties": {
+                  "air_density": {
+                    "description": "The air density at which this derating curve applies [kg/m^3]",
+                    "type": "number"
+                  },
+                  "temperature": {
+                    "type": "array",
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": ["hot", "cold", "derating"],
+      "examples": [
+        {
+          "derating": [
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 2500",
+              "altitude": 2500,
+              "temperature": [-15, 10],
+              "power_limit": [1.1e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 1250",
+              "altitude": 1250,
+              "temperature": [-15, 10],
+              "power_limit": [1.4e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 0",
+              "altitude": 0,
+              "temperature": [-15, 10],
+              "power_limit": [1.6e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 2500",
+              "altitude": 2500,
+              "temperature": [40, 45],
+              "power_limit": [2e6, 0]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 1250",
+              "altitude": 1250,
+              "temperature": [42, 45],
+              "power_limit": [2e6, 0]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 0",
+              "altitude": 0,
+              "temperature": [42, 45],
+              "power_limit": [2e6, 0]
+            }
+          ],
+          "cold": {
+            "shutdown_temperature": -15,
+            "restart_temperature": -12,
+            "restart_duration": 7200
+          },
+          "hot": {
+            "shutdown_temperature": 45,
+            "restart_temperature": 40,
+            "restart_duration": 30
+          }
+        },
+        {
+          "derating": [
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 1.3",
+              "air_density": 1.3,
+              "temperature": [-15, 10],
+              "power_limit": [1.1e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 1.225",
+              "air_density": 1.225,
+              "temperature": [-15, 10],
+              "power_limit": [1.4e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 0.9",
+              "air_density": 1.225,
+              "temperature": [-15, 10],
+              "power_limit": [1.6e6, 2e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 1.3",
+              "air_density": 1.3,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 1.225",
+              "air_density": 1.225,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.98e6, 1.89e6, 1.8e6, 1.5e6, 0.9e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 0.9",
+              "air_density": 0.9,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.98e6, 1.88e6, 2.0e6, 1.7e6, 1.1e6]
+            }
+          ],
+          "cold": {
+            "shutdown_temperature": -15,
+            "restart_temperature": -12,
+            "restart_duration": 2
+          },
+          "hot": {
+            "shutdown_temperature": 45,
+            "restart_temperature": 40,
+            "restart_duration": 0
+          }
+        }
+      ]
+    },
     "acoustic_emissions_margin": {
       "title": "Margin",
       "description": "A recommended margin of error [dB] which may be added to the given sound pressure levels for practical use.",
@@ -305,6 +526,9 @@
         "rated_power": {
           "$ref": "#/definitions/rated_power"
         },
+        "thermal_shutdown": {
+          "$ref": "#/definitions/thermal_shutdown"
+        },
         "cut_in_rpm": {
           "$ref": "#/definitions/cut_in_rpm"
         },
@@ -478,11 +702,11 @@
                     "description": "The design wind vertical shear exponent [dimensionless]",
                     "examples": [0.15, 0.3, 0.45, 0.6]
                   },
-                  "inflow_angle": {
-                    "title": "Inflow angle",
-                    "description": "The design vertical inflow angle [degrees]",
+                  "inclination_angle": {
+                    "title": "Inclination angle",
+                    "description": "The design vertical inclination (inflow) angle [degrees]",
                     "type": "number",
-                    "examples": [0, 8]
+                    "examples": [8, 0, -8]
                   },
                   "design_lifetime": {
                     "$comment": "Schema team - check if this also needs to be given for T, CC classes as well as S class",
@@ -501,7 +725,7 @@
             "description": "Specify the IEC turbulence category or one of several custom distributions.",
             "anyOf": [
               {
-                "title": "Standard IEC Turbulence Category",
+                "title": "Standard turbulence category",
                 "type": "object",
                 "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
                 "required": ["category"],
@@ -514,28 +738,52 @@
                 }
               },
               {
-                "title": "Custom Iref and slope parameters",
+                "title": "Special turbulence category",
                 "type": "object",
-                "description": "Specify custom fixed Iref and optional slope parameter",
+                "description": "Specify reference turbulence intensity",
                 "required": ["category", "reference_turbulence_intensity"],
                 "properties": {
                   "category": {
                     "title": "Category",
-                    "description": "Specify the turbulence category to be custom",
-                    "enum": ["Custom"]
+                    "description": "Specify a custom/special value of Reference turbulence intensity",
+                    "const": "S",
+                    "default": "S"
                   },
                   "reference_turbulence_intensity": {
                     "type": "number",
                     "title": "Turbulence intensity",
-                    "description": "Characteristic Iref value at 15m/s, specified as a fraction (eg 0.13)",
+                    "description": "Value of Iref, specified as a fraction (eg 0.13)",
                     "minimum": 0,
                     "maximum": 1
+                  }
+                }
+              },
+              {
+                "title": "Characteristic turbulence intensity and slope",
+                "type": "object",
+                "description": "Specify characteristic turbulence intensity and slope consistent with IEC61400-1 Ed2",
+                "required": ["category", "characteristic_turbulence_intensity"],
+                "properties": {
+                  "category": {
+                    "title": "Category",
+                    "description": "Specify characteristic turbulence consistent with IEC61400-1 Ed2",
+                    "const": "Ed2",
+                    "default": "Ed2"
+                  },
+                  "characteristic_turbulence_intensity": {
+                    "type": "number",
+                    "title": "Characteristic turbulence intensity",
+                    "description": "Value of turbulence intensity I at 15m/s, specified as a fraction (eg 0.13)",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "examples": [0.11, 0.12]
                   },
                   "slope": {
                     "type": "number",
                     "title": "Slope (a)",
-                    "description": "Specify the slope parameter (a) for use with edition 2 definitions of turbulence. Typical values are 2 or 3. No slope parameter is used for editions 3 or 4.",
-                    "minimum": 0
+                    "description": "Specify the slope parameter (a). No slope parameter is used for 61400-1 editions 3 or 4.",
+                    "minimum": 0,
+                    "examples": [2, 3]
                   }
                 }
               },
@@ -543,17 +791,18 @@
                 "title": "Normal and Extreme Turbulence Models varying with Wind Speed",
                 "type": "object",
                 "description": "Specify Normal and Extreme Turbulence Models (NTM, ETM) using turbulence intensity as a function of wind speed",
+                "$comment": "The extreme_turbulence_intensity property is not required, to enable legacy entries from earlier standard editions, but should be included where possible",
                 "required": [
                   "category",
                   "wind_speed",
-                  "normal_turbulence_intensity",
-                  "extreme_turbulence_intensity"
+                  "normal_turbulence_intensity"
                 ],
                 "properties": {
                   "category": {
                     "title": "Category",
                     "description": "Specify the turbulence category as custom",
-                    "enum": ["Custom"]
+                    "const": "1d-NETM",
+                    "default": "1d-NETM"
                   },
                   "wind_speed": {
                     "type": "array",
@@ -588,9 +837,9 @@
                 }
               },
               {
-                "title": "Normal and Extreme Turbulence Models varying with Wind Speed and Lifetime Hours",
+                "title": "Normal and Extreme Turbulence Models (NETM) varying with Wind Speed and Lifetime Hours",
                 "type": "object",
-                "description": "Specify Normal Turbulence Model as a function of wind speed and lifetime hours, and Extreme Turbulence Models (NTM, ETM) as a function of wind speed.",
+                "description": "Specify Normal Turbulence Model (NTM) as a function of wind speed and lifetime hours, and Extreme Turbulence Models (ETM) as a function of wind speed.",
                 "required": [
                   "category",
                   "wind_speed",
@@ -601,7 +850,8 @@
                 "properties": {
                   "category": {
                     "description": "Set the turbulence category to custom",
-                    "enum": ["Custom"]
+                    "const": "2d-NETM",
+                    "default": "2d-NETM"
                   },
                   "wind_speed": {
                     "type": "array",
@@ -654,18 +904,22 @@
                 "category": "A"
               },
               {
-                "category": "Custom",
-                "reference_turbulence_intensity": 0.13,
+                "category": "S",
+                "reference_turbulence_intensity": 0.13
+              },
+              {
+                "category": "Ed2",
+                "characteristic_turbulence_intensity": 0.13,
                 "slope": 2
               },
               {
-                "category": "Custom",
+                "category": "1d-NETM",
                 "wind_speed": [1, 2, 25],
                 "normal_turbulence_intensity": [0.85, 0.5, 0.11],
                 "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
               },
               {
-                "category": "Custom",
+                "category": "2d-NETM",
                 "wind_speed": [1, 2, 25],
                 "normal_turbulence_intensity": [
                   [0.116, 0.1889, 0.2613, 0.3337, 0.46],
@@ -683,7 +937,7 @@
           },
           "standard_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in standard (usual) climates",
+            "description": "Define operating and survival temperatures in standard climates",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -711,8 +965,7 @@
           },
           "cold_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in cold climates, if ",
-            "$comment": "TODO Schema team - Can we define why this is different in cold climates than it is in standard climates?",
+            "description": "As per standard climate in eventuality turbine is equipped with a cold weather package",
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -740,7 +993,7 @@
           },
           "hot_climate": {
             "type": "object",
-            "description": "Define operating and survival temperatures in hot climates",
+            "description": "As per standard climate in eventuality turbine is equipped with a hot weather package",
             "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
             "properties": {
               "operating_temperature_range": {

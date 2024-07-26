@@ -31,7 +31,57 @@
     "number_of_blades": 3,
     "drive_type": "geared",
     "regulation_type": "pitch",
-    "grid_frequencies": [50, 60]
+    "grid_frequencies": [50, 60],
+    "thermal_shutdown": {
+      "derating": [
+        {
+          "$comment": "Linear ramp down in low temperatures, air density 1.3",
+          "air_density": 1.3,
+          "temperature": [-15, 10],
+          "power_limit": [1.1e6, 2e6]
+        },
+        {
+          "$comment": "Linear ramp down in low temperatures, air density 1.225",
+          "air_density": 1.225,
+          "temperature": [-15, 10],
+          "power_limit": [1.4e6, 2e6]
+        },
+        {
+          "$comment": "Linear ramp down in low temperatures, air density 0.9",
+          "air_density": 1.225,
+          "temperature": [-15, 10],
+          "power_limit": [1.6e6, 2e6]
+        },
+        {
+          "$comment": "Nonlinear reduction in high temperatures, air density 1.3",
+          "air_density": 1.3,
+          "temperature": [40, 41, 42, 43, 44, 45],
+          "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
+        },
+        {
+          "$comment": "Nonlinear reduction in high temperatures, air density 1.225",
+          "air_density": 1.225,
+          "temperature": [40, 41, 42, 43, 44, 45],
+          "power_limit": [2e6, 1.98e6, 1.89e6, 1.8e6, 1.5e6, 0.9e6]
+        },
+        {
+          "$comment": "Nonlinear reduction in high temperatures, air density 0.9",
+          "air_density": 0.9,
+          "temperature": [40, 41, 42, 43, 44, 45],
+          "power_limit": [2e6, 1.98e6, 1.88e6, 2.0e6, 1.7e6, 1.1e6]
+        }
+      ],
+      "cold": {
+        "shutdown_temperature": -15,
+        "restart_temperature": -12,
+        "restart_duration": 2
+      },
+      "hot": {
+        "shutdown_temperature": 45,
+        "restart_temperature": 40,
+        "restart_duration": 0
+      }
+    }
   },
   "design_bases": [
     {
