@@ -26,6 +26,7 @@
     "rated_rpm": 12,
     "cut_in_rpm": 2,
     "rotor_diameter": 117.0,
+    "rotor_tilt": 5,
     "number_of_blades": 3,
     "available_hub_heights": [91.5, 116.5, 141.5],
     "drive_type": "geared",
@@ -124,7 +125,7 @@
         "annual_average_wind_speed": 8.5,
         "annual_average_air_density": 1.15,
         "reference_wind_speed": 37.5,
-        "weibull_shape_factor": 0.4,
+        "weibull_shape_factor": 2.4,
         "vertical_shear_exponent": 0.3,
         "inclination_angle": 8,
         "design_lifetime": 25
@@ -187,8 +188,8 @@
     }
   ],
   "power_curves": {
-    "default_mode": "standard",
-    "modes": [
+    "default_operating_mode": "standard",
+    "operating_modes": [
       {
         "label": "standard",
         "name": "Standard",

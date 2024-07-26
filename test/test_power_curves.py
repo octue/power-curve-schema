@@ -27,18 +27,18 @@ def test_missing_default_mode(subschema, one_dimensional_mode):
     """Validation should fail if there is no default_mode value"""
     with pytest.raises(ValidationError) as e:
         validate(
-            instance={"power_curves": {"modes": [one_dimensional_mode]}},
+            instance={"power_curves": {"operating_modes": [one_dimensional_mode]}},
             schema=subschema,
         )
-    assert "'default_mode' is a required property" in str(e)
+    assert "'default_operating_mode' is a required property" in str(e)
 
 
 def test_blank_default_mode(subschema, one_dimensional_mode):
-    """Validation should fail if default_mode is blank"""
+    """Validation should fail if default_operating_mode is blank"""
     with pytest.raises(ValidationError) as e:
         validate(
             instance={
-                "power_curves": {"default_mode": "", "modes": [one_dimensional_mode]}
+                "power_curves": {"default_operating_mode": "", "operating_modes": [one_dimensional_mode]}
             },
             schema=subschema,
         )
@@ -48,15 +48,15 @@ def test_blank_default_mode(subschema, one_dimensional_mode):
 def test_missing_modes(subschema):
     """Validation should fail if there is no modes section"""
     with pytest.raises(ValidationError) as e:
-        validate(instance={"power_curves": {"default_mode": ""}}, schema=subschema)
-    assert "'modes' is a required property" in str(e)
+        validate(instance={"power_curves": {"default_operating_mode": ""}}, schema=subschema)
+    assert "'operating_modes' is a required property" in str(e)
 
 
 def test_invalid_modes(subschema):
     """Validation should fail if modes is not a list"""
     with pytest.raises(ValidationError) as e:
         validate(
-            instance={"power_curves": {"default_mode": "", "modes": {}}},
+            instance={"power_curves": {"default_operating_mode": "", "operating_modes": {}}},
             schema=subschema,
         )
 
@@ -69,8 +69,8 @@ def test_one_dimensional_mode(subschema, one_dimensional_mode):
     validate(
         instance={
             "power_curves": {
-                "default_mode": "one_dimensional",
-                "modes": [one_dimensional_mode],
+                "default_operating_mode": "one_dimensional",
+                "operating_modes": [one_dimensional_mode],
             }
         },
         schema=subschema,
@@ -83,8 +83,8 @@ def test_two_dimensional_mode(subschema, two_dimensional_mode):
     validate(
         instance={
             "power_curves": {
-                "default_mode": "two_dimensional",
-                "modes": [two_dimensional_mode],
+                "default_operating_mode": "two_dimensional",
+                "operating_modes": [two_dimensional_mode],
             }
         },
         schema=subschema,
@@ -109,8 +109,8 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_mode": "one_dimensional",
-                        "modes": [partial],
+                        "default_operating_mode": "one_dimensional",
+                        "operating_modes": [partial],
                     }
                 },
                 schema=subschema,
@@ -155,8 +155,8 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_mode": "one_dimensional",
-                        "modes": [one_dimensional_mode],
+                        "default_operating_mode": "one_dimensional",
+                        "operating_modes": [one_dimensional_mode],
                     }
                 },
                 schema=subschema,
@@ -200,8 +200,8 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_mode": "one_dimensional",
-                        "modes": [one_dimensional_mode],
+                        "default_operating_mode": "one_dimensional",
+                        "operating_modes": [one_dimensional_mode],
                     }
                 },
                 schema=subschema,
@@ -210,17 +210,14 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
         assert reason in str(e)
 
 
-def test_noise(subschema, one_dimensional_mode):
+def test_acoustic_emissions(subschema, one_dimensional_mode):
     """"""
     # fmt: off
     third_octave_noise = {
-        "margin": 2, # Margin in decibels - I'm not sure we need this on the power curve side, it should be a calculation input for some applications (depends on sensitivity of site etc)...?
-        "weighting": "A", # What does this mean?
-        # "one_third_octave": True, # Redundant on the sound_pressure_level matrix size
-        # If octave, the 10 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
-        # If one_third_octave, the 29 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
+        "margin": 2,
+        "weighting": "A",
         "wind_speed": [5, 6, 7, 8, 9, 10],
-        "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
+        "frequency": [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000],
         "sound_pressure_level": [
             [8.3, 13.6, 18.4, 45.6, 53.4, 62.2, 71.4, 71.2, 75.1, 80, 84.5, 88.3, 90.7, 92.5, 93.1, 93.8, 93.2, 92.2, 90.6, 88.1, 85.8, 83.5, 80.3, 77.6, 52.9, 51.9, 50.5, 48.7, 46.4, 43.7],
             [8.3, 13.6, 18.4, 48.3, 55.8, 62.9, 75.2, 76, 79.3, 84.4, 88.7, 92.2, 94.1, 96, 96.1, 96.3, 95.7, 94.7, 93.3, 91.1, 89, 87.2, 84.3, 80.5, 52.9, 51.9, 50.5, 48.7, 46.4, 43.7],
@@ -228,46 +225,39 @@ def test_noise(subschema, one_dimensional_mode):
             [8.3,13.6,18.4,49,57.2,64.6,76.6,77.4,81,85.6,89.5,92.8,94.4,96.7,96.6,96.8,96.8,96,94.7,91.9,89.7,87.6,84.7,53.5,52.9,51.9,50.5,48.7,46.4,43.7],
             [8.3,13.6,18.4,49.4,56.8,63.4,73.9,75.2,78.6,82.3,86,89.9,91.3,94.4,95.5,96.5,97.7,97.3,95.9,93.1,90.5,87.8,85.1,84.4,52.9,51.9,50.5,48.7,46.4,43.7],
             [8.3,13.6,18.4,48.5,56,62.8,72.5,74,77.1,80.3,83.1,87.4,89,92.7,94.3,95.7,97.2,96.7,95.3,92.5,89.9,54.2,54,53.5,52.9,51.9,50.5,48.7,46.4,43.7]
-        ],
-        # Question - is this a straightforward sum of the octave or third-octave? If so is this redundant data?
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+        ]
     }
 
     octave_noise = {
-        "margin": 2, # Margin in decibels - I'm not sure we need this on the power curve side, it should be a calculation input for some applications (depends on sensitivity of site etc)...?
-        "weighting": "A", # What does this mean?
-        # "one_third_octave": False,  # Redundant on the sound_pressure_level matrix size
-        # If octave, the 10 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
-        # If one_third_octave, the 29 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
-        "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
+        "margin": 2,
+        "weighting": "A",
+        "frequency": [16, 31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000],
         "wind_speed": [5, 6, 7, 8, 9, 10],
         "sound_pressure_level": [
-            [19.9, 62.8, 77.7, 90.2, 97.0, 97.9, 93.4, 85.9, 56.6, 51.5],
-            [19.9, 63.8, 82.0, 94.3, 100.3, 100.4, 96.3, 89.6, 56.6, 51.5],
-            [19.9, 65.4, 83.9, 95.5, 101.1, 101.1, 97.1, 90.5, 56.6, 51.5],
-            [19.9, 65.4, 83.6, 95.0, 100.8, 101.3, 97.4, 89.4, 56.6, 51.5],
-            [19.9, 64.4, 81.1, 91.9, 98.8, 102.0, 98.5, 90.8, 56.6, 51.5],
-            [19.9, 63.8, 79.7, 89.3, 97.3, 101.3, 97.9, 58.7, 56.6, 51.5]
-        ],
-        # Question - is this a straightforward sum of the octave or third-octave? If so is this redundant data?
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+            [5.2, 19.7, 62.8, 77.7, 90.2, 97.0, 97.9, 93.4, 85.9, 56.6, 51.5],
+            [5.3, 19.8, 63.8, 82.0, 94.3, 100.3, 100.4, 96.3, 89.6, 56.6, 51.3],
+            [5.4, 19.8, 65.4, 83.9, 95.5, 101.1, 101.1, 97.1, 90.5, 56.6, 51.5],
+            [5.3, 19.9, 65.4, 83.6, 95.0, 100.8, 101.3, 97.4, 89.4, 56.6, 51.4],
+            [5.2, 19.8, 64.4, 81.1, 91.9, 98.8, 102.0, 98.5, 90.8, 56.6, 51.5],
+            [5.1, 19.6, 63.8, 79.7, 89.3, 97.3, 101.3, 97.9, 58.7, 56.6, 51.6]
+        ]
     }
+
     total_noise = {
-        "margin": 2, # Margin in decibels - I'm not sure we need this on the power curve side, it should be a calculation input for some applications (depends on sensitivity of site etc)...?
-        "weighting": "A", # What does this mean? Is it still relevant if only totals are provided?
-        "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
+        "margin": 2,
+        "weighting": "A",
         "wind_speed": [5, 6, 7, 8, 9, 10],
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+        "sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
     }
     # fmt: on
 
-    for noise in [third_octave_noise, octave_noise, total_noise]:
-        one_dimensional_mode["noise"] = noise
+    for acoustic_emissions in [third_octave_noise, octave_noise, total_noise]:
+        one_dimensional_mode["acoustic_emissions"] = acoustic_emissions
         validate(
             instance={
                 "power_curves": {
-                    "default_mode": "one_dimensional",
-                    "modes": [one_dimensional_mode],
+                    "default_operating_mode": "one_dimensional",
+                    "operating_modes": [one_dimensional_mode],
                 }
             },
             schema=subschema,

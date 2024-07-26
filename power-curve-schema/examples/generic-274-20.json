@@ -26,6 +26,7 @@
     "rated_rpm": 6,
     "cut_in_rpm": 1,
     "rotor_diameter": 274.0,
+    "rotor_tilt": 5,
     "available_hub_heights": [140, 145, 150],
     "number_of_blades": 3,
     "drive_type": "geared",
@@ -113,8 +114,8 @@
     }
   ],
   "power_curves": {
-    "default_mode": "mode_1",
-    "modes": [
+    "default_operating_mode": "mode_1",
+    "operating_modes": [
       {
         "label": "mode_1",
         "name": "Mode 1",
