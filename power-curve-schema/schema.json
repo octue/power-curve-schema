@@ -117,6 +117,227 @@
         "exclusiveMinimum": 0
       },
       "examples": [[50], [50, 60]]
+    },
+    "thermal_shutdown": {
+      "title": "Thermal Shutdown and Deratings",
+      "description": "Define thermal shutdown characteristic",
+      "type": "object",
+      "properties": {
+        "cold": {
+          "title": "Low Temperature Thermal Shutdown",
+          "description": "Define low-temperature thermal shutdown characteristics",
+          "type": "object",
+          "properties": {
+            "shutdown_temperature": {
+              "title": "Shutdown Temperature",
+              "description": "Temperature below which the turbine will shut down",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_temperature": {
+              "title": "Restart Temperature",
+              "description": "Temperature above which the turbine will restart following a thermal shutdown",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_duration": {
+              "title": "Restart Duration",
+              "description": "Time delay between restart temperature being exceded and turbine switching on [s]",
+              "type": "number"
+            }
+          }
+        },
+        "hot": {
+          "title": "High Temperature Thermal Shutdown",
+          "description": "Define high-temperature thermal shutdown characteristics",
+          "type": "object",
+          "properties": {
+            "shutdown_temperature": {
+              "title": "Shutdown Temperature",
+              "description": "Temperature above which the turbine will shut down",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_temperature": {
+              "title": "Restart Temperature",
+              "description": "Temperature below which the turbine will restart following a thermal shutdown",
+              "type": "number",
+              "minimum": -273,
+              "maximum": 100
+            },
+            "restart_duration": {
+              "title": "Restart Duration",
+              "description": "Time delay between temperature going below the restart temperature, and turbine switching on [s]",
+              "type": "number"
+            }
+          }
+        },
+        "derating": {
+          "title": "Derating",
+          "description": "Define any number of thermal derating curves to limit power performance in extreme temperature ranges. Curves can be based on either altitude or air density.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "oneOf": [
+              {
+                "title": "Altitude based derating",
+                "required": ["altitude", "power_limit", "temperature"],
+                "properties": {
+                  "altitude": {
+                    "description": "The altitude at which this derating curve applies [m above the WGS84 spheroid]",
+                    "type": "number"
+                  },
+                  "temperature": {
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "title": "Air density based derating",
+                "required": ["air_density", "power_limit", "temperature"],
+                "properties": {
+                  "air_density": {
+                    "description": "The air density at which this derating curve applies [kg/m^3]",
+                    "type": "number"
+                  },
+                  "temperature": {
+                    "type": "array",
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": ["hot", "cold", "derating"],
+      "examples": [
+        {
+          "derating": [
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 2500",
+              "altitude": 2500,
+              "temperature": [-15, 10],
+              "power_limit": [1.1e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 1250",
+              "altitude": 1250,
+              "temperature": [-15, 10],
+              "power_limit": [1.4e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, altitude 0",
+              "altitude": 0,
+              "temperature": [-15, 10],
+              "power_limit": [1.6e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 2500",
+              "altitude": 2500,
+              "temperature": [40, 45],
+              "power_limit": [2e6, 0]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 1250",
+              "altitude": 1250,
+              "temperature": [42, 45],
+              "power_limit": [2e6, 0]
+            },
+            {
+              "$comment": "Linear ramp down to zero in high temperatures, altitude 0",
+              "altitude": 0,
+              "temperature": [42, 45],
+              "power_limit": [2e6, 0]
+            }
+          ],
+          "cold": {
+            "shutdown_temperature": -15,
+            "restart_temperature": -12,
+            "restart_duration": 7200
+          },
+          "hot": {
+            "shutdown_temperature": 45,
+            "restart_temperature": 40,
+            "restart_duration": 30
+          }
+        },
+        {
+          "derating": [
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 1.3",
+              "air_density": 1.3,
+              "temperature": [-15, 10],
+              "power_limit": [1.1e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 1.225",
+              "air_density": 1.225,
+              "temperature": [-15, 10],
+              "power_limit": [1.4e6, 2e6]
+            },
+            {
+              "$comment": "Linear ramp down in low temperatures, air density 0.9",
+              "air_density": 1.225,
+              "temperature": [-15, 10],
+              "power_limit": [1.6e6, 2e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 1.3",
+              "air_density": 1.3,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 1.225",
+              "air_density": 1.225,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.98e6, 1.89e6, 1.8e6, 1.5e6, 0.9e6]
+            },
+            {
+              "$comment": "Nonlinear reduction in high temperatures, air density 0.9",
+              "air_density": 0.9,
+              "temperature": [40, 41, 42, 43, 44, 45],
+              "power_limit": [2e6, 1.98e6, 1.88e6, 2.0e6, 1.7e6, 1.1e6]
+            }
+          ],
+          "cold": {
+            "shutdown_temperature": -15,
+            "restart_temperature": -12,
+            "restart_duration": 2
+          },
+          "hot": {
+            "shutdown_temperature": 45,
+            "restart_temperature": 40,
+            "restart_duration": 0
+          }
+        }
+      ]
     }
   },
   "required": ["document", "turbine", "design_bases", "power_curves"],
@@ -262,55 +483,7 @@
           "$ref": "#/definitions/rated_power"
         },
         "thermal_shutdown": {
-          "$comment": "SCHEMA TEAM look at notes in comment https://github.com/octue/power-curve-schema/issues/26#issuecomment-2150468998",
-          "type": "object",
-          "required": [],
-          "examples": [
-            {
-              "cold": {
-                "derating": [
-                  {
-                    "$comment": "Example of using altitude instead of air_density",
-                    "altitude": 1743,
-                    "temperature": [10, -15],
-                    "power_limit": [2e6, 1.1e6]
-                  },
-                  {
-                    "$comment": "Example of a linear profile",
-                    "air_density": 1.0,
-                    "temperature": [10, -15],
-                    "power_limit": [2e6, 1.1e6]
-                  },
-                  {
-                    "air_density": 1.225,
-                    "temperature": [10, -15],
-                    "power_limit": [2e6, 1.1e6]
-                  }
-                ],
-                "shutdown_temperature": -15,
-                "restart_temperature": -12,
-                "restart_duration": 2
-              },
-              "hot": {
-                "derating": [
-                  {
-                    "air_density": 1.0,
-                    "$comment": "Example of a nonlinear profile",
-                    "temperature": [40, 41, 42, 43, 44, 45],
-                    "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
-                  },
-                  {
-                    "air_density": 1.225,
-                    "temperature": [40, 41, 42, 43, 44, 45],
-                    "power_limit": [2e6, 1.95e6, 1.85e6, 1.7e6, 1.4e6, 0.8e6]
-                  }
-                ],
-                "shutdown_temperature": 45,
-                "restart_temperature": 40,
-                "restart_duration": 0
-              }
-            }
-          ]
+          "$ref": "#/definitions/thermal_shutdown"
         },
         "cut_in_rpm": {
           "$ref": "#/definitions/cut_in_rpm"
