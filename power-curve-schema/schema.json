@@ -1070,7 +1070,7 @@
               "name": {
                 "type": "string",
                 "title": "Mode name",
-                "description": " A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`",
+                "description": "A human-readable name for the mode, eg `Power Optimised 1 (PO1)`",
                 "minLength": 1,
                 "maxLength": 40
               },
@@ -1333,7 +1333,7 @@
               },
               "cp": {
                 "title": "Power Curve [cp]",
-                "description": "The coefficient of power, defined as an N-D array at the sample points described in 'Parameters'",
+                "description": "The coefficient of power, defined as an N-D array (where N is the number of independent parameters) at the sample points described in 'Parameters'",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
@@ -1354,7 +1354,7 @@
               },
               "ct": {
                 "title": "Thrust Curve [ct]",
-                "description": "The coefficient of thrust, defined as an N-D array at the sample points described in 'Parameters'",
+                "description": "The coefficient of thrust, defined as an N-D array (where N is the number of independent parameters) at the sample points described in 'Parameters'",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
