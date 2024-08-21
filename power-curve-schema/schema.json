@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Turbine Power Curves",
+  "title": "Power Curves Schema",
   "description": "Define a set of power curves for a wind turbine.",
-  "definitions": {
+  "$defs": {
     "2darray": {
       "type": "array",
       "items": {
@@ -525,22 +525,22 @@
           "enum": ["pitch", "stall", "other"]
         },
         "rated_power": {
-          "$ref": "#/definitions/rated_power"
+          "$ref": "#/$defs/rated_power"
         },
         "thermal_shutdown": {
-          "$ref": "#/definitions/thermal_shutdown"
+          "$ref": "#/$defs/thermal_shutdown"
         },
         "cut_in_rpm": {
-          "$ref": "#/definitions/cut_in_rpm"
+          "$ref": "#/$defs/cut_in_rpm"
         },
         "rated_rpm": {
-          "$ref": "#/definitions/rated_rpm"
+          "$ref": "#/$defs/rated_rpm"
         },
         "available_hub_heights": {
-          "$ref": "#/definitions/available_hub_heights"
+          "$ref": "#/$defs/available_hub_heights"
         },
         "grid_frequencies": {
-          "$ref": "#/definitions/grid_frequencies"
+          "$ref": "#/$defs/grid_frequencies"
         }
       }
     },
@@ -1052,10 +1052,10 @@
               "design_bases",
               "cuts",
               "parameters",
-              "cp_is_coefficient",
-              "ct_is_coefficient",
-              "cp",
-              "ct",
+              "power_is_coefficient",
+              "thrust_is_coefficient",
+              "power",
+              "thrust",
               "overrides"
             ],
             "properties": {
@@ -1070,7 +1070,7 @@
               "name": {
                 "type": "string",
                 "title": "Mode name",
-                "description": " A human-readable name for the mode, e.g. `Power Optimised 1 (PO1)`",
+                "description": "A human-readable name for the mode, eg `Power Optimised 1 (PO1)`",
                 "minLength": 1,
                 "maxLength": 40
               },
@@ -1321,55 +1321,55 @@
                   ]
                 }
               },
-              "cp_is_coefficient": {
+              "power_is_coefficient": {
                 "type": "boolean",
-                "title": "Cp is Coefficient",
-                "description": "True if the `cp` array is in nondimensional coefficient form, False if the `cp` array contains Power [W]."
+                "title": "Power Dimensionality",
+                "description": "True if the `power` array is in nondimensional coefficient form, False if the `power` array contains dimensional Power [W]."
               },
-              "ct_is_coefficient": {
+              "thrust_is_coefficient": {
                 "type": "boolean",
-                "title": "Ct is Coefficient",
-                "description": "True if the `ct` array is in nondimensional coefficient form, False if the `ct` array contains Thrust [kgms^-2]."
+                "title": "Thrust Dimensionality",
+                "description": "True if the `thrust` array is in nondimensional coefficient form, False if the `thrust` array contains dimensional Thrust [kgms^-2]"
               },
-              "cp": {
-                "title": "Power Curve [cp]",
-                "description": "The coefficient of power, defined as an N-D array at the sample points described in 'Parameters'",
+              "power": {
+                "title": "Power Curve",
+                "description": "Electrical power expressed as dimensional values or as nondimensional coefficients (as determined by the `power_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property.",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/2darray"
+                    "$ref": "#/$defs/2darray"
                   },
                   {
                     "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/3darray"
+                    "$ref": "#/$defs/3darray"
                   },
                   {
                     "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/4darray"
+                    "$ref": "#/$defs/4darray"
                   }
                 ]
               },
-              "ct": {
-                "title": "Thrust Curve [ct]",
-                "description": "The coefficient of thrust, defined as an N-D array at the sample points described in 'Parameters'",
+              "thrust": {
+                "title": "Thrust Curve",
+                "description": "Thrust expressed as dimensional values or as coefficients (as determined by the `thrust_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. This array should be the same size and shape as the `power` value. Where coefficient values are provided for a single air density or other parameter, singleton dimensions should be expanded (ie repeat columns to match the size of the `power` array).",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/2darray"
+                    "$ref": "#/$defs/2darray"
                   },
                   {
                     "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/3darray"
+                    "$ref": "#/$defs/3darray"
                   },
                   {
                     "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
                     "type": "array",
-                    "$ref": "#/definitions/4darray"
+                    "$ref": "#/$defs/4darray"
                   }
                 ]
               },
@@ -1452,16 +1452,16 @@
                     "title": "Emissions at one-third-octave intervals",
                     "properties": {
                       "margin": {
-                        "$ref": "#/definitions/acoustic_emissions_margin"
+                        "$ref": "#/$defs/acoustic_emissions_margin"
                       },
                       "weighting": {
-                        "$ref": "#/definitions/acoustic_emissions_weighting"
+                        "$ref": "#/$defs/acoustic_emissions_weighting"
                       },
                       "wind_speed": {
-                        "$ref": "#/definitions/acoustic_emissions_wind_speed"
+                        "$ref": "#/$defs/acoustic_emissions_wind_speed"
                       },
                       "frequency": {
-                        "$ref": "#/definitions/acoustic_emissions_frequency",
+                        "$ref": "#/$defs/acoustic_emissions_frequency",
                         "description": "Array of frequency values at one-third-octave band locations for which the Sound Pressure Levels are given. The length of this array must match the second dimension of the Sound Pressure Level matrix. The frequency range should span at least 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
                         "$comment": "At full band, 20 values is sufficient, whilst at one-third octave the opposite is true, so 20 items is used as a cutoff criterion between one-third and full-band definitions.",
                         "examples": [
@@ -1494,16 +1494,16 @@
                     "title": "Emissions at full-octave intervals",
                     "properties": {
                       "margin": {
-                        "$ref": "#/definitions/acoustic_emissions_margin"
+                        "$ref": "#/$defs/acoustic_emissions_margin"
                       },
                       "weighting": {
-                        "$ref": "#/definitions/acoustic_emissions_weighting"
+                        "$ref": "#/$defs/acoustic_emissions_weighting"
                       },
                       "wind_speed": {
-                        "$ref": "#/definitions/acoustic_emissions_wind_speed"
+                        "$ref": "#/$defs/acoustic_emissions_wind_speed"
                       },
                       "frequency": {
-                        "$ref": "#/definitions/acoustic_emissions_frequency",
+                        "$ref": "#/$defs/acoustic_emissions_frequency",
                         "description": "Array of frequency values at full-octave band locations for which the Sound Pressure Levels are given. The length of this array must match the second dimension of the Sound Pressure Level matrix. The frequency range should span less than 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
                         "$comment": "The schema team determined that at full band, 20 values is more than enough to span the range, whilst at one-third octave the opposite is true, so 20 items is used as a cutoff criterion for one-third and full-band definitions.",
                         "examples": [
@@ -1535,13 +1535,13 @@
                     "title": "Total emissions",
                     "properties": {
                       "margin": {
-                        "$ref": "#/definitions/acoustic_emissions_margin"
+                        "$ref": "#/$defs/acoustic_emissions_margin"
                       },
                       "weighting": {
-                        "$ref": "#/definitions/acoustic_emissions_weighting"
+                        "$ref": "#/$defs/acoustic_emissions_weighting"
                       },
                       "wind_speed": {
-                        "$ref": "#/definitions/acoustic_emissions_wind_speed"
+                        "$ref": "#/$defs/acoustic_emissions_wind_speed"
                       },
                       "sound_pressure_level": {
                         "title": "Sound Pressure Level (total)",
@@ -1579,16 +1579,16 @@
                 ],
                 "properties": {
                   "rated_power": {
-                    "$ref": "#/definitions/rated_power"
+                    "$ref": "#/$defs/rated_power"
                   },
                   "cut_in_rpm": {
-                    "$ref": "#/definitions/cut_in_rpm"
+                    "$ref": "#/$defs/cut_in_rpm"
                   },
                   "rated_rpm": {
-                    "$ref": "#/definitions/rated_rpm"
+                    "$ref": "#/$defs/rated_rpm"
                   },
                   "available_hub_heights": {
-                    "$ref": "#/definitions/available_hub_heights"
+                    "$ref": "#/$defs/available_hub_heights"
                   }
                 }
               }
