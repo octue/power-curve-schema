@@ -37,9 +37,7 @@ def test_blank_default_mode(subschema, one_dimensional_mode):
     """Validation should fail if default_operating_mode is blank"""
     with pytest.raises(ValidationError) as e:
         validate(
-            instance={
-                "power_curves": {"default_operating_mode": "", "operating_modes": [one_dimensional_mode]}
-            },
+            instance={"power_curves": {"default_operating_mode": "", "operating_modes": [one_dimensional_mode]}},
             schema=subschema,
         )
     assert "does not match" in str(e)
@@ -98,10 +96,10 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
         "overrides",
         "cuts",
         "parameters",
-        "cp",
-        "ct",
-        "cp_is_coefficient",
-        "ct_is_coefficient",
+        "power",
+        "thrust",
+        "power_is_coefficient",
+        "thrust_is_coefficient",
     ]:
         partial = deepcopy(one_dimensional_mode)
         partial.pop(required)
