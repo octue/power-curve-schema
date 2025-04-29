@@ -433,8 +433,6 @@
         "manufacturer_name",
         "manufacturer_display_name",
         "rated_power",
-        "rated_rpm",
-        "cut_in_rpm",
         "rotor_diameter",
         "model_description",
         "available_hub_heights",
