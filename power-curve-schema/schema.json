@@ -1592,7 +1592,30 @@
           }
         }
       }
+    },
+    "additional": {
+      "title": "Additional",
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type":"string",
+          "title": "Reference",
+          "description": "An optional url reference to documentation describing contents of the additional.data property."
+        },
+        "schema": {
+          "type":"string",
+          "title": "Schema",
+          "description": "An optional url reference to a schema describing contents of additional.data property."
+        },
+        "data": {
+          "title": "Additional",
+          "type": "object",
+          "description": "Add extra (e.g. manufacturer-specific) data to this field.",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }
