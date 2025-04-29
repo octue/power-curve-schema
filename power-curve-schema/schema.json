@@ -78,6 +78,7 @@
           "title": "Specify a range of available hub heights [m]",
           "type": "object",
           "description": "Specify a range of available hub heights [m]",
+          "additionalProperties": false,
           "properties": {
             "min": {
               "type": "number",
@@ -122,11 +123,13 @@
       "title": "Thermal Regulation",
       "description": "Define thermal shutdowns and derating characteristics",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "cold": {
           "title": "Low Temperature Thermal Shutdown",
           "description": "Define low-temperature thermal shutdown characteristics",
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
@@ -153,6 +156,7 @@
           "title": "High Temperature Thermal Shutdown",
           "description": "Define high-temperature thermal shutdown characteristics",
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
@@ -186,6 +190,7 @@
               {
                 "title": "Altitude based derating",
                 "required": ["altitude", "power_limit", "temperature"],
+                "additionalProperties": false,
                 "properties": {
                   "altitude": {
                     "description": "The altitude at which this derating curve applies [m above the WGS84 spheroid]",
@@ -210,6 +215,7 @@
               {
                 "title": "Air density based derating",
                 "required": ["air_density", "power_limit", "temperature"],
+                "additionalProperties": false,
                 "properties": {
                   "air_density": {
                     "description": "The air density at which this derating curve applies [kg/m^3]",
@@ -376,6 +382,7 @@
     }
   },
   "required": ["document", "turbine", "power_curves"],
+  "additionalProperties": false,
   "properties": {
     "document": {
       "type": "object",
@@ -383,6 +390,7 @@
       "description": "Information about this document",
       "required": ["metadata"],
       "$comment": "We've added metadata into a property of `document` to facilitate addition of more prescriptive or specific (ie non dublin-core) properties in the future",
+      "additionalProperties": false,
       "properties": {
         "metadata": {
           "title": "Dublin-Core Metadata",
@@ -391,6 +399,7 @@
           "items": {
             "type": "object",
             "required": ["term", "value"],
+            "additionalProperties": false,
             "properties": {
               "term": {
                 "type": "string",
@@ -441,6 +450,7 @@
         "grid_frequencies",
         "thermal_regulation"
       ],
+      "additionalProperties": false,
       "properties": {
         "manufacturer_name": {
           "type": "string",
@@ -554,6 +564,7 @@
           "turbulence",
           "standard_climate"
         ],
+        "additionalProperties": false,
         "properties": {
           "label": {
             "type": "string",
@@ -589,6 +600,7 @@
                 "standard_edition": "2"
               }
             ],
+            "additionalProperties": false,
             "properties": {
               "standard": {
                 "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
@@ -637,6 +649,7 @@
                 "title": "Standard IEC design class",
                 "type": "object",
                 "required": ["class_label"],
+                "additionalProperties": false,
                 "properties": {
                   "class_label": {
                     "description": "Specify a predefined IEC design class (I, II, or III)",
@@ -656,6 +669,7 @@
                 "title": "Special or custom design class",
                 "type": "object",
                 "required": ["class_label"],
+                "additionalProperties": false,
                 "properties": {
                   "class_label": {
                     "title": "Label",
@@ -727,6 +741,7 @@
                 "type": "object",
                 "$comment": "This is defined as a single-property object rather than a direct string because it's more explicit to include the category keyword (and allows for later adoption of other predefined profiles requiring more sophistication than a string)",
                 "required": ["category"],
+                "additionalProperties": false,
                 "properties": {
                   "category": {
                     "title": "Category",
@@ -740,6 +755,7 @@
                 "type": "object",
                 "description": "Specify reference turbulence intensity",
                 "required": ["category", "reference_turbulence_intensity"],
+                "additionalProperties": false,
                 "properties": {
                   "category": {
                     "title": "Category",
@@ -761,6 +777,7 @@
                 "type": "object",
                 "description": "Specify characteristic turbulence intensity and slope consistent with IEC61400-1 Ed2",
                 "required": ["category", "characteristic_turbulence_intensity"],
+                "additionalProperties": false,
                 "properties": {
                   "category": {
                     "title": "Category",
@@ -795,6 +812,7 @@
                   "wind_speed",
                   "normal_turbulence_intensity"
                 ],
+                "additionalProperties": false,
                 "properties": {
                   "category": {
                     "title": "Category",
@@ -845,6 +863,7 @@
                   "normal_hours_per_lifetime",
                   "extreme_turbulence_intensity"
                 ],
+                "additionalProperties": false,
                 "properties": {
                   "category": {
                     "description": "Set the turbulence category to custom",
@@ -936,6 +955,7 @@
           "standard_climate": {
             "type": "object",
             "description": "Define operating and survival temperatures in standard climates",
+            "additionalProperties": false,
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -964,6 +984,7 @@
           "cold_climate": {
             "type": "object",
             "description": "As per standard climate in eventuality turbine is equipped with a cold weather package",
+            "additionalProperties": false,
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -993,6 +1014,7 @@
             "type": "object",
             "description": "As per standard climate in eventuality turbine is equipped with a hot weather package",
             "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
+            "additionalProperties": false,
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
@@ -1026,6 +1048,7 @@
       "title": "Power Curves",
       "description": "Contains power and thrust curves along with data specific to each operating mode of the turbine",
       "required": ["default_operating_mode", "operating_modes"],
+      "additionalProperties": false,
       "properties": {
         "default_operating_mode": {
           "type": "string",
@@ -1054,6 +1077,7 @@
               "thrust",
               "overrides"
             ],
+            "additionalProperties": false,
             "properties": {
               "label": {
                 "type": "string",
@@ -1095,6 +1119,7 @@
                 "items": {
                   "type": "object",
                   "required": ["kind", "wind_speed", "period"],
+                  "additionalProperties": false,
                   "properties": {
                     "kind": {
                       "title": "Cut in characteristic",
@@ -1129,6 +1154,7 @@
                 "items": {
                   "type": "object",
                   "required": ["label", "dimension", "values"],
+                  "additionalProperties": false,
                   "properties": {
                     "label": {
                       "type": "string",
@@ -1148,6 +1174,13 @@
                       "type": "integer",
                       "title": "Dimension",
                       "description": "Dimension of the power curve array along which this parameter varies (0-based)"
+                    },
+                    "values": {
+                      "type": "array",
+                      "additionalItems": true,
+                      "items": {
+                        "type": "number"
+                      }
                     }
                   },
                   "allOf": [
@@ -1162,11 +1195,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Air Density Values",
                             "description": "Values of air density [kg/m^3] for which this power curve is tabulated"
                           }
@@ -1185,11 +1213,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Wind Speed Values",
                             "description": "Values of free-stream wind speed [m/s] at hub height for which this power curve is tabulated"
                           }
@@ -1208,8 +1231,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
                             "items": {
                               "type": "number",
                               "minimum": 0,
@@ -1233,11 +1254,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Turbulence Lengthscale Values",
                             "description": "Values of turbulence integral lengthscale l [m] for which this power curve is tabulated"
                           }
@@ -1256,11 +1272,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Monin-Obukhov Stability Values",
                             "description": "Values of the the Monin-Obukhov stability parameter zeta [-] for which this power curve is tabulated. Values of zero indicate neutral conditions, vegative condi"
                           }
@@ -1279,11 +1290,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Shear Coefficient Values",
                             "description": "Values of wind shear coefficient alpha [-] for which this power curve is tabulated"
                           }
@@ -1302,11 +1308,6 @@
                       "then": {
                         "properties": {
                           "values": {
-                            "type": "array",
-                            "additionalItems": true,
-                            "items": {
-                              "type": "number"
-                            },
                             "title": "Wind Direction Values",
                             "description": "Values of wind direction [???? degrees clockwise from true north????] for which this power curve is tabulated"
                           }
@@ -1446,6 +1447,7 @@
                 "oneOf": [
                   {
                     "title": "Emissions at one-third-octave intervals",
+                    "additionalProperties": false,
                     "properties": {
                       "margin": {
                         "$ref": "#/$defs/acoustic_emissions_margin"
@@ -1488,6 +1490,7 @@
                   },
                   {
                     "title": "Emissions at full-octave intervals",
+                    "additionalProperties": false,
                     "properties": {
                       "margin": {
                         "$ref": "#/$defs/acoustic_emissions_margin"
@@ -1529,6 +1532,7 @@
                   },
                   {
                     "title": "Total emissions",
+                    "additionalProperties": false,
                     "properties": {
                       "margin": {
                         "$ref": "#/$defs/acoustic_emissions_margin"
@@ -1573,6 +1577,7 @@
                     "rated_rpm": 11.8
                   }
                 ],
+                "additionalProperties": false,
                 "properties": {
                   "rated_power": {
                     "$ref": "#/$defs/rated_power"
@@ -1596,6 +1601,7 @@
     "additional": {
       "title": "Additional",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "reference": {
           "type":"string",
@@ -1613,9 +1619,7 @@
           "description": "Add extra (e.g. manufacturer-specific) data to this field.",
           "additionalProperties": true
         }
-      },
-      "additionalProperties": false
+      }
     }
-  },
-  "additionalProperties": false
+  }
 }
