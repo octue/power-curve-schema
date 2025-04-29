@@ -195,7 +195,6 @@
         "name": "Standard",
         "description": "Standard full power mode",
         "design_bases": ["basis_1", "basis_2", "basis_3"],
-        "rated_power": 3450000,
         "cuts": [
           {
             "kind": "low_cut_in",
