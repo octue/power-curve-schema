@@ -192,6 +192,12 @@
                 "required": ["altitude", "power_limit", "temperature"],
                 "additionalProperties": false,
                 "properties": {
+                  "legend": {
+                    "title": "Legend",
+                    "description": "A note related to the applicability or extra context describing the derating",
+                    "type": "string",
+                    "maxItems": 40
+                  },
                   "altitude": {
                     "description": "The altitude at which this derating curve applies [m above the WGS84 spheroid]",
                     "type": "number"
