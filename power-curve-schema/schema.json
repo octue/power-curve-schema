@@ -738,6 +738,12 @@
               }
             ]
           },
+          "design_lifetime": {
+            "title": "Design Lifetime",
+            "description": "The design lifetime of the turbine [years]",
+            "type": "number",
+            "examples": [25, 30]
+          },
           "turbulence": {
             "title": "Turbulence category or distribution",
             "description": "Specify the IEC turbulence category or one of several custom distributions.",
