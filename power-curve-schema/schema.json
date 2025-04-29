@@ -118,9 +118,9 @@
       },
       "examples": [[50], [50, 60]]
     },
-    "thermal_shutdown": {
-      "title": "Thermal Shutdown and Deratings",
-      "description": "Define thermal shutdown characteristic",
+    "thermal_regulation": {
+      "title": "Thermal Regulation",
+      "description": "Define thermal shutdowns and derating characteristics",
       "type": "object",
       "properties": {
         "cold": {
@@ -442,7 +442,7 @@
         "drive_type",
         "regulation_type",
         "grid_frequencies",
-        "thermal_shutdown"
+        "thermal_regulation"
       ],
       "properties": {
         "manufacturer_name": {
@@ -527,8 +527,8 @@
         "rated_power": {
           "$ref": "#/$defs/rated_power"
         },
-        "thermal_shutdown": {
-          "$ref": "#/$defs/thermal_shutdown"
+        "thermal_regulation": {
+          "$ref": "#/$defs/thermal_regulation"
         },
         "cut_in_rpm": {
           "$ref": "#/$defs/cut_in_rpm"
