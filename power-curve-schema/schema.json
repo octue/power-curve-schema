@@ -375,7 +375,7 @@
       "uniqueItems": true
     }
   },
-  "required": ["document", "turbine", "design_bases", "power_curves"],
+  "required": ["document", "turbine", "power_curves"],
   "properties": {
     "document": {
       "type": "object",
@@ -1049,7 +1049,6 @@
               "label",
               "name",
               "description",
-              "design_bases",
               "cuts",
               "parameters",
               "power_is_coefficient",
@@ -1076,7 +1075,7 @@
               },
               "design_bases": {
                 "type": "array",
-                "description": "A list of the design basis labels relevant to this power curve",
+                "description": "A list of the design basis labels relevant to this mode. The 'design_bases' array is not required, so this field is also not required. However, if the 'design_bases' array is provided, this field should be populated in order to determine the applicable base(s).",
                 "items": {
                   "type": "string"
                 },
