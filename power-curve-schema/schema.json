@@ -436,7 +436,6 @@
         "rated_rpm",
         "cut_in_rpm",
         "rotor_diameter",
-        "rotor_tilt",
         "model_description",
         "available_hub_heights",
         "drive_type",
