@@ -1619,7 +1619,7 @@
     "additional": {
       "title": "Additional",
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "reference": {
           "type":"string",
