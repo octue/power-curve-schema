@@ -1478,8 +1478,8 @@
                         "type": "array",
                         "items": {
                           "type": "array",
+                          "minItems": 20,
                           "items": {
-                            "minItems": 20,
                             "type": "number"
                           }
                         },
