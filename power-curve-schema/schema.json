@@ -671,13 +671,13 @@
                   "class_label": {
                     "title": "Label",
                     "description": "Specify an IEC class with custom parameters (design classes S)",
-                    "enum": ["S"]
+                    "const": "S"
                   },
                   "class_modifiers": {
                     "description": "Specify optional additional modifiers on the design class (CC)",
                     "type": "array",
                     "items": {
-                      "enum": ["CC"]
+                      "const": "CC"
                     },
                     "maxItems": 1
                   },
