@@ -1600,7 +1600,6 @@
     "additional": {
       "title": "Additional",
       "type": "object",
-      "additionalProperties": true,
       "properties": {
         "reference": {
           "type":"string",
@@ -1615,8 +1614,7 @@
         "data": {
           "title": "Additional",
           "type": "object",
-          "description": "Add extra (e.g. manufacturer-specific) data to this field.",
-          "additionalProperties": true
+          "description": "Add extra (e.g. manufacturer-specific) data to this field."
         }
       }
     }
