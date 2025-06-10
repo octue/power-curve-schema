@@ -1115,9 +1115,9 @@
                 ]
               },
               "cuts": {
-                "title": "Cut in and cut out conditions",
+                "title": "Cut-in and cut-out conditions",
                 "type": "array",
-                "description": "A list of the cut in and out conditions relevant to this power curve",
+                "description": "A list of the cut-in and cut-out conditions relevant to this power curve",
                 "items": {
                   "type": "object",
                   "required": ["kind", "wind_speed", "period"],
