@@ -1127,10 +1127,10 @@
                       "title": "Cut-in/cut-out kind",
                       "description": "Select the kind of cut-in/cut-out characteristic to apply",
                       "enum": [
-                        "low_cut_in",
-                        "high_cut_in",
-                        "low_cut_out",
-                        "high_cut_out"
+                        "low-cut-in",
+                        "high-cut-in",
+                        "low-cut-out",
+                        "high-cut-out"
                       ]
                     },
                     "wind_speed": {
