@@ -1115,17 +1115,17 @@
                 ]
               },
               "cuts": {
-                "title": "Cut in and cut out conditions",
+                "title": "Cut-in and cut-out conditions",
                 "type": "array",
-                "description": "A list of the cut in and out conditions relevant to this power curve",
+                "description": "A list of the cut-in and cut-out conditions relevant to this power curve",
                 "items": {
                   "type": "object",
                   "required": ["kind", "wind_speed", "period"],
                   "additionalProperties": false,
                   "properties": {
                     "kind": {
-                      "title": "Cut in characteristic",
-                      "description": "Select the kind of cut in characteristic to apply",
+                      "title": "Cut-in/cut-out kind",
+                      "description": "Select the kind of cut-in/cut-out characteristic to apply",
                       "enum": [
                         "low_cut_in",
                         "high_cut_in",
@@ -1135,7 +1135,7 @@
                     },
                     "wind_speed": {
                       "title": "Reference wind speed [m/s]",
-                      "description": "The wind speed at which the cut in/out will apply [m/s]",
+                      "description": "The wind speed at which the cut-in/cut-out will apply [m/s]",
                       "type": "number"
                     },
                     "period": {
