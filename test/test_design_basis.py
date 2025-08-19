@@ -13,9 +13,9 @@ def subschema(schema):
     return get_subschema(schema, "design_bases")
 
 
-def test_generic_11_3_design_basis_1(subschema, generic_117_3):
+def test_generic_120_3_design_basis_1(subschema, generic_120_3):
     """Validation should pass on the generic turbine design basis"""
-    validate(instance=generic_117_3, schema=subschema)
+    validate(instance=generic_120_3, schema=subschema)
 
 
 def test_missing_design_basis(subschema):
