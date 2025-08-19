@@ -217,21 +217,21 @@ def two_dimensional_mode(valid_cuts):
 
 
 @pytest.fixture(scope="session")
-def loaded_generic_117_3():
-    """Provides the generic 117m 3.45MW turbine as a test instance, loaded from disc only once per session
+def loaded_generic_120_3():
+    """Provides the generic 120m 3.45MW turbine as a test instance, loaded from disc only once per session
     NOTE: Do not use this fixture directly, to avoid mutation of fixtures for other tests.
     Instead, use a deep copy of this fixture (to accelerate tests copmared to loading from disc on each test).
     """
 
-    with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-117-3.json"), 'r', encoding="utf-8") as fp:
+    with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-120-3.json"), 'r', encoding="utf-8") as fp:
         instance = json.load(fp)
     return instance
 
 
 @pytest.fixture()
-def generic_117_3(loaded_generic_117_3):
-    """A fresh deep copy of the generic 117m 3.45MW turbine as a test instance"""
-    return copy.deepcopy(loaded_generic_117_3)
+def generic_120_3(loaded_generic_120_3):
+    """A fresh deep copy of the generic 120m 3.45MW turbine as a test instance"""
+    return copy.deepcopy(loaded_generic_120_3)
 
 
 @pytest.fixture(scope="session")
@@ -252,7 +252,7 @@ def generic_274_20(loaded_generic_274_20):
 
 
 @pytest.fixture()
-def generic_turbine(generic_117_3):
+def generic_turbine(generic_120_3):
     return {
-        "turbine": generic_117_3.pop('turbine')
+        "turbine": generic_120_3.pop('turbine')
     }
