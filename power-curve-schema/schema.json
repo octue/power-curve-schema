@@ -63,7 +63,7 @@
     },
     "available_hub_heights": {
       "title": "Available hub heights",
-      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden to a more restricted subset on a per-mode basis.",
       "anyOf": [
         {
           "title": "Specify a range of available hub heights [m]",
