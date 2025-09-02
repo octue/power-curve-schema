@@ -124,21 +124,21 @@
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
-              "description": "Temperature below which the turbine will shut down",
+              "description": "Temperature below which the turbine will shut down [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_temperature": {
               "title": "Restart Temperature",
-              "description": "Temperature above which the turbine will restart following a thermal shutdown",
+              "description": "Temperature above which the turbine will restart following a thermal shutdown [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_duration": {
               "title": "Restart Duration",
-              "description": "Time delay between restart temperature being exceded and turbine switching on [s]",
+              "description": "Time delay between restart temperature being exceeded and turbine switching on [s]",
               "type": "number"
             }
           }
@@ -151,14 +151,14 @@
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
-              "description": "Temperature above which the turbine will shut down",
+              "description": "Temperature above which the turbine will shut down [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_temperature": {
               "title": "Restart Temperature",
-              "description": "Temperature below which the turbine will restart following a thermal shutdown",
+              "description": "Temperature below which the turbine will restart following a thermal shutdown [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
