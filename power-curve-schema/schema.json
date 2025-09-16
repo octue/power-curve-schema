@@ -611,18 +611,10 @@
           "certification": {
             "type": "object",
             "title": "Certification details",
-            "description": "Information about the scheme under which this design basis was certified. This is not a required property, so if a turbine is as-yet uncertified, simply leave it out.",
-            "$comment": "We collect these three under a single 'certification' property as a convenient way to require that either all or none are given",
+            "description": "Information about turbine certification. Omit if a turbine is as-yet uncertified.",
             "required": [
               "design_standard",
               "certificate_reference"
-            ],
-            "examples": [
-              {
-                "certificate_reference": "IECRE.WE.TC.20.0099-R6",
-                "standard": "IEC",
-                "standard_edition": "2"
-              }
             ],
             "additionalProperties": false,
             "properties": {
