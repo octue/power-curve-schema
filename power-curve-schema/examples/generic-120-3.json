@@ -270,5 +270,12 @@
         "overrides": {}
       }
     ]
+  },
+  "additional": {
+    "reference": "https://example.com/colour-coding",
+    "schema": "https://example.com/colour-coding/schema",
+    "data": {
+      "tower_colour": "RAL 9016"
+    }
   }
 }
