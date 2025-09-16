@@ -35,7 +35,6 @@ def test_missing_turbine(subschema):
         "rated_power",
         "rotor_diameter",
         "model_description",
-        "available_hub_heights",
         "drive_type",
         "regulation_type",
         "number_of_blades",
