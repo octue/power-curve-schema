@@ -1052,13 +1052,13 @@
       "type": "object",
       "title": "Power Curves",
       "description": "Contains power and thrust curves along with data specific to each operating mode of the turbine",
-      "required": ["default_operating_mode", "operating_modes"],
+      "required": ["operating_modes"],
       "additionalProperties": false,
       "properties": {
-        "default_operating_mode": {
+        "default_operating_mode_label": {
           "type": "string",
-          "title": "Default operating mode",
-          "description": "The label of the mode that should be used by default (must match an entry in 'operating_modes')",
+          "title": "Default operating mode label",
+          "description": "The label of the mode that is suggested as default in the absence of a specific selection for site or conditions.  Shall match the label of an entry in 'operating_modes'. Note that, if omitted, the first in the list of operating_modes will likely become a de-facto selection by data recipients.)",
           "pattern": "^[a-z0-9_]{1,40}$",
           "minLength": 1,
           "maxLength": 40

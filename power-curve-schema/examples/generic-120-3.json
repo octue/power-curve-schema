@@ -185,7 +185,7 @@
     }
   ],
   "power_curves": {
-    "default_operating_mode": "standard",
+    "default_operating_mode_label": "standard",
     "operating_modes": [
       {
         "label": "standard",
