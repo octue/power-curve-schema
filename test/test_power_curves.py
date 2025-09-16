@@ -24,20 +24,19 @@ def test_missing_power_curves(subschema):
 
 
 def test_missing_default_mode(subschema, one_dimensional_mode):
-    """Validation should fail if there is no default_mode value"""
-    with pytest.raises(ValidationError) as e:
-        validate(
-            instance={"power_curves": {"operating_modes": [one_dimensional_mode]}},
-            schema=subschema,
-        )
-    assert "'default_operating_mode' is a required property" in str(e)
+    """Validation will not fail if there is no default_operating_mode_label value"""
+
+    validate(
+        instance={"power_curves": {"operating_modes": [one_dimensional_mode]}},
+        schema=subschema,
+    )
 
 
 def test_blank_default_mode(subschema, one_dimensional_mode):
-    """Validation should fail if default_operating_mode is blank"""
+    """Validation should fail if default_operating_mode_label is blank"""
     with pytest.raises(ValidationError) as e:
         validate(
-            instance={"power_curves": {"default_operating_mode": "", "operating_modes": [one_dimensional_mode]}},
+            instance={"power_curves": {"default_operating_mode_label": "", "operating_modes": [one_dimensional_mode]}},
             schema=subschema,
         )
     assert "does not match" in str(e)
@@ -46,7 +45,7 @@ def test_blank_default_mode(subschema, one_dimensional_mode):
 def test_missing_modes(subschema):
     """Validation should fail if there is no modes section"""
     with pytest.raises(ValidationError) as e:
-        validate(instance={"power_curves": {"default_operating_mode": ""}}, schema=subschema)
+        validate(instance={"power_curves": {"default_operating_mode_label": ""}}, schema=subschema)
     assert "'operating_modes' is a required property" in str(e)
 
 
@@ -54,7 +53,7 @@ def test_invalid_modes(subschema):
     """Validation should fail if modes is not a list"""
     with pytest.raises(ValidationError) as e:
         validate(
-            instance={"power_curves": {"default_operating_mode": "", "operating_modes": {}}},
+            instance={"power_curves": {"default_operating_mode_label": "", "operating_modes": {}}},
             schema=subschema,
         )
 
@@ -62,12 +61,11 @@ def test_invalid_modes(subschema):
 
 
 def test_one_dimensional_mode(subschema, one_dimensional_mode):
-    """Validation should fail if there is no overrides section in a mode"""
 
     validate(
         instance={
             "power_curves": {
-                "default_operating_mode": "one_dimensional",
+                "default_operating_mode_label": "one_dimensional",
                 "operating_modes": [one_dimensional_mode],
             }
         },
@@ -76,12 +74,11 @@ def test_one_dimensional_mode(subschema, one_dimensional_mode):
 
 
 def test_two_dimensional_mode(subschema, two_dimensional_mode):
-    """Validation should fail if there is no overrides section in a mode"""
 
     validate(
         instance={
             "power_curves": {
-                "default_operating_mode": "two_dimensional",
+                "default_operating_mode_label": "two_dimensional",
                 "operating_modes": [two_dimensional_mode],
             }
         },
@@ -107,7 +104,7 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_operating_mode": "one_dimensional",
+                        "default_operating_mode_label": "one_dimensional",
                         "operating_modes": [partial],
                     }
                 },
@@ -153,7 +150,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_operating_mode": "one_dimensional",
+                        "default_operating_mode_label": "one_dimensional",
                         "operating_modes": [one_dimensional_mode],
                     }
                 },
@@ -198,7 +195,7 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
             validate(
                 instance={
                     "power_curves": {
-                        "default_operating_mode": "one_dimensional",
+                        "default_operating_mode_label": "one_dimensional",
                         "operating_modes": [one_dimensional_mode],
                     }
                 },
@@ -254,7 +251,7 @@ def test_acoustic_emissions(subschema, one_dimensional_mode):
         validate(
             instance={
                 "power_curves": {
-                    "default_operating_mode": "one_dimensional",
+                    "default_operating_mode_label": "one_dimensional",
                     "operating_modes": [one_dimensional_mode],
                 }
             },
