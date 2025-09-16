@@ -664,7 +664,7 @@
                     "enum": ["I", "II", "III"]
                   },
                   "class_modifiers": {
-                    "description": "Specify optional additional modifier on the design class (T and/or CC)",
+                    "description": "Specify optional additional modifier on the design class (T for Typhoon and/or CC for Cold Climate)",
                     "type": "array",
                     "items": {
                       "enum": ["CC", "T"]
