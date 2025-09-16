@@ -49,22 +49,22 @@ def generic_document_metadata():
 def valid_cuts():
     return [
           {
-            "kind": "low_cut_in",
+            "kind": "low-cut-in",
             "wind_speed": 3,
             "period": 600
           },
           {
-            "kind": "low_cut_out",
+            "kind": "low-cut-out",
             "wind_speed": 2.5,
             "period": 600
           },
           {
-            "kind": "high_cut_out",
+            "kind": "high-cut-out",
             "wind_speed": 25,
             "period": 600
           },
           {
-            "kind": "high_cut_in",
+            "kind": "high-cut-in",
             "wind_speed": 23,
             "period": 600
           }

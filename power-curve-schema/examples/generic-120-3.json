@@ -89,8 +89,7 @@
       "name": "Basis 1",
       "certification": {
         "certificate_reference": "IECRE.WE.TC.20.0099-R6",
-        "standard": "IEC",
-        "standard_edition": "2"
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
       },
       "design_class": {
         "class_label": "II"
@@ -117,8 +116,7 @@
       "name": "Basis 2 - Custom design class",
       "certification": {
         "certificate_reference": "IECRE.WE.TC.20.0099-R6",
-        "standard": "IEC",
-        "standard_edition": "2"
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
       },
       "design_class": {
         "class_label": "S",
@@ -151,8 +149,7 @@
       "name": "Basis 3 - Custom turbulence definition",
       "certification": {
         "certificate_reference": "IECRE.WE.TC.20.0099-R6",
-        "standard": "IEC",
-        "standard_edition": "2"
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
       },
       "design_class": {
         "class_label": "II"
