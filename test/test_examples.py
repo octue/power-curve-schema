@@ -4,9 +4,9 @@
 from jsonschema import validate
 
 
-def test_generic_117_3(schema, generic_117_3):
+def test_generic_120_3(schema, generic_120_3):
     """Validation should pass on the entire example document"""
-    validate(instance=generic_117_3, schema=schema)
+    validate(instance=generic_120_3, schema=schema)
 
 
 def test_generic_274_20(schema, generic_274_20):
