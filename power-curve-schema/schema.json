@@ -177,7 +177,7 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "oneOf": [
+            "anyOf": [
               {
                 "title": "Altitude and temperature based derating",
                 "required": ["altitude", "power_limit", "temperature"],
