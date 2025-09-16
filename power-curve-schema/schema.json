@@ -63,7 +63,7 @@
     },
     "available_hub_heights": {
       "title": "Available hub heights",
-      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden on a per-mode basis.",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden to a more restricted subset on a per-mode basis, to allow for specific limitations (such as avoidance of tower resonance).",
       "anyOf": [
         {
           "title": "Specify a range of available hub heights [m]",
@@ -124,21 +124,21 @@
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
-              "description": "Temperature below which the turbine will shut down",
+              "description": "Temperature below which the turbine will shut down [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_temperature": {
               "title": "Restart Temperature",
-              "description": "Temperature above which the turbine will restart following a thermal shutdown",
+              "description": "Temperature above which the turbine will restart following a thermal shutdown [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_duration": {
               "title": "Restart Duration",
-              "description": "Time delay between restart temperature being exceded and turbine switching on [s]",
+              "description": "Time delay between restart temperature being exceeded and turbine switching on [s]",
               "type": "number"
             }
           }
@@ -151,14 +151,14 @@
           "properties": {
             "shutdown_temperature": {
               "title": "Shutdown Temperature",
-              "description": "Temperature above which the turbine will shut down",
+              "description": "Temperature above which the turbine will shut down [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
             },
             "restart_temperature": {
               "title": "Restart Temperature",
-              "description": "Temperature below which the turbine will restart following a thermal shutdown",
+              "description": "Temperature below which the turbine will restart following a thermal shutdown [degrees C]",
               "type": "number",
               "minimum": -273,
               "maximum": 100
@@ -177,9 +177,9 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "oneOf": [
+            "anyOf": [
               {
-                "title": "Altitude based derating",
+                "title": "Altitude and temperature based derating",
                 "required": ["altitude", "power_limit", "temperature"],
                 "additionalProperties": false,
                 "properties": {
@@ -210,7 +210,7 @@
                 }
               },
               {
-                "title": "Air density based derating",
+                "title": "Air density and temperature based derating",
                 "required": ["air_density", "power_limit", "temperature"],
                 "additionalProperties": false,
                 "properties": {
@@ -227,6 +227,33 @@
                   "temperature": {
                     "type": "array",
                     "description": "A list of atmospheric temperature values [degrees C]",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "title": "Temperature-only based derating",
+                "required": ["power_limit", "temperature"],
+                "additionalProperties": false,
+                "properties": {
+                  "legend": {
+                    "title": "Legend",
+                    "description": "A note related to the applicability or extra context describing the derating",
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  "temperature": {
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "type": "array",
                     "items": {
                       "type": "number"
                     }
