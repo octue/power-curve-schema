@@ -187,7 +187,7 @@
                     "title": "Legend",
                     "description": "A note related to the applicability or extra context describing the derating",
                     "type": "string",
-                    "maxItems": 80
+                    "maxLength": 80
                   },
                   "altitude": {
                     "description": "The altitude at which this derating curve applies [m above the WGS84 spheroid]",
@@ -218,7 +218,7 @@
                     "title": "Legend",
                     "description": "A note related to the applicability or extra context describing the derating",
                     "type": "string",
-                    "maxItems": 80
+                    "maxLength": 80
                   },
                   "air_density": {
                     "description": "The air density at which this derating curve applies [kg/m^3]",
@@ -358,7 +358,6 @@
     "acoustic_emissions_weighting": {
       "title": "Weighting",
       "description": "Weighting filter that has been applied to sound pressure level measurements (see IEC 61672:2003 for definitions of curves).",
-      "type": "string",
       "enum": ["A", "B", "C", "D", "None"],
       "default": "None"
     },
@@ -404,7 +403,6 @@
             "additionalProperties": false,
             "properties": {
               "term": {
-                "type": "string",
                 "title": "Term",
                 "description": "The DCMI Element label",
                 "enum": [
@@ -522,13 +520,11 @@
           "exclusiveMinimum": 0
         },
         "drive_type": {
-          "type": "string",
           "title": "Drive type",
           "description": "The drive type of the turbine",
           "enum": ["geared", "direct", "other"]
         },
         "regulation_type": {
-          "type": "string",
           "title": "Regulation type",
           "description": "The regulation type of the turbine.",
           "enum": ["pitch", "stall", "other"]
@@ -618,7 +614,6 @@
               "standard_edition": {
                 "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
                 "description": "The edition of the standard used in turbine certification",
-                "type": "string",
                 "anyOf": [
                   {
                     "title": "Choose predefined standard edition",
@@ -676,13 +671,13 @@
                   "class_label": {
                     "title": "Label",
                     "description": "Specify an IEC class with custom parameters (design classes S)",
-                    "enum": ["S"]
+                    "const": "S"
                   },
                   "class_modifiers": {
                     "description": "Specify optional additional modifiers on the design class (CC)",
                     "type": "array",
                     "items": {
-                      "enum": ["CC"]
+                      "const": "CC"
                     },
                     "maxItems": 1
                   },
@@ -1163,7 +1158,6 @@
                   "additionalProperties": false,
                   "properties": {
                     "label": {
-                      "type": "string",
                       "enum": [
                         "air-density",
                         "wind-speed",
@@ -1484,8 +1478,8 @@
                         "type": "array",
                         "items": {
                           "type": "array",
+                          "minItems": 20,
                           "items": {
-                            "minItems": 20,
                             "type": "number"
                           }
                         },
@@ -1606,7 +1600,6 @@
     "additional": {
       "title": "Additional",
       "type": "object",
-      "additionalProperties": true,
       "properties": {
         "reference": {
           "type":"string",
@@ -1621,8 +1614,7 @@
         "data": {
           "title": "Additional",
           "type": "object",
-          "description": "Add extra (e.g. manufacturer-specific) data to this field.",
-          "additionalProperties": true
+          "description": "Add extra (e.g. manufacturer-specific) data to this field."
         }
       }
     }
