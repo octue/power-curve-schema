@@ -122,7 +122,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
     invalid = [
         (
             {
-                "kind": "not_a_cut",
+                "kind": "not-a-cut",
                 "wind_speed": 25,
                 "period": 600,
             },
@@ -130,7 +130,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
         ),
         (
             {
-                "kind": "low_cut_in",
+                "kind": "low-cut-in",
                 "wind_speed": "not a speed",
                 "period": 600,
             },
@@ -138,7 +138,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
         ),
         (
             {
-                "kind": "low_cut_in",
+                "kind": "low-cut-in",
                 "wind_speed": 20,
                 "period": "not a period",
             },
