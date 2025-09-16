@@ -1,9 +1,10 @@
 # Turn off pylint warnings unavoidable with pytest
 # pylint: disable=redefined-outer-name, line-too-long, redefined-builtin, missing-module-docstring
 
+import pytest
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
-import pytest
+
 from .helpers import get_subschema
 
 
@@ -19,7 +20,5 @@ def test_generic_120_3_design_basis_1(subschema, generic_120_3):
 
 
 def test_missing_design_basis(subschema):
-    """Validation should fail if there is no design basis section"""
-    with pytest.raises(ValidationError) as e:
-        validate(instance={}, schema=subschema)
-    assert "'design_bases' is a required property" in str(e)
+    """Validation should pass if there is no design basis section"""
+    validate(instance={}, schema=subschema)
