@@ -8,4 +8,7 @@ def get_subschema(schema, section):
         if key not in [section]:
             schema["properties"].pop(key, None)
 
+    # Ensure that top level properties pass unnoticed if we only care about the subschema
+    schema["additionalProperties"] = True
+
     return schema
