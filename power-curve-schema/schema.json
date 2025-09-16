@@ -63,7 +63,7 @@
     },
     "available_hub_heights": {
       "title": "Available hub heights",
-      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden to a more restricted subset on a per-mode basis, to allow for specific limitations (such as avoidance of tower resonance).",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden to a more restricted subset on a per-mode basis, to allow for specific limitations (such as avoidance of tower resonance). In the early stages of turbine or platform development, this range may not be known so may be omitted.",
       "anyOf": [
         {
           "title": "Specify a range of available hub heights [m]",
@@ -471,7 +471,6 @@
         "rated_power",
         "rotor_diameter",
         "model_description",
-        "available_hub_heights",
         "drive_type",
         "regulation_type",
         "grid_frequencies",
