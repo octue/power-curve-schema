@@ -33,8 +33,6 @@ def test_missing_turbine(subschema):
         "model_name",
         "manufacturer_name",
         "rated_power",
-        "rated_rpm",
-        "cut_in_rpm",
         "rotor_diameter",
         "model_description",
         "available_hub_heights",
@@ -89,9 +87,7 @@ def test_name_length_limits(subschema, generic_turbine, property):
     assert "is too long" in str(e)
 
 
-@pytest.mark.parametrize(
-    "available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]]
-)
+@pytest.mark.parametrize("available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]])
 def test_available_hub_heights(subschema, generic_turbine, available_hub_heights):
     """Hub heights should be definable as a continuous range of values or as a list of numbers"""
     generic_turbine["turbine"]["available_hub_heights"] = available_hub_heights
@@ -109,13 +105,9 @@ def test_available_hub_heights(subschema, generic_turbine, available_hub_heights
         ),  # 41 characters
     ],
 )
-def test_invalid_manufacturer_display_names(
-    subschema, generic_turbine, manufacturer_display_name
-):
+def test_invalid_manufacturer_display_names(subschema, generic_turbine, manufacturer_display_name):
     """Ensure manufacturer_display_name is validated as a string of maximum length"""
-    generic_turbine["turbine"]["manufacturer_display_name"] = manufacturer_display_name[
-        0
-    ]
+    generic_turbine["turbine"]["manufacturer_display_name"] = manufacturer_display_name[0]
     with pytest.raises(ValidationError) as e:
         validate(instance=generic_turbine, schema=subschema)
     assert manufacturer_display_name[1] in str(e)
