@@ -614,8 +614,7 @@
             "description": "Information about the scheme under which this design basis was certified. This is not a required property, so if a turbine is as-yet uncertified, simply leave it out.",
             "$comment": "We collect these three under a single 'certification' property as a convenient way to require that either all or none are given",
             "required": [
-              "standard",
-              "standard_edition",
+              "design_standard",
               "certificate_reference"
             ],
             "examples": [
@@ -627,29 +626,14 @@
             ],
             "additionalProperties": false,
             "properties": {
-              "standard": {
-                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
-                "description": "The certification scheme under which the power curves were certified.",
-                "anyOf": [
-                  {
-                    "title": "Choose predefined scheme",
-                    "enum": ["IEC", "DiBT"]
-                  },
-                  { "title": "Specify other scheme", "type": "string" }
-                ]
-              },
-              "standard_edition": {
-                "$comment": "The use of anyOf allows specification of any string value, whilst adding an enum to indicate the precise values to be selected should your value be in the prescribed list of common items.",
-                "description": "The edition of the standard used in turbine certification",
-                "anyOf": [
-                  {
-                    "title": "Choose predefined standard edition",
-                    "enum": ["2", "3", "4"]
-                  },
-                  {
-                    "title": "Specify other standard edition",
-                    "type": "string"
-                  }
+              "design_standard": {
+                "title": "Design standard",
+                "description": "The design standard and amendments under which the turbine was certified. Shall include edition number.",
+                "type": "string",  
+                "minLength": 1,
+                "examples": [
+                   "IEC 61400-1:2005/AMD1:2010",
+                   "DIBt-Richtlinie 2012"
                 ]
               },
               "certificate_reference": {
