@@ -10,10 +10,8 @@
         "type": "array",
         "items": {
           "type": "number"
-        },
-        "additionalItems": true
-      },
-      "additionalItems": true
+        }
+      }
     },
     "3darray": {
       "type": "array",
@@ -23,12 +21,9 @@
           "type": "array",
           "items": {
             "type": "number"
-          },
-          "additionalItems": true
-        },
-        "additionalItems": true
-      },
-      "additionalItems": true
+          }
+        }
+      }
     },
     "4darray": {
       "type": "array",
@@ -40,14 +35,10 @@
             "type": "array",
             "items": {
               "type": "number"
-            },
-            "additionalItems": true
-          },
-          "additionalItems": true
-        },
-        "additionalItems": true
-      },
-      "additionalItems": true
+            }
+          }
+        }
+      }
     },
     "rated_power": {
       "type": "number",
@@ -379,8 +370,7 @@
         "type": "number",
         "minimum": 0
       },
-      "minItems": 1,
-      "additionalItems": true
+      "minItems": 1
     },
     "acoustic_emissions_frequency": {
       "title": "Frequency",
@@ -1080,7 +1070,6 @@
           "type": "array",
           "title": "Operating Modes",
           "description": "Different modes that the turbine can operate in / switch between",
-          "additionalItems": true,
           "items": {
             "type": "object",
             "required": [
@@ -1168,7 +1157,6 @@
                 "type": "array",
                 "title": "Parameters",
                 "description": "Independent parameters for which the power and thrust curves are described",
-                "additionalItems": true,
                 "items": {
                   "type": "object",
                   "required": ["label", "dimension", "values"],
@@ -1195,7 +1183,6 @@
                     },
                     "values": {
                       "type": "array",
-                      "additionalItems": true,
                       "items": {
                         "type": "number"
                       }
