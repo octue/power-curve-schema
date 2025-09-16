@@ -123,32 +123,32 @@
         "design_bases": ["basis_1"],
         "cuts": [
           {
-            "kind": "low-cut-in",
+            "kind": "low_cut_in",
             "wind_speed": 3,
             "period": 600
           },
           {
-            "kind": "low-cut-out",
+            "kind": "low_cut_out",
             "wind_speed": 2.5,
             "period": 600
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 25,
             "period": 600
           },
           {
-            "kind": "high-cut-in",
+            "kind": "high_cut_in",
             "wind_speed": 22,
             "period": 240
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 28,
             "period": 30
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 34,
             "period": 3
           }
@@ -364,32 +364,32 @@
         "design_bases": ["basis_1"],
         "cuts": [
           {
-            "kind": "low-cut-in",
+            "kind": "low_cut_in",
             "wind_speed": 3,
             "period": 600
           },
           {
-            "kind": "low-cut-out",
+            "kind": "low_cut_out",
             "wind_speed": 2.5,
             "period": 600
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 25,
             "period": 600
           },
           {
-            "kind": "high-cut-in",
+            "kind": "high_cut_in",
             "wind_speed": 22,
             "period": 240
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 28,
             "period": 30
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 34,
             "period": 3
           }
@@ -597,32 +597,32 @@
         "design_bases": ["basis_1"],
         "cuts": [
           {
-            "kind": "low-cut-in",
+            "kind": "low_cut_in",
             "wind_speed": 3,
             "period": 600
           },
           {
-            "kind": "low-cut-out",
+            "kind": "low_cut_out",
             "wind_speed": 2.5,
             "period": 600
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 25,
             "period": 600
           },
           {
-            "kind": "high-cut-in",
+            "kind": "high_cut_in",
             "wind_speed": 22,
             "period": 240
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 28,
             "period": 30
           },
           {
-            "kind": "high-cut-out",
+            "kind": "high_cut_out",
             "wind_speed": 34,
             "period": 3
           }
