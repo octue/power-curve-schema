@@ -1,0 +1,18 @@
+name: lint
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: "Install jsonschema CLI"
+        uses: sourcemeta/jsonschema@v9.3.0
+    
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - name: "Lint JSONSchema"
+        run: "jsonschema lint ./power-curve-schema/schema.json"
+        
