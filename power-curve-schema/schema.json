@@ -1352,7 +1352,7 @@
               },
               "thrust": {
                 "title": "Thrust Curve",
-                "description": "Thrust expressed as dimensional values or as coefficients (as determined by the `thrust_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. This array should be the same size and shape as the `power` value. Where coefficient values are provided for a single air density or other parameter, singleton dimensions should be expanded (ie repeat columns to match the size of the `power` array).",
+                "description": "Thrust expressed as dimensional values or as coefficients (as determined by the `thrust_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. This array shall be the same size and shape as the `power` value. Where coefficient values are provided for a single air density or other parameter, singleton dimensions shall be expanded (ie repeat columns to match the size of the `power` array).",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
