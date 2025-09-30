@@ -1058,7 +1058,7 @@
         "default_operating_mode_label": {
           "type": "string",
           "title": "Default operating mode label",
-          "description": "The label of the mode that is suggested as default in the absence of a specific selection for site or conditions.  Shall match the label of an entry in 'operating_modes'. Note that, if omitted, the first in the list of operating_modes will likely become a de-facto selection by data recipients.)",
+          "description": "The label of the mode that is suggested as default in the absence of a specific selection for site or conditions.  Shall match the label of an entry in 'operating_modes'. Note that, if omitted, the first in the list of operating_modes will likely become a de-facto selection by data recipients.",
           "pattern": "^[a-z0-9_]{1,40}$",
           "minLength": 1,
           "maxLength": 40
