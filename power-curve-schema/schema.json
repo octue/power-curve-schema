@@ -1068,10 +1068,8 @@
               "description",
               "cuts",
               "parameters",
-              "power_is_coefficient",
-              "thrust_is_coefficient",
               "power",
-              "thrust",
+              "thrust_coefficient",
               "overrides"
             ],
             "additionalProperties": false,
@@ -1312,19 +1310,9 @@
                   ]
                 }
               },
-              "power_is_coefficient": {
-                "type": "boolean",
-                "title": "Power Dimensionality",
-                "description": "True if the `power` array is in nondimensional coefficient form, False if the `power` array contains dimensional Power [W]."
-              },
-              "thrust_is_coefficient": {
-                "type": "boolean",
-                "title": "Thrust Dimensionality",
-                "description": "True if the `thrust` array is in nondimensional coefficient form, False if the `thrust` array contains dimensional Thrust [kgms^-2]"
-              },
               "power": {
                 "title": "Power Curve",
-                "description": "Electrical power expressed as dimensional values or as nondimensional coefficients (as determined by the `power_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property.",
+                "description": "Electrical power values [kW], defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property.",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
@@ -1343,9 +1331,10 @@
                   }
                 ]
               },
-              "thrust": {
-                "title": "Thrust Curve",
-                "description": "Thrust expressed as dimensional values or as coefficients (as determined by the `thrust_is_coefficient` property), defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. This array shall be the same size and shape as the `power` value. Where coefficient values are provided for a single air density or other parameter, singleton dimensions shall be expanded (ie repeat columns to match the size of the `power` array).",
+              "thrust_coefficient": {
+                "title": "Thrust Coefficient Curve",
+                "description": "Thrust coefficients, defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. These arrays shall be the same size and shape as the `power` value. Where coefficient values are provided for only a single air density, the singleton dimension shall be expanded (ie repeat columns to match the size of the `power` array).",
+                "$comment": "Expanding the singleton value in the air-density dimension to match the dimension of the power array may seem futile. However, in an number of cases found during development of the schema, the thrust coefficient is still a function of air density (!!) due to nonlinear effects such as temperature regulation varying with density. Requiring this expansion regardless, whilst apparently wasteful, encourages data consumers to handle all cases consistently.",
                 "oneOf": [
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
