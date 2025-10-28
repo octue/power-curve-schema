@@ -94,9 +94,7 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
         "cuts",
         "parameters",
         "power",
-        "thrust",
-        "power_is_coefficient",
-        "thrust_is_coefficient",
+        "thrust_coefficient",
     ]:
         partial = deepcopy(one_dimensional_mode)
         partial.pop(required)
