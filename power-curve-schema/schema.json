@@ -1113,12 +1113,12 @@
                 "description": "A list of the cut-in and cut-out conditions relevant to this power curve",
                 "items": {
                   "type": "object",
-                  "required": ["kind", "wind_speed", "period"],
+                  "required": ["cut_type", "wind_speed", "period"],
                   "additionalProperties": false,
                   "properties": {
-                    "kind": {
-                      "title": "Cut-in/cut-out kind",
-                      "description": "Select the kind of cut-in/cut-out characteristic to apply",
+                    "cut_type": {
+                      "title": "Cut-in/cut-out type",
+                      "description": "Select the type of cut-in/cut-out characteristic to apply",
                       "enum": [
                         "low-cut-in",
                         "high-cut-in",
