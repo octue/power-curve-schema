@@ -114,12 +114,12 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
 
 
 def test_invalid_cuts(subschema, one_dimensional_mode):
-    """Validation should fail if cut kind, speed or period is invalid"""
+    """Validation should fail if cut type, speed or period is invalid"""
 
     invalid = [
         (
             {
-                "kind": "not-a-cut",
+                "cut_type": "not-a-cut",
                 "wind_speed": 25,
                 "period": 600,
             },
@@ -127,7 +127,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
         ),
         (
             {
-                "kind": "low-cut-in",
+                "cut_type": "low-cut-in",
                 "wind_speed": "not a speed",
                 "period": 600,
             },
@@ -135,7 +135,7 @@ def test_invalid_cuts(subschema, one_dimensional_mode):
         ),
         (
             {
-                "kind": "low-cut-in",
+                "cut_type": "low-cut-in",
                 "wind_speed": 20,
                 "period": "not a period",
             },
