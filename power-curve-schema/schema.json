@@ -377,20 +377,20 @@
     },
     "acoustic_emissions_margin": {
       "title": "Margin",
-      "description": "A recommended margin of error [dB] which may be added to the given sound pressure levels for practical use.",
+      "description": "A recommended margin of error [dB] which may be added to the given sound power levels for practical use.",
       "type": "number",
       "examples": [0, 2],
       "minimum": 0
     },
     "acoustic_emissions_weighting": {
       "title": "Weighting",
-      "description": "Weighting filter that has been applied to sound pressure level measurements (see IEC 61672:2003 for definitions of curves).",
+      "description": "Weighting filter that has been applied to sound power level measurements (see IEC 61672:2003 for definitions of curves).",
       "enum": ["A", "B", "C", "D", "None"],
       "default": "None"
     },
     "acoustic_emissions_wind_speed": {
       "title": "Wind speed",
-      "description": "Array of wind speed values, referred to hub height, for which the Sound Pressure Levels are given. The length of this array must match the leading dimension of the Sound Pressure Level matrix and the length of the total_sound_pressure_level array. The range of wind speeds should span the operating region of the power curve.",
+      "description": "Array of wind speed values, referred to hub height, for which the Sound Power Levels are given. The length of this array must match the leading dimension of the Sound Power Level matrix and the length of the total_sound_power_level array. The range of wind speeds should span the operating region of the power curve.",
       "type": "array",
       "items": {
         "type": "number",
@@ -400,7 +400,7 @@
     },
     "acoustic_emissions_frequency": {
       "title": "Frequency",
-      "description": "Array of center-band frequency values for full-octave or one-third-octave band locations, for which the Sound Pressure Levels are given. The length of this array must match the second dimension of the Sound Pressure Level matrix.",
+      "description": "Array of center-band frequency values for full-octave or one-third-octave band locations, for which the Sound Power Levels are given. The length of this array must match the second dimension of the Sound Power Level matrix.",
       "type": "array",
       "items": {
         "type": "number",
@@ -1355,7 +1355,7 @@
               },
               "acoustic_emissions": {
                 "title": "Acoustic emissions",
-                "description": "Specify the noise (Sound Pressure Level) emitted by the turbine in this mode of operation",
+                "description": "Specify the noise (Sound Power Level) emitted by the turbine in this mode of operation",
                 "type": "object",
                 "$comment": "The acoustic_emissions property is not strictly required, in order to facilitate backward compatibility (entering data from existing power curve data sheets which may not contain this data). OEMs should treat this as required, however, and future versions of the standard should consider moving to requiring this field.",
                 "examples": [
@@ -1369,7 +1369,7 @@
                       500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000,
                       6300, 8000, 10000, 12500, 16000, 20000
                     ],
-                    "sound_pressure_level": [
+                    "sound_power_level": [
                       [
                         8.3, 13.6, 18.4, 45.6, 53.4, 62.2, 71.4, 71.2, 75.1, 80,
                         84.5, 88.3, 90.7, 92.5, 93.1, 93.8, 93.2, 92.2, 90.6,
@@ -1398,7 +1398,7 @@
                       16, 31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000
                     ],
                     "wind_speed": [5, 6, 7],
-                    "sound_pressure_level": [
+                    "sound_power_level": [
                       [
                         5.2, 19.7, 62.8, 77.7, 90.2, 97.0, 97.9, 93.4, 85.9,
                         56.6, 51.5
@@ -1418,12 +1418,12 @@
                     "margin": 2,
                     "weighting": "A",
                     "wind_speed": [5, 6, 7],
-                    "sound_pressure_level": [101.7, 104.7, 105.5]
+                    "sound_power_level": [101.7, 104.7, 105.5]
                   }
                 ],
                 "required": [
                   "margin",
-                  "sound_pressure_level",
+                  "sound_power_level",
                   "weighting",
                   "wind_speed"
                 ],
@@ -1443,7 +1443,7 @@
                       },
                       "frequency": {
                         "$ref": "#/$defs/acoustic_emissions_frequency",
-                        "description": "Array of frequency values at one-third-octave band locations for which the Sound Pressure Levels are given. The length of this array must match the second dimension of the Sound Pressure Level matrix. The frequency range should span at least 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
+                        "description": "Array of frequency values at one-third-octave band locations for which the Sound Power Levels are given. The length of this array must match the second dimension of the Sound Power Level matrix. The frequency range should span at least 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
                         "$comment": "At full band, 20 values is sufficient, whilst at one-third octave the opposite is true, so 20 items is used as a cutoff criterion between one-third and full-band definitions.",
                         "examples": [
                           [
@@ -1455,10 +1455,10 @@
                         ],
                         "minItems": 20
                       },
-                      "sound_pressure_level": {
-                        "title": "Sound Pressure Level (one-third octave intervals)",
-                        "description": "The sound pressure level [db], specified as a matrix for the given ranges of wind speed and frequency. Total sound pressure level can be derived by summation along the frequency dimension using the logarithmic method.",
-                        "$comment": "The sound_pressure_level property is not strictly required for the same reason that its parent, the `acoustic_emissions` property is not required (some existing power curves provide total sound pressure level only). It is however strongly recommended, again for the same reason.",
+                      "sound_power_level": {
+                        "title": "Sound Power Level (one-third octave intervals)",
+                        "description": "The sound power level [db], specified as a matrix for the given ranges of wind speed and frequency. Total sound power level can be derived by summation along the frequency dimension using the logarithmic method.",
+                        "$comment": "The sound_power_level property is not strictly required for the same reason that its parent, the `acoustic_emissions` property is not required (some existing power curves provide total sound power level only). It is however strongly recommended, again for the same reason.",
                         "type": "array",
                         "items": {
                           "type": "array",
@@ -1486,7 +1486,7 @@
                       },
                       "frequency": {
                         "$ref": "#/$defs/acoustic_emissions_frequency",
-                        "description": "Array of frequency values at full-octave band locations for which the Sound Pressure Levels are given. The length of this array must match the second dimension of the Sound Pressure Level matrix. The frequency range should span less than 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
+                        "description": "Array of frequency values at full-octave band locations for which the Sound Power Levels are given. The length of this array must match the second dimension of the Sound Power Level matrix. The frequency range should span less than 20 bands and be sufficient that error in summation of frequency sources to total SPL is negligible for the intended purpose.",
                         "$comment": "The schema team determined that at full band, 20 values is more than enough to span the range, whilst at one-third octave the opposite is true, so 20 items is used as a cutoff criterion for one-third and full-band definitions.",
                         "examples": [
                           [
@@ -1496,10 +1496,10 @@
                         ],
                         "maxItems": 19
                       },
-                      "sound_pressure_level": {
-                        "title": "Sound Pressure Level (one-third octave intervals)",
-                        "description": "The sound pressure level [db], specified as a matrix for the given ranges of wind speed and frequency. Total sound pressure level can be derived by summation along the frequency dimension using the logarithmic method.",
-                        "$comment": "The sound_pressure_level property is not strictly required for the same reason that its parent, the `acoustic_emissions` property is not required (some existing power curves provide total sound pressure level only). It is however strongly recommended, again for the same reason.",
+                      "sound_power_level": {
+                        "title": "Sound Power Level (one-third octave intervals)",
+                        "description": "The sound power level [db], specified as a matrix for the given ranges of wind speed and frequency. Total sound power level can be derived by summation along the frequency dimension using the logarithmic method.",
+                        "$comment": "The sound_power_level property is not strictly required for the same reason that its parent, the `acoustic_emissions` property is not required (some existing power curves provide total sound power level only). It is however strongly recommended, again for the same reason.",
                         "type": "array",
                         "items": {
                           "type": "array",
@@ -1526,10 +1526,10 @@
                       "wind_speed": {
                         "$ref": "#/$defs/acoustic_emissions_wind_speed"
                       },
-                      "sound_pressure_level": {
-                        "title": "Sound Pressure Level (total)",
-                        "description": "The total sound pressure level [db], specified for each value of wind speed. Total sound pressure level can be derived by summation along the frequency dimension using the logarithmic method.",
-                        "$comment": "Providing total sound pressure levels is not recommended, in favour of one-third band (which covers all users cases), but is provided to enable legacy power curve documents containing only Total SPL information to be encoded.",
+                      "sound_power_level": {
+                        "title": "Sound Power Level (total)",
+                        "description": "The total sound power level [db], specified for each value of wind speed. Total sound power level can be derived by summation along the frequency dimension using the logarithmic method.",
+                        "$comment": "Providing total sound power levels is not recommended, in favour of one-third band (which covers all users cases), but is provided to enable legacy power curve documents containing only Total SPL information to be encoded.",
                         "type": "array",
                         "items": {
                           "type": "number",

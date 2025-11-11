@@ -77,12 +77,12 @@ def third_octave_noise():
     return {
         "margin": 2, # Margin in decibels - I'm not sure we need this on the power curve side, it should be a calculation input for some applications (depends on sensitivity of site etc)...?
         "weighting": "A", # What does this mean?
-        # "one_third_octave": True, # Redundant on the sound_pressure_level matrix size
+        # "one_third_octave": True, # Redundant on the sound_power_level matrix size
         # If octave, the 10 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
         # If one_third_octave, the 29 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
         "wind_speed": [5, 6, 7, 8, 9, 10],
         "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
-        "sound_pressure_level": [
+        "sound_power_level": [
             [8.3, 13.6, 18.4, 45.6, 53.4, 62.2, 71.4, 71.2, 75.1, 80, 84.5, 88.3, 90.7, 92.5, 93.1, 93.8, 93.2, 92.2, 90.6, 88.1, 85.8, 83.5, 80.3, 77.6, 52.9, 51.9, 50.5, 48.7, 46.4, 43.7],
             [8.3, 13.6, 18.4, 48.3, 55.8, 62.9, 75.2, 76, 79.3, 84.4, 88.7, 92.2, 94.1, 96, 96.1, 96.3, 95.7, 94.7, 93.3, 91.1, 89, 87.2, 84.3, 80.5, 52.9, 51.9, 50.5, 48.7, 46.4, 43.7],
             [8.3,13.6,18.4,49.2,57.2,64.6,76.6,77.9,81.4,85.9,90,93.3,95,96.9,96.8,96.9,96.4,95.6,94.3,91.8,89.8,88,85.3,82,52.9,51.9,50.5,48.7,46.4,43.7],
@@ -91,7 +91,7 @@ def third_octave_noise():
             [8.3,13.6,18.4,48.5,56,62.8,72.5,74,77.1,80.3,83.1,87.4,89,92.7,94.3,95.7,97.2,96.7,95.3,92.5,89.9,54.2,54,53.5,52.9,51.9,50.5,48.7,46.4,43.7]
         ],
         # Question - is this a straightforward sum of the octave or third-octave? If so is this redundant data?
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+        "total_sound_power_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
     }
     # fmt: on
 
@@ -102,12 +102,12 @@ def octave_noise():
     return {
         "margin": 2, # Margin in decibels - I'm not sure we need this on the power curve side, it should be a calculation input for some applications (depends on sensitivity of site etc)...?
         "weighting": "A", # What does this mean?
-        # "one_third_octave": False,  # Redundant on the sound_pressure_level matrix size
+        # "one_third_octave": False,  # Redundant on the sound_power_level matrix size
         # If octave, the 10 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
         # If one_third_octave, the 29 frequencies are: [25, 31, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 6300, 8000, 10000, 12500, 16000, 20000]
         "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
         "wind_speed": [5, 6, 7, 8, 9, 10],
-        "sound_pressure_level": [
+        "sound_power_level": [
             [19.9, 62.8, 77.7, 90.2, 97.0, 97.9, 93.4, 85.9, 56.6, 51.5],
             [19.9, 63.8, 82.0, 94.3, 100.3, 100.4, 96.3, 89.6, 56.6, 51.5],
             [19.9, 65.4, 83.9, 95.5, 101.1, 101.1, 97.1, 90.5, 56.6, 51.5],
@@ -116,7 +116,7 @@ def octave_noise():
             [19.9, 63.8, 79.7, 89.3, 97.3, 101.3, 97.9, 58.7, 56.6, 51.5]
         ],
         # Question - is this a straightforward sum of the octave or third-octave? If so is this redundant data?
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+        "total_sound_power_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
     }
     # fmt: on
 
@@ -129,7 +129,7 @@ def total_noise():
         "weighting": "A", # What does this mean? Is it still relevant if only totals are provided?
         "reference": "Nacelle", # Included for clarity of reference location even if there's only one option - TBC if we need to provide other references?
         "wind_speed": [5, 6, 7, 8, 9, 10],
-        "total_sound_pressure_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
+        "total_sound_power_level": [101.7, 104.7, 105.5, 105.5, 105.2, 104.2]
     }
     # fmt: on
 
