@@ -125,9 +125,9 @@
         "reference_wind_speed": 37.5,
         "weibull_shape_factor": 2.4,
         "vertical_shear_exponent": 0.3,
-        "inclination_angle": 8,
-        "design_lifetime": 25
+        "inclination_angle": 8
       },
+      "design_lifetime": 25,
       "turbulence": {
         "category": "A"
       },
