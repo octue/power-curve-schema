@@ -472,9 +472,7 @@
         "rotor_diameter",
         "model_description",
         "drive_type",
-        "regulation_type",
-        "grid_frequencies",
-        "thermal_regulation"
+        "regulation_type"
       ],
       "additionalProperties": false,
       "properties": {
