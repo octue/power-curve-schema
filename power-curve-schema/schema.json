@@ -580,10 +580,7 @@
         "type": "object",
         "required": [
           "label",
-          "name",
-          "design_class",
-          "turbulence",
-          "standard_climate"
+          "name"
         ],
         "additionalProperties": false,
         "properties": {
@@ -1066,8 +1063,7 @@
               "cuts",
               "parameters",
               "power",
-              "thrust_coefficient",
-              "overrides"
+              "thrust_coefficient"
             ],
             "additionalProperties": false,
             "properties": {

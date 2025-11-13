@@ -90,7 +90,6 @@ def test_missing_mode_properties(subschema, one_dimensional_mode):
     """Validation should fail if there is no overrides section in a mode"""
 
     for required in [
-        "overrides",
         "cuts",
         "parameters",
         "power",
