@@ -271,7 +271,6 @@
           }
         }
       },
-      "required": ["hot", "cold", "derating"],
       "examples": [
         {
           "derating": [
