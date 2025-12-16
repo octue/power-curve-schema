@@ -167,12 +167,6 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
         ),
         (
             {
-                "available_hub_heights": "not an array or hub heights dict",
-            },
-            "is not valid under any of the given schemas",
-        ),
-        (
-            {
                 "rated_rpm": "not an rpm value",
             },
             "is not of type 'number'",

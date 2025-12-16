@@ -1628,15 +1628,12 @@
               },
               "overrides": {
                 "title": "Mode-Specific Overrides",
-                "description": "Override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power, or require a more restrictive range of hub heights for structural reasons",
+                "description": "Override of certain data in the `turbine` section, where that data conflicts with requirements of a mode. For example, some operating modes may reduce rated power or have different rotational speeds.",
                 "type": "object",
                 "required": [],
                 "examples": [
                   {
                     "rated_power": 20e6
-                  },
-                  {
-                    "available_hub_heights": [100, 120]
                   },
                   {
                     "cut_in_rpm": 2.1
@@ -1655,9 +1652,6 @@
                   },
                   "rated_rpm": {
                     "$ref": "#/$defs/rated_rpm"
-                  },
-                  "available_hub_heights": {
-                    "$ref": "#/$defs/available_hub_heights"
                   }
                 }
               }
