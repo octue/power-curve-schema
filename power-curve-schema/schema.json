@@ -552,6 +552,13 @@
           "description": "The regulation type of the turbine.",
           "enum": ["pitch", "stall", "other"]
         },
+        "power_reference_location": {
+          "title": "Power reference location",
+          "description": "Determines whether power values in this document are referenced to the low-voltage or high-voltage side of the transformer. In most cases, this will be the 'low-voltage' side as 'high-voltage' implies that transformer losses are included in the power lookup tables. 'low-voltage' should be assumed in the event of missing data.",
+          "enum": ["low-voltage", "high-voltage"],
+          "default": "low-voltage",
+          "$comment": "An exception to the practice of avoiding `default` values is made here, due to the addition of this parameter following comments on the Committee Draft to account for the rare technicality of including transformer losses. This is rare enough that it is safe to assume low-voltage even if the information is not stated explicitly."
+        },
         "rated_power": {
           "$ref": "#/$defs/rated_power"
         },

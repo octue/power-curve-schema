@@ -32,6 +32,7 @@
     "drive_type": "geared",
     "regulation_type": "pitch",
     "grid_frequencies": [50, 60],
+    "power_reference_location": "low-voltage",
     "thermal_regulation": {
       "derating": [
         {
