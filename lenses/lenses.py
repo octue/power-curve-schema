@@ -29,10 +29,25 @@ def _change_shear_coefficient_to_vertical_shear_exponent(doc):
     return doc
 
 
+def _move_available_hub_heights_to_restricted(doc):
+    """Move overrides.available_hub_heights to mode-level restricted_to_hub_heights"""
+
+    for mode in doc["power_curves"]["operating_modes"]:
+        overrides = mode.get("overrides", {})
+        if "available_hub_heights" in overrides:
+            mode["restricted_to_hub_heights"] = overrides.pop("available_hub_heights")
+
+    return doc
+
+
 def alpha_3_to_alpha_4(doc):
     """Convert documents compliant with alpha-3 to documents compliant with alpha-4"""
 
-    lenses = [_add_power_reference_location, _change_shear_coefficient_to_vertical_shear_exponent]
+    lenses = [
+        _add_power_reference_location,
+        _change_shear_coefficient_to_vertical_shear_exponent,
+        _move_available_hub_heights_to_restricted,
+    ]
     for lens in lenses:
         doc = lens(doc)
     return doc

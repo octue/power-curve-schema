@@ -7,7 +7,11 @@ import os
 
 import pytest
 
-from lenses.lenses import _add_power_reference_location, _change_shear_coefficient_to_vertical_shear_exponent
+from lenses.lenses import (
+    _add_power_reference_location,
+    _change_shear_coefficient_to_vertical_shear_exponent,
+    _move_available_hub_heights_to_restricted,
+)
 
 from .conftest import ROOT_DIR
 
@@ -64,3 +68,40 @@ def test_rename_shear_coefficient(generic_120_3_alpha_3):
 
     transformed = _change_shear_coefficient_to_vertical_shear_exponent(generic_120_3_alpha_3)
     assert transformed["power_curves"]["operating_modes"][0]["parameters"][1]["label"] == "vertical-shear-exponent"
+
+
+def test_move_available_hub_heights_to_restricted(generic_120_3_alpha_3):
+    """Should move overrides.available_hub_heights to mode-level restricted_to_hub_heights"""
+    # Add available_hub_heights to overrides for the test
+    generic_120_3_alpha_3["power_curves"]["operating_modes"][0]["overrides"] = {
+        "available_hub_heights": [100, 120, 140]
+    }
+
+    transformed = _move_available_hub_heights_to_restricted(generic_120_3_alpha_3)
+
+    # Check the value was moved to mode-level restricted_to_hub_heights
+    assert transformed["power_curves"]["operating_modes"][0]["restricted_to_hub_heights"] == [100, 120, 140]
+    # Check available_hub_heights was removed from overrides
+    assert "available_hub_heights" not in transformed["power_curves"]["operating_modes"][0]["overrides"]
+
+
+def test_move_available_hub_heights_to_restricted_with_range(generic_120_3_alpha_3):
+    """Should handle range format for available_hub_heights"""
+    generic_120_3_alpha_3["power_curves"]["operating_modes"][0]["overrides"] = {
+        "available_hub_heights": {"min": 100, "max": 140}
+    }
+
+    transformed = _move_available_hub_heights_to_restricted(generic_120_3_alpha_3)
+
+    assert transformed["power_curves"]["operating_modes"][0]["restricted_to_hub_heights"] == {"min": 100, "max": 140}
+    assert "available_hub_heights" not in transformed["power_curves"]["operating_modes"][0]["overrides"]
+
+
+def test_move_available_hub_heights_no_op_when_not_present(generic_120_3_alpha_3):
+    """Should not modify anything if available_hub_heights is not in overrides"""
+    # Ensure no overrides or empty overrides
+    generic_120_3_alpha_3["power_curves"]["operating_modes"][0]["overrides"] = {}
+
+    transformed = _move_available_hub_heights_to_restricted(generic_120_3_alpha_3)
+
+    assert "restricted_to_hub_heights" not in transformed["power_curves"]["operating_modes"][0]
