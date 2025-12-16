@@ -1,0 +1,276 @@
+{
+  "document": {
+    "metadata": [
+      {
+        "term": "Identifier",
+        "value": "126b9e41-722f-49ab-9586-b55188adf420"
+      },
+      {
+        "term": "Format",
+        "value": "IEC61400-16-1"
+      },
+      {
+        "term": "Source",
+        "value": "Doc 12345 - Rev 01"
+      }
+    ]
+  },
+  "turbine": {
+    "model_name": "GT 3.45-120",
+    "model_description": "A generic turbine based on supergeneric(TM) technology and featuring the GeneriX blade system.",
+    "manufacturer_name": "Generic Turbines (a Generic Megacorp company) Inc",
+    "manufacturer_display_name": "Generic Turbines",
+    "platform_name": "Series GT3.x",
+    "platform_description": "The Series GT3.x platform is designed to support a range of small onshore turbine models, intended to address a versatile range of site conditions and minimise logistical problems in constructions",
+    "rated_power": 3450000,
+    "rated_rpm": 12,
+    "cut_in_rpm": 2,
+    "rotor_diameter": 120.0,
+    "rotor_tilt": 5,
+    "number_of_blades": 3,
+    "available_hub_heights": [91.5, 116.5, 141.5],
+    "drive_type": "geared",
+    "regulation_type": "pitch",
+    "grid_frequencies": [50, 60],
+    "thermal_regulation": {
+      "derating": [
+        {
+          "legend": "Linear ramp down in low temperatures, altitude 2500",
+          "altitude": 2500,
+          "temperature": [-15, 10],
+          "power_limit": [1.1e6, 2e6]
+        },
+        {
+          "legend": "Linear ramp down in low temperatures, altitude 1250",
+          "altitude": 1250,
+          "temperature": [-15, 10],
+          "power_limit": [1.4e6, 2e6]
+        },
+        {
+          "legend": "Linear ramp down in low temperatures, altitude 0",
+          "altitude": 0,
+          "temperature": [-15, 10],
+          "power_limit": [1.6e6, 2e6]
+        },
+        {
+          "legend": "Linear ramp down to zero in high temperatures, altitude 2500",
+          "altitude": 2500,
+          "temperature": [40, 45],
+          "power_limit": [2e6, 0]
+        },
+        {
+          "legend": "Linear ramp down to zero in high temperatures, altitude 1250",
+          "altitude": 1250,
+          "temperature": [42, 45],
+          "power_limit": [2e6, 0]
+        },
+        {
+          "legend": "Linear ramp down to zero in high temperatures, altitude 0",
+          "altitude": 0,
+          "temperature": [42, 45],
+          "power_limit": [2e6, 0]
+        }
+      ],
+      "cold": {
+        "shutdown_temperature": -15,
+        "restart_temperature": -12,
+        "restart_duration": 7200
+      },
+      "hot": {
+        "shutdown_temperature": 45,
+        "restart_temperature": 40,
+        "restart_duration": 30
+      }
+    }
+  },
+  "design_bases": [
+    {
+      "label": "basis_1",
+      "name": "Basis 1",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
+      },
+      "design_class": {
+        "class_label": "II"
+      },
+      "design_lifetime": 20,
+      "turbulence": {
+        "category": "A"
+      },
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-20, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-20, 50]
+      }
+    },
+    {
+      "label": "basis_2",
+      "name": "Basis 2 - Custom design class",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
+      },
+      "design_class": {
+        "class_label": "S",
+        "annual_average_wind_speed": 8.5,
+        "annual_average_air_density": 1.15,
+        "reference_wind_speed": 37.5,
+        "weibull_shape_factor": 2.4,
+        "vertical_shear_exponent": 0.3,
+        "inclination_angle": 8
+      },
+      "design_lifetime": 25,
+      "turbulence": {
+        "category": "A"
+      },
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-20, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-20, 50]
+      }
+    },
+    {
+      "label": "basis_3",
+      "name": "Basis 3 - Custom turbulence definition",
+      "certification": {
+        "certificate_reference": "IECRE.WE.TC.20.0099-R6",
+        "design_standard": "IEC 61400-1:2005/AMD1:2010"
+      },
+      "design_class": {
+        "class_label": "II"
+      },
+      "design_lifetime": 20,
+      "standard_climate": {
+        "operating_temperature_range": [-10, 40],
+        "survival_temperature_range": [-20, 50]
+      },
+      "cold_climate": {
+        "operating_temperature_range": [-20, 40],
+        "survival_temperature_range": [-40, 50]
+      },
+      "hot_climate": {
+        "operating_temperature_range": [-10, 45],
+        "survival_temperature_range": [-20, 50]
+      },
+      "turbulence": {
+        "category": "2d-NETM",
+        "wind_speed": [1, 2, 25],
+        "normal_turbulence_intensity": [
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46],
+          [0.116, 0.1889, 0.2613, 0.3337, 0.46]
+        ],
+        "normal_hours_per_lifetime": [
+          [1633.89, 2145.8, 1551.13, 1434.6, 1321.1],
+          [804.2, 956.3, 756.3, 645.6, 543.7],
+          [30.5, 60.4, 43.8, 38.5, 27.6]
+        ],
+        "extreme_turbulence_intensity": [0.92, 0.6, 0.15]
+      }
+    }
+  ],
+  "power_curves": {
+    "default_operating_mode_label": "standard",
+    "operating_modes": [
+      {
+        "label": "standard",
+        "name": "Standard",
+        "description": "Standard full power mode",
+        "design_bases": ["basis_1", "basis_2", "basis_3"],
+        "cuts": [
+          {
+            "cut_type": "low-cut-in",
+            "wind_speed": 3,
+            "period": 600
+          },
+          {
+            "cut_type": "low-cut-out",
+            "wind_speed": 2.5,
+            "period": 600
+          },
+          {
+            "cut_type": "high-cut-out",
+            "wind_speed": 25,
+            "period": 600
+          },
+          {
+            "cut_type": "high-cut-in",
+            "wind_speed": 22,
+            "period": 240
+          },
+          {
+            "cut_type": "high-cut-out",
+            "wind_speed": 28,
+            "period": 30
+          },
+          {
+            "cut_type": "high-cut-out",
+            "wind_speed": 34,
+            "period": 3
+          }
+        ],
+        "parameters": [
+          {
+            "label": "air-density",
+            "dimension": 0,
+            "values": [1.225]
+          },
+          {
+            "label": "wind-speed",
+            "dimension": 1,
+            "values": [
+              3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0,
+              9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5,
+              15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0,
+              20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0
+            ]
+          }
+        ],
+        "power": [
+          [
+            22000.0, 78000.0, 150000.0, 237000.0, 340000.0, 466000.0, 617000.0,
+            796000.0, 1006000.0, 1247000.0, 1522000.0, 1871000.0, 2178000.0,
+            2544000.0, 2905000.0, 3201000.0, 3374000.0, 3435000.0, 3448000.0,
+            3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0,
+            3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0,
+            3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0,
+            3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0, 3450000.0,
+            3450000.0, 3450000.0
+          ]
+        ],
+        "thrust_coefficient": [
+          [
+            0.873, 0.849, 0.834, 0.828, 0.827, 0.825, 0.82, 0.816, 0.805, 0.804,
+            0.794, 0.79, 0.789, 0.772, 0.733, 0.666, 0.58, 0.494, 0.421, 0.362,
+            0.316, 0.281, 0.249, 0.223, 0.199, 0.18, 0.164, 0.149, 0.137, 0.125,
+            0.115, 0.107, 0.098, 0.091, 0.085, 0.079, 0.074, 0.07, 0.066, 0.062,
+            0.058, 0.055, 0.052, 0.049, 0.046
+          ]
+        ],
+        "overrides": {}
+      }
+    ]
+  },
+  "additional": {
+    "reference": "https://example.com/colour-coding",
+    "schema": "https://example.com/colour-coding/schema",
+    "data": {
+      "tower_colour": "RAL 9016"
+    }
+  }
+}
