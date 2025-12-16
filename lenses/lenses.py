@@ -18,10 +18,21 @@ def _add_power_reference_location(doc, value="low-voltage"):
     return doc
 
 
+def _change_shear_coefficient_to_vertical_shear_exponent(doc):
+    """Unify the shear-coefficient parameter to call it vertical-shear-exponent consistent with usage elsewhere"""
+
+    for mode in doc["power_curves"]["operating_modes"]:
+        for parameter in mode["parameters"]:
+            if parameter["label"] == "shear-coefficient":
+                parameter["label"] = "vertical-shear-exponent"
+
+    return doc
+
+
 def alpha_3_to_alpha_4(doc):
     """Convert documents compliant with alpha-3 to documents compliant with alpha-4"""
 
-    lenses = [_add_power_reference_location]
+    lenses = [_add_power_reference_location, _change_shear_coefficient_to_vertical_shear_exponent]
     for lens in lenses:
         doc = lens(doc)
     return doc

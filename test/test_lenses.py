@@ -7,7 +7,7 @@ import os
 
 import pytest
 
-from lenses.lenses import _add_power_reference_location
+from lenses.lenses import _add_power_reference_location, _change_shear_coefficient_to_vertical_shear_exponent
 
 from .conftest import ROOT_DIR
 
@@ -55,3 +55,12 @@ def test_add_power_reference_location_fails_with_invalid_input(generic_120_3_alp
 
     with pytest.raises(ValueError):
         _add_power_reference_location(generic_120_3_alpha_3)
+
+
+def test_rename_shear_coefficient(generic_120_3_alpha_3):
+    """Should rename a parameter label"""
+    # We don't have a test fixture with this so add it for the purpose. This is physically meaningless but tests the code.
+    generic_120_3_alpha_3["power_curves"]["operating_modes"][0]["parameters"][1]["label"] = "shear-coefficient"
+
+    transformed = _change_shear_coefficient_to_vertical_shear_exponent(generic_120_3_alpha_3)
+    assert transformed["power_curves"]["operating_modes"][0]["parameters"][1]["label"] == "vertical-shear-exponent"
