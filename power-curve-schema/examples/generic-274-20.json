@@ -822,9 +822,8 @@
             0.029, 0.027, 0.025, 0.024, 0.023, 0.021, 0.02, 0.019, 0.018
           ]
         ],
-        "overrides": {
-          "available_hub_heights": [140, 150]
-        }
+        "restricted_to_hub_heights": [140, 150],
+        "overrides": {}
       }
     ]
   }

@@ -167,12 +167,6 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
         ),
         (
             {
-                "available_hub_heights": "not an array or hub heights dict",
-            },
-            "is not valid under any of the given schemas",
-        ),
-        (
-            {
                 "rated_rpm": "not an rpm value",
             },
             "is not of type 'number'",
@@ -200,6 +194,46 @@ def test_invalid_overrides(subschema, one_dimensional_mode):
             )
 
         assert reason in str(e)
+
+
+@pytest.mark.parametrize(
+    "restricted_to_hub_heights",
+    [
+        {"min": 100, "max": 140},
+        {"min": 100},
+        [100, 120, 140],
+    ],
+)
+def test_restricted_to_hub_heights(subschema, one_dimensional_mode, restricted_to_hub_heights):
+    """Restricted hub heights should be definable as a continuous range or as a list of numbers"""
+    one_dimensional_mode["restricted_to_hub_heights"] = restricted_to_hub_heights
+    validate(
+        instance={
+            "power_curves": {
+                "default_operating_mode_label": "one_dimensional",
+                "operating_modes": [one_dimensional_mode],
+            }
+        },
+        schema=subschema,
+    )
+
+
+def test_invalid_restricted_to_hub_heights(subschema, one_dimensional_mode):
+    """Validation should fail if restricted_to_hub_heights is invalid"""
+    one_dimensional_mode["restricted_to_hub_heights"] = "not an array or hub heights dict"
+
+    with pytest.raises(ValidationError) as e:
+        validate(
+            instance={
+                "power_curves": {
+                    "default_operating_mode_label": "one_dimensional",
+                    "operating_modes": [one_dimensional_mode],
+                }
+            },
+            schema=subschema,
+        )
+
+    assert "is not valid under any of the given schemas" in str(e)
 
 
 def test_acoustic_emissions(subschema, one_dimensional_mode):
