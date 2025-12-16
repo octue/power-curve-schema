@@ -50,11 +50,7 @@ def test_missing_properties(subschema, generic_turbine, property):
 
 @pytest.mark.parametrize(
     "property",
-    [
-        "model_name",
-        "manufacturer_name",
-        "manufacturer_display_name",
-    ],
+    ["model_name", "manufacturer_name", "manufacturer_display_name"],
 )
 def test_non_blankable_properties(subschema, generic_turbine, property):
     """Validation should fail if any required string property (other than model_description) contains a blank string"""
@@ -69,7 +65,7 @@ def test_non_blankable_properties(subschema, generic_turbine, property):
     ["model_description", "platform_name", "platform_description"],
 )
 def test_blankable_properties(subschema, generic_turbine, property):
-    """Validation should fail if any required string property (other than model_description) contains a blank string"""
+    """Validation should pass if these string properties contain a blank string"""
     generic_turbine["turbine"][property] = ""
     validate(instance=generic_turbine, schema=subschema)
 
@@ -84,6 +80,18 @@ def test_name_length_limits(subschema, generic_turbine, property):
     with pytest.raises(ValidationError) as e:
         validate(instance=generic_turbine, schema=subschema)
     assert "is too long" in str(e)
+
+
+@pytest.mark.parametrize(
+    "value",
+    ["", "wrong", None],
+)
+def test_invalid_power_reference_location(subschema, generic_turbine, value):
+    """Validation should fail if any required string property (other than model_description) contains a blank string"""
+    generic_turbine["turbine"]["power_reference_location"] = value
+    with pytest.raises(ValidationError) as e:
+        validate(instance=generic_turbine, schema=subschema)
+    assert "is not one of" in str(e)
 
 
 @pytest.mark.parametrize("available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]])
