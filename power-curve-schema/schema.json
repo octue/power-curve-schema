@@ -61,43 +61,128 @@
       "minimum": 0,
       "examples": [12]
     },
-    "available_hub_heights": {
-      "title": "Available hub heights",
-      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. This value may be overriden to a more restricted subset on a per-mode basis, to allow for specific limitations (such as avoidance of tower resonance). In the early stages of turbine or platform development, this range may not be known so may be omitted.",
-      "anyOf": [
-        {
-          "title": "Specify a range of available hub heights [m]",
-          "type": "object",
-          "description": "Specify a range of available hub heights [m]",
-          "additionalProperties": false,
-          "properties": {
-            "min": {
-              "type": "number",
-              "description": "Minium hub height [m]"
-            },
-            "max": {
-              "type": "number",
-              "description": "Maximum hub height [m]"
-            }
-          },
-          "required": ["min"]
+    "available_hub_height_range": {
+      "title": "Hub height range (simple)",
+      "type": "object",
+      "description": "Specify a range of available hub heights [m]. Applies to all operating modes.",
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Minimum hub height [m]",
+          "exclusiveMinimum": 0
         },
-        {
-          "title": "Specify a list of discrete available hub heights [m]",
+        "max": {
+          "type": "number",
+          "description": "Maximum hub height [m]",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": ["min"]
+    },
+    "available_hub_height_range_with_modes": {
+      "title": "Hub height range",
+      "type": "object",
+      "description": "Specify a range of available hub heights [m] with optional mode restrictions",
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Minimum hub height [m]",
+          "exclusiveMinimum": 0
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum hub height [m]",
+          "exclusiveMinimum": 0
+        },
+        "allowed_modes": {
           "type": "array",
-          "description": "Specify a list of discrete available hub heights [m]",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,40}$"
+          },
+          "description": "List of operating mode labels for which this hub height range is applicable. If omitted, applies to all modes not covered by other entries."
+        }
+      },
+      "required": ["min"]
+    },
+    "available_hub_height_values_with_modes": {
+      "title": "Hub height discrete values",
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Specify a list of discrete available hub heights [m] with optional mode restrictions",
+      "properties": {
+        "values": {
+          "type": "array",
           "items": {
             "type": "number",
             "exclusiveMinimum": 0
-          }
+          },
+          "minItems": 1
+        },
+        "allowed_modes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,40}$"
+          },
+          "description": "List of operating mode labels for which these hub heights are applicable. If omitted, applies to all modes not covered by other entries."
+        }
+      },
+      "required": ["values"]
+    },
+    "available_hub_height_set": {
+      "title": "Hub height set",
+      "description": "A single hub height specification (range or discrete values) with optional mode restrictions",
+      "oneOf": [
+        { "$ref": "#/$defs/available_hub_height_range_with_modes" },
+        { "$ref": "#/$defs/available_hub_height_values_with_modes" }
+      ]
+    },
+    "available_hub_heights": {
+      "title": "Available hub heights",
+      "description": "Specify either a discrete list or a continuous range of available hub heights [m]. Use simple format (array of numbers or {min, max} object) for all modes, or use an array of objects to define different hub heights for different operating modes. In the early stages of turbine or platform development, this range may not be known so may be omitted.",
+      "anyOf": [
+        {
+          "title": "Simple discrete values (all modes)",
+          "description": "Array of discrete hub height values [m] - applies to all modes",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "minItems": 1
+        },
+        {
+          "title": "Simple range (all modes)",
+          "description": "Min/max range of hub heights [m] - applies to all modes",
+          "$ref": "#/$defs/available_hub_height_range"
+        },
+        {
+          "title": "Multiple hub height sets (mode-specific)",
+          "description": "Array of hub height specifications, each with optional allowed_modes",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/available_hub_height_set"
+          },
+          "minItems": 1
         }
       ],
       "examples": [
+        [120, 150, 180],
         {
           "min": 120,
           "max": 180
         },
-        [120, 180]
+        [
+          { "min": 80, "max": 120, "allowed_modes": ["noise_reduced"] },
+          { "min": 100, "max": 160, "allowed_modes": ["standard", "power_boost"] }
+        ],
+        [
+          { "min": 80, "max": 120 },
+          { "values": [130, 140, 150], "allowed_modes": ["special_mode"] }
+        ]
       ]
     },
     "grid_frequencies": {

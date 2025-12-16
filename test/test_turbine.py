@@ -94,11 +94,43 @@ def test_invalid_power_reference_location(subschema, generic_turbine, value):
     assert "is not one of" in str(e)
 
 
-@pytest.mark.parametrize("available_hub_heights", [{"max": 168, "min": 84}, [100, 110, 112.3]])
+@pytest.mark.parametrize(
+    "available_hub_heights",
+    [
+        # Simple range
+        {"max": 168, "min": 84},
+        # Simple array of numbers
+        [100, 110, 112.3],
+        # Array of objects with allowed_modes
+        [{"min": 80, "max": 120, "allowed_modes": ["mode_a"]}],
+        # Array mixing range and values
+        [{"min": 80, "max": 120}, {"values": [130, 140]}],
+        # Array with some items having allowed_modes
+        [{"min": 80, "max": 120}, {"min": 120, "max": 160, "allowed_modes": ["mode_b"]}],
+        # Array with values object having allowed_modes
+        [{"values": [100, 110, 120], "allowed_modes": ["noise_reduced"]}],
+    ],
+)
 def test_available_hub_heights(subschema, generic_turbine, available_hub_heights):
-    """Hub heights should be definable as a continuous range of values or as a list of numbers"""
+    """Hub heights should be definable as a continuous range of values, a list of numbers, or an array of hub height sets with optional allowed_modes"""
     generic_turbine["turbine"]["available_hub_heights"] = available_hub_heights
     validate(instance=generic_turbine, schema=subschema)
+
+
+@pytest.mark.parametrize(
+    "available_hub_heights",
+    [
+        # Single object with allowed_modes should be INVALID (leaves other modes undefined)
+        {"min": 100, "max": 150, "allowed_modes": ["mode_a"]},
+        # Single values object with allowed_modes should also be INVALID
+        {"values": [100, 120], "allowed_modes": ["mode_a"]},
+    ],
+)
+def test_invalid_available_hub_heights_single_with_modes(subschema, generic_turbine, available_hub_heights):
+    """A single hub height object with allowed_modes is invalid - must use array format for mode-specific definitions"""
+    generic_turbine["turbine"]["available_hub_heights"] = available_hub_heights
+    with pytest.raises(ValidationError):
+        validate(instance=generic_turbine, schema=subschema)
 
 
 @pytest.mark.parametrize(
