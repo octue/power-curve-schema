@@ -140,17 +140,16 @@ def one_dimensional_mode(valid_cuts):
         "label": "one_dimensional",
         "name": "One Dimensional",
         "design_bases": ['basis-1'],
-        "description": "A typical mode where there are values for only the reference air density. In practicality this is the same as a two-dimensional example, just with a single air density value.",
+        "description": "A typical mode where there is an informational value for the reference air density. In practicality this is the same as a two-dimensional example, just with a single air density value.",
         "cuts": valid_cuts,
         "parameters": [
             {
                 "label": "air-density",
-                "dimension": 0,
-                "values": [1.225]
+                "value": 1.225
             },
             {
                 "label": "wind-speed",
-                "dimension": 1,
+                "dimension": 0,
                 "values": [
                     3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0,9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5,15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0,20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0
                 ]
@@ -168,8 +167,8 @@ def one_dimensional_mode(valid_cuts):
 
 @pytest.fixture()
 def two_dimensional_mode(valid_cuts):
-   # fmt: off
-   return  {
+    # fmt: off
+    return  {
         "label": "two_dimensional",
         "name": "Two Dimensional",
         "description": "A typical mode where both air density and wind speed vary",
@@ -209,6 +208,49 @@ def two_dimensional_mode(valid_cuts):
             [0.817, 0.815, 0.813, 0.812, 0.809, 0.807, 0.803, 0.802, 0.8, 0.796, 0.791, 0.784, 0.778, 0.769, 0.739, 0.676, 0.586, 0.499, 0.424, 0.367, 0.321, 0.284, 0.253, 0.226, 0.203, 0.184, 0.167, 0.152, 0.139, 0.128, 0.118, 0.109, 0.101, 0.093, 0.087, 0.081, 0.076, 0.071, 0.066, 0.062, 0.059, 0.055, 0.052, 0.046, 0.038, 0.032, 0.029, 0.027, 0.025, 0.024, 0.023, 0.021, 0.02, 0.019, 0.018]
       ]
     }
+    # fmt: on
+
+
+@pytest.fixture()
+def two_dimensional_mode_with_varied_parameters(two_dimensional_mode):
+    # fmt: off
+    with_varied_parameters = two_dimensional_mode
+    with_varied_parameters['label'] = "two_dimensional_with_varied_parameters"
+    with_varied_parameters['parameters'] = [
+            # Singleton value
+            {
+                "label": "air-density",
+                "value": 1.225
+            },
+            # Singleton range
+            {
+                "label": "vertical-shear-exponent",
+                "min": 0.2,
+                "max": 0.3
+            },
+            # Dimension ranges
+            {
+                "label": "turbulence-intensity",
+                "dimension": 0,
+                "values": [
+                    { "min": 0, "max": 0.03 },
+                    { "min": 0.03, "max": 0.06 },
+                    { "min": 0.06, "max": 0.09 },
+                    { "min": 0.09, "max": 0.12 },
+                    { "min": 0.12, "max": 0.15 },
+                    { "min": 0.15, "max": 0.18 },
+                    { "min": 0.18, "max": 0.21 },
+                    { "min": 0.21, "max": 0.24 }
+                ]
+            },
+            # Dimension values
+            {
+                "label": "wind-speed",
+                "dimension": 1,
+                "values": [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0]
+            }
+        ]
+    return with_varied_parameters
     # fmt: on
 
 

@@ -4,6 +4,12 @@
   "title": "Power Curves Schema",
   "description": "Define a set of power curves for a wind turbine.",
   "$defs": {
+    "1darray": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
     "2darray": {
       "type": "array",
       "items": {
@@ -411,6 +417,61 @@
         "exclusiveMinimum": 0
       },
       "uniqueItems": true
+    },
+    "parameter_label": {
+      "type": "string",
+      "enum": [
+        "air-density",
+        "bulk-richardson-number",
+        "inverse-monin-obukhov-length",
+        "monin-obukhov-stability",
+        "turbulence-intensity",
+        "turbulence-lengthscale",
+        "vertical-shear-exponent",
+        "wind-speed",
+        "wind-veer"
+      ],
+      "title": "Parameter Label",
+      "description": "A slugified string key identifying the parameter"
+    },
+    "parameter_dimension": {
+      "type": "integer",
+      "minimum": 0,
+      "title": "Dimension",
+      "description": "Dimension of the power/thrust array along which this parameter varies (0-based)"
+    },
+    "parameter_value": {
+      "type": "number",
+      "title": "Parameter Value",
+      "description": "A single numeric value for this parameter"
+    },
+    "parameter_value_range": {
+      "type": "object",
+      "title": "Parameter Value Range",
+      "description": "A range defining a bucket for this parameter",
+      "required": ["min", "max"],
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Inclusive minimum"
+        },
+        "max": {
+          "type": "number",
+          "description": "Exclusive maximum"
+        }
+      }
+    },
+    "parameter_values_array": {
+      "type": "array",
+      "title": "Parameter Values",
+      "description": "Array of values (bin centers for interpolation) or ranges (buckets for discrete selection)",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/parameter_value" },
+          { "$ref": "#/$defs/parameter_value_range" }
+        ]
+      }
     }
   },
   "required": ["document", "turbine", "power_curves"],
@@ -1149,168 +1210,158 @@
               "parameters": {
                 "type": "array",
                 "title": "Parameters",
-                "description": "Independent parameters for which the power and thrust curves are described",
+                "description": "Independent parameters for which the power and thrust curves are described. Each parameter can specify a single value, a validity range, or a list of values (with dimension).",
                 "items": {
                   "type": "object",
-                  "required": ["label", "dimension", "values"],
-                  "additionalProperties": false,
-                  "properties": {
-                    "label": {
-                      "enum": [
-                        "air-density",
-                        "wind-speed",
-                        "turbulence-intensity",
-                        "turbulence-lengthscale",
-                        "monin-obukhov-stability",
-                        "vertical-shear-exponent",
-                        "wind-direction"
-                      ],
-                      "title": "Parameter label",
-                      "description": "A slugified string key used to identify the parameter (e.g. air-density)."
-                    },
-                    "dimension": {
-                      "type": "integer",
-                      "title": "Dimension",
-                      "description": "Dimension of the power curve array along which this parameter varies (0-based)"
-                    },
-                    "values": {
-                      "type": "array",
-                      "items": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "allOf": [
+                  "oneOf": [
                     {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "air-density"
-                          }
-                        }
+                      "title": "Single Value",
+                      "description": "Power/thrust given for a specific parameter value",
+                      "type": "object",
+                      "required": ["label", "value"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": { "$ref": "#/$defs/parameter_label" },
+                        "value": { "$ref": "#/$defs/parameter_value" }
                       },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Air Density Values",
-                            "description": "Values of air density [kg/m^3] for which this power curve is tabulated"
-                          }
+                      "allOf": [
+                        {
+                          "if": { "properties": { "label": { "const": "air-density" } } },
+                          "then": { "properties": { "value": { "title": "Air Density", "description": "Air density [kg/m^3]", "minimum": 0.5, "maximum": 2 } } }
                         },
-                        "required": ["values"]
-                      }
-                    },
-                    {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "wind-speed"
-                          }
+                        {
+                          "if": { "properties": { "label": { "const": "bulk-richardson-number" } } },
+                          "then": { "properties": { "value": { "title": "Bulk Richardson Number", "description": "Relates vertical stability to vertical wind shear [-]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "inverse-monin-obukhov-length" } } },
+                          "then": { "properties": { "value": { "title": "Inverse Monin-Obukhov Length", "description": "Inverse of Monin-Obukhov length [1/m]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "monin-obukhov-stability" } } },
+                          "then": { "properties": { "value": { "title": "Monin-Obukhov Stability", "description": "Stability parameter zeta [-], zero = neutral" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
+                          "then": { "properties": { "value": { "title": "Turbulence Intensity", "description": "I [-] expressed as factor 0-1, not percentage", "minimum": 0, "maximum": 1 } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-lengthscale" } } },
+                          "then": { "properties": { "value": { "title": "Turbulence Lengthscale", "description": "Integral lengthscale l [m]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "vertical-shear-exponent" } } },
+                          "then": { "properties": { "value": { "title": "Vertical Shear Exponent", "description": "Wind shear exponent alpha [-]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-speed" } } },
+                          "then": { "properties": { "value": { "title": "Wind Speed", "description": "Free-stream wind speed [m/s] at hub height", "minimum": 0 } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-veer" } } },
+                          "then": { "properties": { "value": { "title": "Wind Veer", "description": "Change in wind direction from bottom to top of rotor [degrees]", "minimum": -360, "maximum": 360 } } }
                         }
-                      },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Wind Speed Values",
-                            "description": "Values of free-stream wind speed [m/s] at hub height for which this power curve is tabulated"
-                          }
-                        },
-                        "required": ["values"]
-                      }
+                      ]
                     },
                     {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "turbulence-intensity"
-                          }
-                        }
+                      "title": "Validity Range",
+                      "description": "Power/thrust valid when parameter is within range",
+                      "type": "object",
+                      "required": ["label", "min", "max"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": { "$ref": "#/$defs/parameter_label" },
+                        "min": { "$ref": "#/$defs/parameter_value" },
+                        "max": { "$ref": "#/$defs/parameter_value" }
                       },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "items": {
-                              "type": "number",
-                              "minimum": 0,
-                              "maximum": 1
-                            },
-                            "title": "Turbulence Intensity Values",
-                            "description": "Values of turbulence intensity I [-] (expressed as a factor in the range 0,1 rather than a percentage) for which this power curve is tabulated"
-                          }
+                      "allOf": [
+                        {
+                          "if": { "properties": { "label": { "const": "air-density" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Air Density", "description": "Inclusive minimum air density [kg/m^3]", "minimum": 0.5, "maximum": 2 }, "max": { "title": "Maximum Air Density", "description": "Exclusive maximum air density [kg/m^3]", "minimum": 0.5, "maximum": 2 } } }
                         },
-                        "required": ["values"]
-                      }
+                        {
+                          "if": { "properties": { "label": { "const": "bulk-richardson-number" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Bulk Richardson Number", "description": "Inclusive minimum [-]" }, "max": { "title": "Maximum Bulk Richardson Number", "description": "Exclusive maximum [-]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "inverse-monin-obukhov-length" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Inverse Monin-Obukhov Length", "description": "Inclusive minimum [1/m]" }, "max": { "title": "Maximum Inverse Monin-Obukhov Length", "description": "Exclusive maximum [1/m]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "monin-obukhov-stability" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Monin-Obukhov Stability", "description": "Inclusive minimum zeta [-]" }, "max": { "title": "Maximum Monin-Obukhov Stability", "description": "Exclusive maximum zeta [-]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Turbulence Intensity", "description": "Inclusive minimum I [-]", "minimum": 0, "maximum": 1 }, "max": { "title": "Maximum Turbulence Intensity", "description": "Exclusive maximum I [-]", "minimum": 0, "maximum": 1 } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-lengthscale" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Turbulence Lengthscale", "description": "Inclusive minimum l [m]" }, "max": { "title": "Maximum Turbulence Lengthscale", "description": "Exclusive maximum l [m]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "vertical-shear-exponent" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Vertical Shear Exponent", "description": "Inclusive minimum alpha [-]" }, "max": { "title": "Maximum Vertical Shear Exponent", "description": "Exclusive maximum alpha [-]" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-speed" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Wind Speed", "description": "Inclusive minimum [m/s]", "minimum": 0 }, "max": { "title": "Maximum Wind Speed", "description": "Exclusive maximum [m/s]", "minimum": 0 } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-veer" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Wind Veer", "description": "Inclusive minimum [degrees]", "minimum": -360, "maximum": 360 }, "max": { "title": "Maximum Wind Veer", "description": "Exclusive maximum [degrees]", "minimum": -360, "maximum": 360 } } }
+                        }
+                      ]
                     },
                     {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "turbulence-lengthscale"
-                          }
-                        }
+                      "title": "Values List (Array Dimension)",
+                      "description": "Power/thrust varies with this parameter (array dimension). Values can be bin centers (for interpolation) or ranges (for bucket selection).",
+                      "type": "object",
+                      "required": ["label", "dimension", "values"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "label": { "$ref": "#/$defs/parameter_label" },
+                        "dimension": { "$ref": "#/$defs/parameter_dimension" },
+                        "values": { "$ref": "#/$defs/parameter_values_array" }
                       },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Turbulence Lengthscale Values",
-                            "description": "Values of turbulence integral lengthscale l [m] for which this power curve is tabulated"
-                          }
+                      "allOf": [
+                        {
+                          "if": { "properties": { "label": { "const": "air-density" } } },
+                          "then": { "properties": { "values": { "title": "Air Density Values", "description": "Air density values [kg/m^3] for this dimension" } } }
                         },
-                        "required": ["values"]
-                      }
-                    },
-                    {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "monin-obukhov-stability"
-                          }
+                        {
+                          "if": { "properties": { "label": { "const": "bulk-richardson-number" } } },
+                          "then": { "properties": { "values": { "title": "Bulk Richardson Number Values", "description": "Bulk Richardson number values [-] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "inverse-monin-obukhov-length" } } },
+                          "then": { "properties": { "values": { "title": "Inverse Monin-Obukhov Length Values", "description": "Inverse Monin-Obukhov length values [1/m] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "monin-obukhov-stability" } } },
+                          "then": { "properties": { "values": { "title": "Monin-Obukhov Stability Values", "description": "Monin-Obukhov stability values zeta [-] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
+                          "then": { "properties": { "values": { "title": "Turbulence Intensity Values", "description": "Turbulence intensity values I [-] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "turbulence-lengthscale" } } },
+                          "then": { "properties": { "values": { "title": "Turbulence Lengthscale Values", "description": "Turbulence integral lengthscale values l [m] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "vertical-shear-exponent" } } },
+                          "then": { "properties": { "values": { "title": "Vertical Shear Exponent Values", "description": "Vertical shear exponent values alpha [-] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-speed" } } },
+                          "then": { "properties": { "values": { "title": "Wind Speed Values", "description": "Wind speed values [m/s] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "wind-veer" } } },
+                          "then": { "properties": { "values": { "title": "Wind Veer Values", "description": "Wind veer values [degrees] for this dimension" } } }
                         }
-                      },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Monin-Obukhov Stability Values",
-                            "description": "Values of the the Monin-Obukhov stability parameter zeta [-] for which this power curve is tabulated. Values of zero indicate neutral conditions, vegative condi"
-                          }
-                        },
-                        "required": ["values"]
-                      }
-                    },
-                    {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "vertical-shear-exponent"
-                          }
-                        }
-                      },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Vertical Shear Exponent Values",
-                            "description": "Values of vertical wind shear exponent alpha [-] for which this power curve is tabulated"
-                          }
-                        },
-                        "required": ["values"]
-                      }
-                    },
-                    {
-                      "if": {
-                        "properties": {
-                          "label": {
-                            "const": "wind-direction"
-                          }
-                        }
-                      },
-                      "then": {
-                        "properties": {
-                          "values": {
-                            "title": "Wind Direction Values",
-                            "description": "Values of wind direction [???? degrees clockwise from true north????] for which this power curve is tabulated"
-                          }
-                        },
-                        "required": ["values"]
-                      }
+                      ]
                     }
                   ]
                 }
@@ -1319,6 +1370,11 @@
                 "title": "Power Curve",
                 "description": "Electrical power values [kW], defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property.",
                 "oneOf": [
+                  {
+                    "title": "1 Parameters (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
+                    "type": "array",
+                    "$ref": "#/$defs/1darray"
+                  },
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
                     "type": "array",

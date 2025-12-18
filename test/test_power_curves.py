@@ -288,3 +288,18 @@ def test_acoustic_emissions(subschema, one_dimensional_mode):
             },
             schema=subschema,
         )
+
+
+def test_with_varied_parameters(subschema, two_dimensional_mode_with_varied_parameters):
+    """Parameters which do not have a `dimension` property are informational
+    and do not relate to a dimension of the power curve nd-array. Test that they are acceptable."""
+
+    validate(
+        instance={
+            "power_curves": {
+                "default_operating_mode_label": "two_dimensional_with_varied_parameters",
+                "operating_modes": [two_dimensional_mode_with_varied_parameters],
+            }
+        },
+        schema=subschema,
+    )
