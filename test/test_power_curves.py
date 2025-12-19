@@ -291,8 +291,8 @@ def test_acoustic_emissions(subschema, one_dimensional_mode):
 
 
 def test_with_varied_parameters(subschema, two_dimensional_mode_with_varied_parameters):
-    """Parameters which do not have a `dimension` property are informational
-    and do not relate to a dimension of the power curve nd-array. Test that they are acceptable."""
+    """Parameters which do not have an `axis` property are informational
+    and do not relate to an axis of the power curve nd-array. Test that they are acceptable."""
 
     validate(
         instance={

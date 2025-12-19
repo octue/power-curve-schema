@@ -435,11 +435,11 @@
       "title": "Parameter Label",
       "description": "A slugified string key identifying the parameter"
     },
-    "parameter_dimension": {
+    "parameter_axis": {
       "type": "integer",
       "minimum": 0,
-      "title": "Dimension",
-      "description": "Dimension of the power/thrust array along which this parameter varies (0-based)"
+      "title": "Axis",
+      "description": "Axis, or dimension, of the power/thrust array along which this parameter varies (0-based)"
     },
     "parameter_value": {
       "type": "number",
@@ -1211,7 +1211,7 @@
               "parameters": {
                 "type": "array",
                 "title": "Parameters",
-                "description": "Independent parameters for which the power and thrust curves are described. Each parameter can specify a single value, a validity range, or a list of values (with dimension).",
+                "description": "Independent parameters for which the power and thrust curves are described. Each parameter can specify a single value, a validity range, or a list of values (with axis).",
                 "items": {
                   "type": "object",
                   "oneOf": [
@@ -1323,56 +1323,56 @@
                       ]
                     },
                     {
-                      "title": "Values List (Array Dimension)",
-                      "description": "Power/thrust varies with this parameter (array dimension). Values can be bin centers (for interpolation) or ranges (for bucket selection).",
+                      "title": "Values List (Array Axis)",
+                      "description": "Power/thrust varies with this parameter (array axis). Values can be bin centers (for interpolation) or ranges (for bucket selection).",
                       "type": "object",
-                      "required": ["label", "dimension", "values"],
+                      "required": ["label", "axis", "values"],
                       "additionalProperties": false,
                       "properties": {
                         "label": { "$ref": "#/$defs/parameter_label" },
-                        "dimension": { "$ref": "#/$defs/parameter_dimension" },
+                        "axis": { "$ref": "#/$defs/parameter_axis" },
                         "values": { "$ref": "#/$defs/parameter_values_array" }
                       },
                       "allOf": [
                         {
                           "if": { "properties": { "label": { "const": "air-density" } } },
-                          "then": { "properties": { "values": { "title": "Air Density Values", "description": "Air density values [kg/m^3] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Air Density Values", "description": "Air density values [kg/m^3] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "bulk-richardson-number" } } },
-                          "then": { "properties": { "values": { "title": "Bulk Richardson Number Values", "description": "Bulk Richardson number values [-] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Bulk Richardson Number Values", "description": "Bulk Richardson number values [-] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "inverse-monin-obukhov-length" } } },
-                          "then": { "properties": { "values": { "title": "Inverse Monin-Obukhov Length Values", "description": "Inverse Monin-Obukhov length values [1/m] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Inverse Monin-Obukhov Length Values", "description": "Inverse Monin-Obukhov length values [1/m] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "monin-obukhov-stability" } } },
-                          "then": { "properties": { "values": { "title": "Monin-Obukhov Stability Values", "description": "Monin-Obukhov stability values zeta [-] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Monin-Obukhov Stability Values", "description": "Monin-Obukhov stability values zeta [-] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "reference-turbulence-intensity" } } },
-                          "then": { "properties": { "values": { "title": "Reference Turbulence Intensity Values", "description": "Reference turbulence intensity values IRef [-] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Reference Turbulence Intensity Values", "description": "Reference turbulence intensity values IRef [-] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
-                          "then": { "properties": { "values": { "title": "Turbulence Intensity Values", "description": "Turbulence intensity values I [-] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Turbulence Intensity Values", "description": "Turbulence intensity values I [-] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "turbulence-lengthscale" } } },
-                          "then": { "properties": { "values": { "title": "Turbulence Lengthscale Values", "description": "Turbulence integral lengthscale values l [m] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Turbulence Lengthscale Values", "description": "Turbulence integral lengthscale values l [m] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "vertical-shear-exponent" } } },
-                          "then": { "properties": { "values": { "title": "Vertical Shear Exponent Values", "description": "Vertical shear exponent values alpha [-] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Vertical Shear Exponent Values", "description": "Vertical shear exponent values alpha [-] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "wind-speed" } } },
-                          "then": { "properties": { "values": { "title": "Wind Speed Values", "description": "Wind speed values [m/s] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Wind Speed Values", "description": "Wind speed values [m/s] for this axis" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "wind-veer" } } },
-                          "then": { "properties": { "values": { "title": "Wind Veer Values", "description": "Wind veer values [degrees] for this dimension" } } }
+                          "then": { "properties": { "values": { "title": "Wind Veer Values", "description": "Wind veer values [degrees] for this axis" } } }
                         }
                       ]
                     }
