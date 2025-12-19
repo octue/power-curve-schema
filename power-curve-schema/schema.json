@@ -5,12 +5,14 @@
   "description": "Define a set of power curves for a wind turbine.",
   "$defs": {
     "1darray": {
+      "description": "Allows a power/thrust array to be defined varying with 1 parameters (eg wind-speed)",
       "type": "array",
       "items": {
         "type": "number"
       }
     },
     "2darray": {
+      "description": "Allows a power/thrust array to be defined varying with 3 parameters (eg air-density, wind-speed)",
       "type": "array",
       "items": {
         "type": "array",
@@ -20,6 +22,7 @@
       }
     },
     "3darray": {
+      "description": "Allows a power/thrust array to be defined varying with 3 parameters (eg air-density, wind-speed, reference-turbulence-intensity)",
       "type": "array",
       "items": {
         "type": "array",
@@ -32,6 +35,7 @@
       }
     },
     "4darray": {
+      "description": "Allows a power/thrust array to be defined varying with 4 parameters (eg air-density, wind-speed, reference-turbulence-intensity and wind-veer)",
       "type": "array",
       "items": {
         "type": "array",
