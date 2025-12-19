@@ -5,14 +5,14 @@
   "description": "A schema to define wind turbine power curves and associated information (thrust curves, acoustic emissions, turbine model characteristics , design bases and operating modes) according to IEC61400-16. This provides data necessary for the accurate and efficient modelling of energy production, environmental impact, and turbine suitability.",
   "$defs": {
     "1darray": {
-      "description": "Allows a power/thrust array to be defined varying with 1 parameters (eg wind-speed)",
+      "description": "Allows a power/thrust array to be defined varying with 1 parameter (eg wind-speed)",
       "type": "array",
       "items": {
         "type": "number"
       }
     },
     "2darray": {
-      "description": "Allows a power/thrust array to be defined varying with 3 parameters (eg air-density, wind-speed)",
+      "description": "Allows a power/thrust array to be defined varying with 2 parameters (eg air-density, wind-speed)",
       "type": "array",
       "items": {
         "type": "array",
