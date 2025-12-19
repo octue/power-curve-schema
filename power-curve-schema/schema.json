@@ -290,37 +290,37 @@
         {
           "derating": [
             {
-              "$comment": "Linear ramp down in low temperatures, altitude 2500",
+              "legend": "Linear ramp down in low temperatures, altitude 2500",
               "altitude": 2500,
               "temperature": [-15, 10],
               "power_limit": [1.1e6, 2e6]
             },
             {
-              "$comment": "Linear ramp down in low temperatures, altitude 1250",
+              "legend": "Linear ramp down in low temperatures, altitude 1250",
               "altitude": 1250,
               "temperature": [-15, 10],
               "power_limit": [1.4e6, 2e6]
             },
             {
-              "$comment": "Linear ramp down in low temperatures, altitude 0",
+              "legend": "Linear ramp down in low temperatures, altitude 0",
               "altitude": 0,
               "temperature": [-15, 10],
               "power_limit": [1.6e6, 2e6]
             },
             {
-              "$comment": "Linear ramp down to zero in high temperatures, altitude 2500",
+              "legend": "Linear ramp down to zero in high temperatures, altitude 2500",
               "altitude": 2500,
               "temperature": [40, 45],
               "power_limit": [2e6, 0]
             },
             {
-              "$comment": "Linear ramp down to zero in high temperatures, altitude 1250",
+              "legend": "Linear ramp down to zero in high temperatures, altitude 1250",
               "altitude": 1250,
               "temperature": [42, 45],
               "power_limit": [2e6, 0]
             },
             {
-              "$comment": "Linear ramp down to zero in high temperatures, altitude 0",
+              "legend": "Linear ramp down to zero in high temperatures, altitude 0",
               "altitude": 0,
               "temperature": [42, 45],
               "power_limit": [2e6, 0]
@@ -834,7 +834,7 @@
                   },
                   "reference_turbulence_intensity": {
                     "type": "number",
-                    "title": "Turbulence intensity",
+                    "title": "Reference turbulence intensity",
                     "description": "Value of Iref, specified as a fraction (eg 0.13)",
                     "minimum": 0,
                     "maximum": 1
