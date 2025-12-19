@@ -665,7 +665,7 @@
             "type": "string",
             "title": "Basis label",
             "description": "A string key identifying the design basis, eg `my_design_basis_1`",
-            "pattern": "^[a-z0-9_]{1,40}$",
+            "pattern": "^[a-z0-9_]+$",
             "minLength": 1,
             "maxLength": 40,
             "examples": ["basis_1", "basis_2", "site_xyz_specific"]
@@ -1134,7 +1134,7 @@
           "type": "string",
           "title": "Default operating mode label",
           "description": "The label of the mode that is suggested as default in the absence of a specific selection for site or conditions.  Shall match the label of an entry in 'operating_modes'. Note that, if omitted, the first in the list of operating_modes will likely become a de-facto selection by data recipients.",
-          "pattern": "^[a-z0-9_]{1,40}$",
+          "pattern": "^[a-z0-9_]+$",
           "minLength": 1,
           "maxLength": 40
         },
@@ -1159,7 +1159,7 @@
                 "type": "string",
                 "title": "Mode label",
                 "description": "A string key identifying the mode, e.g. `power_optimised_1`",
-                "pattern": "^[a-z0-9_]{1,40}$",
+                "pattern": "^[a-z0-9_]+$",
                 "minLength": 1,
                 "maxLength": 40
               },
