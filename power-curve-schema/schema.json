@@ -1028,6 +1028,8 @@
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
@@ -1036,6 +1038,8 @@
               },
               "survival_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
@@ -1057,6 +1061,8 @@
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
@@ -1065,6 +1071,8 @@
               },
               "survival_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
@@ -1086,6 +1094,8 @@
             "properties": {
               "operating_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
@@ -1094,6 +1104,8 @@
               },
               "survival_temperature_range": {
                 "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
                 "items": {
                   "type": "number",
                   "minimum": -273.15,
