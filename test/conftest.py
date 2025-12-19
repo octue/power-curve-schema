@@ -217,12 +217,12 @@ def two_dimensional_mode_with_varied_parameters(two_dimensional_mode):
     with_varied_parameters = two_dimensional_mode
     with_varied_parameters['label'] = "two_dimensional_with_varied_parameters"
     with_varied_parameters['parameters'] = [
-            # Singleton value
+            # Singleton value for which this curve is valid
             {
                 "label": "air-density",
-                "value": 1.225
+                "value":  1.225
             },
-            # Singleton range
+            # Singleton range within which this curve is valid
             {
                 "label": "vertical-shear-exponent",
                 "min": 0.2,
@@ -230,17 +230,12 @@ def two_dimensional_mode_with_varied_parameters(two_dimensional_mode):
             },
             # Dimension ranges
             {
-                "label": "turbulence-intensity",
+                "label": "reference-turbulence-intensity",
                 "dimension": 0,
                 "values": [
-                    { "min": 0, "max": 0.03 },
-                    { "min": 0.03, "max": 0.06 },
-                    { "min": 0.06, "max": 0.09 },
-                    { "min": 0.09, "max": 0.12 },
-                    { "min": 0.12, "max": 0.15 },
-                    { "min": 0.15, "max": 0.18 },
-                    { "min": 0.18, "max": 0.21 },
-                    { "min": 0.21, "max": 0.24 }
+                    { "min": 0, "max": 0.06 },
+                    { "min": 0.06, "max": 0.21 },
+                    { "min": 0.21, "max": 0.56 }
                 ]
             },
             # Dimension values
@@ -252,6 +247,25 @@ def two_dimensional_mode_with_varied_parameters(two_dimensional_mode):
         ]
     return with_varied_parameters
     # fmt: on
+
+
+
+@pytest.fixture(scope="session")
+def loaded_generic_120_3_with_extra_parameters():
+    """Provides the generic 120m 3.45MW turbine as a test instance, loaded from disc only once per session
+    NOTE: Do not use this fixture directly, to avoid mutation of fixtures for other tests.
+    Instead, use a deep copy of this fixture (to accelerate tests copmared to loading from disc on each test).
+    """
+
+    with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-120-3-with-extra-parameters.json"), 'r', encoding="utf-8") as fp:
+        instance = json.load(fp)
+    return instance
+
+
+@pytest.fixture()
+def generic_120_3_with_extra_parameters(loaded_generic_120_3_with_extra_parameters):
+    """A fresh deep copy of the generic 120m 3.45MW turbine as a test instance"""
+    return copy.deepcopy(loaded_generic_120_3_with_extra_parameters)
 
 
 @pytest.fixture(scope="session")

@@ -425,6 +425,7 @@
         "bulk-richardson-number",
         "inverse-monin-obukhov-length",
         "monin-obukhov-stability",
+        "reference-turbulence-intensity",
         "turbulence-intensity",
         "turbulence-lengthscale",
         "vertical-shear-exponent",
@@ -1242,6 +1243,10 @@
                           "then": { "properties": { "value": { "title": "Monin-Obukhov Stability", "description": "Stability parameter zeta [-], zero = neutral" } } }
                         },
                         {
+                          "if": { "properties": { "label": { "const": "reference-turbulence-intensity" } } },
+                          "then": { "properties": { "value": { "title": "Reference Turbulence Intensity", "description": "IRef [-] per IEC61400-1 (70th quantile at 15m/s)", "minimum": 0, "maximum": 1 } } }
+                        },
+                        {
                           "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
                           "then": { "properties": { "value": { "title": "Turbulence Intensity", "description": "I [-] expressed as factor 0-1, not percentage", "minimum": 0, "maximum": 1 } } }
                         },
@@ -1292,6 +1297,10 @@
                           "then": { "properties": { "min": { "title": "Minimum Monin-Obukhov Stability", "description": "Inclusive minimum zeta [-]" }, "max": { "title": "Maximum Monin-Obukhov Stability", "description": "Exclusive maximum zeta [-]" } } }
                         },
                         {
+                          "if": { "properties": { "label": { "const": "reference-turbulence-intensity" } } },
+                          "then": { "properties": { "min": { "title": "Minimum Reference Turbulence Intensity", "description": "Inclusive minimum IRef [-]", "minimum": 0, "maximum": 1 }, "max": { "title": "Maximum Reference Turbulence Intensity", "description": "Exclusive maximum IRef [-]", "minimum": 0, "maximum": 1 } } }
+                        },
+                        {
                           "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
                           "then": { "properties": { "min": { "title": "Minimum Turbulence Intensity", "description": "Inclusive minimum I [-]", "minimum": 0, "maximum": 1 }, "max": { "title": "Maximum Turbulence Intensity", "description": "Exclusive maximum I [-]", "minimum": 0, "maximum": 1 } } }
                         },
@@ -1340,6 +1349,10 @@
                         {
                           "if": { "properties": { "label": { "const": "monin-obukhov-stability" } } },
                           "then": { "properties": { "values": { "title": "Monin-Obukhov Stability Values", "description": "Monin-Obukhov stability values zeta [-] for this dimension" } } }
+                        },
+                        {
+                          "if": { "properties": { "label": { "const": "reference-turbulence-intensity" } } },
+                          "then": { "properties": { "values": { "title": "Reference Turbulence Intensity Values", "description": "Reference turbulence intensity values IRef [-] for this dimension" } } }
                         },
                         {
                           "if": { "properties": { "label": { "const": "turbulence-intensity" } } },
@@ -1397,6 +1410,11 @@
                 "description": "Thrust coefficients, defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. These arrays shall be the same size and shape as the `power` value. Where coefficient values are provided for only a single air density, the singleton dimension shall be expanded (ie repeat columns to match the size of the `power` array).",
                 "$comment": "Expanding the singleton value in the air-density dimension to match the dimension of the power array may seem futile. However, in an number of cases found during development of the schema, the thrust coefficient is still a function of air density (!!) due to nonlinear effects such as temperature regulation varying with density. Requiring this expansion regardless, whilst apparently wasteful, encourages data consumers to handle all cases consistently.",
                 "oneOf": [
+                  {
+                    "title": "1 Parameter (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
+                    "type": "array",
+                    "$ref": "#/$defs/1darray"
+                  },
                   {
                     "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
                     "type": "array",
