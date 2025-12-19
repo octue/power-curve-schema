@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "Power Curves Schema",
-  "description": "Define a set of power curves for a wind turbine.",
+  "description": "A schema to define wind turbine power curves and associated information (thrust curves, acoustic emissions, turbine model characteristics , design bases and operating modes) according to IEC61400-16. This provides data necessary for the accurate and efficient modelling of energy production, environmental impact, and turbine suitability.",
   "$defs": {
     "1darray": {
       "description": "Allows a power/thrust array to be defined varying with 1 parameters (eg wind-speed)",
