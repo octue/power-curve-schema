@@ -1082,7 +1082,6 @@
           "hot_climate": {
             "type": "object",
             "description": "As per standard climate in eventuality turbine is equipped with a hot weather package",
-            "$comment": "TODO Schema team - Can we define why this is different in hot climates than it is in standard climates?",
             "additionalProperties": false,
             "properties": {
               "operating_temperature_range": {
