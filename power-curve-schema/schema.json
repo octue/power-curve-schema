@@ -419,7 +419,6 @@
       "uniqueItems": true
     },
     "parameter_label": {
-      "type": "string",
       "enum": [
         "air-density",
         "bulk-richardson-number",
