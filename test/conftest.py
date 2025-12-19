@@ -140,17 +140,16 @@ def one_dimensional_mode(valid_cuts):
         "label": "one_dimensional",
         "name": "One Dimensional",
         "design_bases": ['basis-1'],
-        "description": "A typical mode where there are values for only the reference air density. In practicality this is the same as a two-dimensional example, just with a single air density value.",
+        "description": "A typical mode where there is an informational value for the reference air density. In practicality this is the same as a two-dimensional example, just with a single air density value.",
         "cuts": valid_cuts,
         "parameters": [
             {
                 "label": "air-density",
-                "dimension": 0,
-                "values": [1.225]
+                "value": 1.225
             },
             {
                 "label": "wind-speed",
-                "dimension": 1,
+                "axis": 0,
                 "values": [
                     3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0,9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5,15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0,20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0
                 ]
@@ -168,8 +167,8 @@ def one_dimensional_mode(valid_cuts):
 
 @pytest.fixture()
 def two_dimensional_mode(valid_cuts):
-   # fmt: off
-   return  {
+    # fmt: off
+    return  {
         "label": "two_dimensional",
         "name": "Two Dimensional",
         "description": "A typical mode where both air density and wind speed vary",
@@ -178,12 +177,12 @@ def two_dimensional_mode(valid_cuts):
         "parameters": [
             {
                 "label": "air-density",
-                "dimension": 0,
+                "axis": 0,
                 "values": [1.1, 1.125, 1.15, 1.175, 1.2, 1.225, 1.25, 1.275]
             },
             {
                 "label": "wind-speed",
-                "dimension": 1,
+                "axis": 1,
                 "values": [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0]
             }
         ],
@@ -210,6 +209,63 @@ def two_dimensional_mode(valid_cuts):
       ]
     }
     # fmt: on
+
+
+@pytest.fixture()
+def two_dimensional_mode_with_varied_parameters(two_dimensional_mode):
+    # fmt: off
+    with_varied_parameters = two_dimensional_mode
+    with_varied_parameters['label'] = "two_dimensional_with_varied_parameters"
+    with_varied_parameters['parameters'] = [
+            # Singleton value for which this curve is valid
+            {
+                "label": "air-density",
+                "value":  1.225
+            },
+            # Singleton range within which this curve is valid
+            {
+                "label": "vertical-shear-exponent",
+                "min": 0.2,
+                "max": 0.3
+            },
+            # Dimension ranges
+            {
+                "label": "reference-turbulence-intensity",
+                "axis": 0,
+                "values": [
+                    { "min": 0, "max": 0.06 },
+                    { "min": 0.06, "max": 0.21 },
+                    { "min": 0.21, "max": 0.56 }
+                ]
+            },
+            # Dimension values
+            {
+                "label": "wind-speed",
+                "axis": 1,
+                "values": [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0]
+            }
+        ]
+    return with_varied_parameters
+    # fmt: on
+
+
+
+@pytest.fixture(scope="session")
+def loaded_generic_120_3_with_extra_parameters():
+    """Provides the generic 120m 3.45MW turbine as a test instance, loaded from disc only once per session
+    NOTE: Do not use this fixture directly, to avoid mutation of fixtures for other tests.
+    Instead, use a deep copy of this fixture (to accelerate tests copmared to loading from disc on each test).
+    """
+
+    with open(os.path.join(ROOT_DIR, "power-curve-schema", "examples", "generic-120-3-with-extra-parameters.json"), 'r', encoding="utf-8") as fp:
+        instance = json.load(fp)
+    return instance
+
+
+@pytest.fixture()
+def generic_120_3_with_extra_parameters(loaded_generic_120_3_with_extra_parameters):
+    """A fresh deep copy of the generic 120m 3.45MW turbine as a test instance"""
+    return copy.deepcopy(loaded_generic_120_3_with_extra_parameters)
 
 
 @pytest.fixture(scope="session")

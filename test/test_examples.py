@@ -4,6 +4,11 @@
 from jsonschema import validate
 
 
+def test_generic_120_3_with_extra_parameters(schema, generic_120_3_with_extra_parameters):
+    """Validation should pass on the entire example document"""
+    validate(instance=generic_120_3_with_extra_parameters, schema=schema)
+
+
 def test_generic_120_3(schema, generic_120_3):
     """Validation should pass on the entire example document"""
     validate(instance=generic_120_3, schema=schema)
