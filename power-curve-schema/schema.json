@@ -60,14 +60,14 @@
     "cut_in_rpm": {
       "type": "number",
       "title": "Rotational speed at cut-in [RPM]",
-      "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "description": "Nominal rotational speed at cut-in (specify 0 for stall-regulated devices) [RPM]. This value may be overridden on a per-mode basis.",
       "minimum": 0,
       "examples": [2]
     },
     "rated_rpm": {
       "type": "number",
       "title": "Rotational speed at rated power [RPM]",
-      "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overriden on a per-mode basis.",
+      "description": "Nominal rotational speed at rated power (or at peak power for stall-regulated devices) [RPM]. This value may be overridden on a per-mode basis.",
       "minimum": 0,
       "examples": [12]
     },
@@ -563,7 +563,7 @@
         "model_name": {
           "type": "string",
           "title": "Model name",
-          "description": "Name of the turbine model as stated on the Type Certificate, Design Evaluation Confirmity Statement or Statement of Compliance.",
+          "description": "Name of the turbine model as stated on the Type Certificate, Design Evaluation Conformity Statement or Statement of Compliance.",
           "minLength": 1,
           "maxLength": 40,
           "examples": ["GT101"]
