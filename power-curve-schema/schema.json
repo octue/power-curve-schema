@@ -822,7 +822,7 @@
               {
                 "title": "Special turbulence category",
                 "type": "object",
-                "description": "Specify reference turbulence intensity",
+                "description": "Specify reference turbulence intensity consistent with IEC61400-1 Eds. 3 and 4",
                 "required": ["category", "reference_turbulence_intensity"],
                 "additionalProperties": false,
                 "properties": {
@@ -845,7 +845,7 @@
                 "title": "Characteristic turbulence intensity and slope",
                 "type": "object",
                 "description": "Specify characteristic turbulence intensity and slope consistent with IEC61400-1 Ed2",
-                "required": ["category", "characteristic_turbulence_intensity"],
+                "required": ["category", "characteristic_turbulence_intensity", "slope"],
                 "additionalProperties": false,
                 "properties": {
                   "category": {
@@ -865,7 +865,7 @@
                   "slope": {
                     "type": "number",
                     "title": "Slope (a)",
-                    "description": "Specify the slope parameter (a). No slope parameter is used for 61400-1 editions 3 or 4.",
+                    "description": "Specify the slope parameter (a)",
                     "minimum": 0,
                     "examples": [2, 3]
                   }
