@@ -1446,6 +1446,32 @@
                   }
                 ]
               },
+              "rotor_rpm": {
+                "title": "Rotor RPM Curve",
+                "description": "Rotor RPM, defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. These arrays shall be the same size and shape as the `power` value. This variation is useful for detailed loading simulations, wake simulation, and ice-throw analyses. If not given, a common practice is to assume a linear variation of rotational speed between cut_in_rpm and rated_rpm values if supplied in the `turbine` property.",
+                "oneOf": [
+                  {
+                    "title": "1 Parameter (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
+                    "type": "array",
+                    "$ref": "#/$defs/1darray"
+                  },
+                  {
+                    "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
+                    "type": "array",
+                    "$ref": "#/$defs/2darray"
+                  },
+                  {
+                    "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
+                    "type": "array",
+                    "$ref": "#/$defs/3darray"
+                  },
+                  {
+                    "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
+                    "type": "array",
+                    "$ref": "#/$defs/4darray"
+                  }
+                ]
+              },
               "acoustic_emissions": {
                 "title": "Acoustic emissions",
                 "description": "Specify the noise (Sound Power Level) emitted by the turbine in this mode of operation",
