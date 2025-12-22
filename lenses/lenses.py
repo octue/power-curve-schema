@@ -121,6 +121,25 @@ def _remove_dimension(arr, dim):
         return arr
 
 
+def _convert_dcmi_term_to_term_name(doc):
+    """Convert document.metadata entries from 'term' (capitalized label) to 'term_name' (lowercase name).
+
+    Old format: {"term": "Identifier", "value": "..."}
+    New format: {"term_name": "identifier", "value": "..."}
+    """
+
+    if "document" not in doc or "metadata" not in doc["document"]:
+        return doc
+
+    for entry in doc["document"]["metadata"]:
+        if "term" in entry:
+            # Convert capitalized label to lowercase name
+            term_value = entry.pop("term")
+            entry["term_name"] = term_value.lower()
+
+    return doc
+
+
 def alpha_3_to_alpha_4(doc):
     """Convert documents compliant with alpha-3 to documents compliant with alpha-4"""
 
@@ -130,6 +149,7 @@ def alpha_3_to_alpha_4(doc):
         _move_available_hub_heights_to_restricted,
         _rename_dimension_to_axis,
         _collapse_singleton_dimensions,
+        _convert_dcmi_term_to_term_name,
     ]
     for lens in lenses:
         doc = lens(doc)

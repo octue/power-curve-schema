@@ -2,16 +2,20 @@
   "document": {
     "metadata": [
       {
-        "term": "Identifier",
+        "term_name": "identifier",
         "value": "6d3ff892-8763-4448-aab9-ab8454bf6ec5"
       },
       {
-        "term": "Format",
+        "term_name": "format",
         "value": "IEC61400-16-1"
       },
       {
-        "term": "Source",
+        "term_name": "source",
         "value": "Doc 56789 - Rev 01"
+      },
+      {
+        "term_name": "type",
+        "value": "Dataset"
       }
     ]
   },
