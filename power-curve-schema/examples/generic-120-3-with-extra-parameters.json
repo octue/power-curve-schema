@@ -12,6 +12,10 @@
       {
         "term_name": "source",
         "value": "Doc 12345 - Rev 01"
+      },
+      {
+        "term_name": "type",
+        "value": "Dataset"
       }
     ]
   },
