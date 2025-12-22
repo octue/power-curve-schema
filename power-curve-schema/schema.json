@@ -1665,6 +1665,70 @@
                     "$ref": "#/$defs/rated_rpm"
                   }
                 }
+              },
+              "wind_speed_reference": {
+                "title": "Wind Speed Reference",
+                "description": "Describes the reference location for the wind-speed parameter",
+                "type": "object",
+                "oneOf": [
+                  {
+                    "title": "Distance upstream",
+                    "description": "Wind speed is referenced at hub height, a specified number of rotor diameters upstream of the rotor disc, per IEC 61400-12-1.",
+                    "type": "object",
+                    "required": ["reference_type", "distance"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "reference_type": {
+                        "title": "Reference type",
+                        "const": "distance"
+                      },
+                      "distance": {
+                        "title": "Distance [rotor diameters]",
+                        "description": "Distance (positive upstream from the rotor plane) in number of rotor diameters at which the wind speed is referenced. Per IEC61400-12-1, a value of 2.5D may be assumed in the absence of any reference location ('nominally free stream', even though there is some induction effect at that location).",
+                        "type": "number",
+                        "examples": [2.5]
+                      }
+                    }
+                  },
+                  {
+                    "title": "Anemometer",
+                    "description": "Wind speed is the value recorded at an anemometer. Any applied transfer functions should be described in accompanying documentation. If a transfer function is applied to refer the anemometer measurements to a location upstream at hub height, consider using a 'distance' reference type instead.",
+                    "type": "object",
+                    "required": ["reference_type"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "reference_type": {
+                        "title": "Reference type",
+                        "const": "anemometer"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Rotor-averaged wind speed",
+                    "description": "Wind speed is rotor-averaged. This facilitates CFD-based analyses (eg whole-farm and wake simulations).",
+                    "type": "object",
+                    "required": ["reference_type"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "reference_type": {
+                        "title": "Reference type",
+                        "const": "rotor-averaged"
+                      }
+                    }
+                  }
+                ],
+                "examples": [
+                  {
+                    "reference_type": "distance",
+                    "distance": 2.5
+                  },
+                  {
+                    "reference_type": "anemometer"
+                  },
+                  {
+                    "reference_type": "rotor-averaged"
+                  }
+                ]
               }
             }
           }

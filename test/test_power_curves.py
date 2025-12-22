@@ -237,7 +237,7 @@ def test_invalid_restricted_to_hub_heights(subschema, one_dimensional_mode):
 
 
 def test_acoustic_emissions(subschema, one_dimensional_mode):
-    """"""
+    """Ensure all three variations of acoustic emissions validate correctly"""
     # fmt: off
     third_octave_noise = {
         "margin": 2,
@@ -303,3 +303,31 @@ def test_with_varied_parameters(subschema, two_dimensional_mode_with_varied_para
         },
         schema=subschema,
     )
+
+
+def test_wind_speed_reference(subschema, one_dimensional_mode):
+    """Ensure all three kinds of wind speed reference location are encompassed"""
+    rotor_averaged = {
+        "reference_type": "rotor-averaged",
+    }
+
+    distance = {
+        "reference_type": "distance",
+        "distance": 2.5,
+    }
+
+    anemometer = {
+        "reference_type": "anemometer",
+    }
+
+    for reference in [rotor_averaged, distance, anemometer]:
+        one_dimensional_mode["wind_speed_reference"] = reference
+        validate(
+            instance={
+                "power_curves": {
+                    "default_operating_mode_label": "one_dimensional",
+                    "operating_modes": [one_dimensional_mode],
+                }
+            },
+            schema=subschema,
+        )
