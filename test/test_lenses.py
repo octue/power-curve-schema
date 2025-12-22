@@ -11,6 +11,7 @@ from lenses.lenses import (
     _add_power_reference_location,
     _change_shear_coefficient_to_vertical_shear_exponent,
     _collapse_singleton_dimensions,
+    _convert_dcmi_term_to_term_name,
     _move_available_hub_heights_to_restricted,
     _rename_dimension_to_axis,
 )
@@ -218,3 +219,62 @@ def test_collapse_singleton_dimensions_no_singletons(generic_120_3_alpha_3):
     assert mode_after["parameters"][1] == mode_before["parameters"][1]
     assert mode_after["power"] == mode_before["power"]
     assert mode_after["thrust_coefficient"] == mode_before["thrust_coefficient"]
+
+
+def test_convert_dcmi_term_to_term_name(generic_120_3_alpha_3):
+    """Should convert 'term' property to 'term_name' and lowercase the value"""
+    # Verify initial state - fixture has old format
+    metadata = generic_120_3_alpha_3["document"]["metadata"]
+    assert metadata[0]["term"] == "Identifier"
+    assert metadata[1]["term"] == "Format"
+    assert metadata[2]["term"] == "Source"
+
+    transformed = _convert_dcmi_term_to_term_name(generic_120_3_alpha_3)
+
+    metadata = transformed["document"]["metadata"]
+    # Check term was renamed to term_name and lowercased
+    assert "term" not in metadata[0]
+    assert metadata[0]["term_name"] == "identifier"
+    assert metadata[0]["value"] == "126b9e41-722f-49ab-9586-b55188adf420"
+
+    assert "term" not in metadata[1]
+    assert metadata[1]["term_name"] == "format"
+    assert metadata[1]["value"] == "IEC61400-16-1"
+
+    assert "term" not in metadata[2]
+    assert metadata[2]["term_name"] == "source"
+    assert metadata[2]["value"] == "Doc 12345 - Rev 01"
+
+
+def test_convert_dcmi_term_to_term_name_no_op_when_already_converted(generic_120_3_alpha_3):
+    """Should not modify documents that already use term_name"""
+    # Convert to new format first
+    generic_120_3_alpha_3["document"]["metadata"] = [
+        {"term_name": "identifier", "value": "test-id"},
+        {"term_name": "format", "value": "IEC61400-16-1"},
+    ]
+
+    metadata_before = copy.deepcopy(generic_120_3_alpha_3["document"]["metadata"])
+    transformed = _convert_dcmi_term_to_term_name(generic_120_3_alpha_3)
+    metadata_after = transformed["document"]["metadata"]
+
+    # Should be unchanged
+    assert metadata_after == metadata_before
+
+
+def test_convert_dcmi_term_to_term_name_handles_missing_document(generic_120_3_alpha_3):
+    """Should handle documents without a document section gracefully"""
+    del generic_120_3_alpha_3["document"]
+
+    # Should not raise an error
+    transformed = _convert_dcmi_term_to_term_name(generic_120_3_alpha_3)
+    assert "document" not in transformed
+
+
+def test_convert_dcmi_term_to_term_name_handles_missing_metadata(generic_120_3_alpha_3):
+    """Should handle documents without metadata section gracefully"""
+    del generic_120_3_alpha_3["document"]["metadata"]
+
+    # Should not raise an error
+    transformed = _convert_dcmi_term_to_term_name(generic_120_3_alpha_3)
+    assert "metadata" not in transformed["document"]

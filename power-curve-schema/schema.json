@@ -542,28 +542,28 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["term", "value"],
+            "required": ["term_name", "value"],
             "additionalProperties": false,
             "properties": {
-              "term": {
-                "title": "Term",
-                "description": "The DCMI Element label",
+              "term_name": {
+                "title": "Term Name",
+                "description": "The DCMI Term or Element name (see https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)",
                 "enum": [
-                  "Contributor",
-                  "Coverage",
-                  "Creator",
-                  "Date",
-                  "Description",
-                  "Format",
-                  "Identifier",
-                  "Language",
-                  "Publisher",
-                  "Relation",
-                  "Rights",
-                  "Source",
-                  "Subject",
-                  "Title",
-                  "Type"
+                  "contributor",
+                  "coverage",
+                  "creator",
+                  "date",
+                  "description",
+                  "format",
+                  "identifier",
+                  "language",
+                  "publisher",
+                  "relation",
+                  "rights",
+                  "source",
+                  "subject",
+                  "title",
+                  "type"
                 ]
               },
               "value": {
