@@ -4,50 +4,65 @@
   "title": "Power Curves Schema",
   "description": "A schema to define wind turbine power curves and associated information (thrust curves, acoustic emissions, turbine model characteristics , design bases and operating modes) according to IEC61400-16. This provides data necessary for the accurate and efficient modelling of energy production, environmental impact, and turbine suitability.",
   "$defs": {
-    "1darray": {
-      "description": "Allows a power/thrust array to be defined varying with 1 parameter (eg wind-speed)",
-      "type": "array",
-      "items": {
-        "type": "number"
-      }
-    },
-    "2darray": {
-      "description": "Allows a power/thrust array to be defined varying with 2 parameters (eg air-density, wind-speed)",
-      "type": "array",
-      "items": {
+    "arrays": {
+      "1d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 1 parameter (eg wind-speed)",
         "type": "array",
-        "items": {
-          "type": "number"
-        }
-      }
-    },
-    "3darray": {
-      "description": "Allows a power/thrust array to be defined varying with 3 parameters (eg air-density, wind-speed, reference-turbulence-intensity)",
-      "type": "array",
-      "items": {
+        "items": { "type": "number" }
+      },
+      "2d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 2 parameters (eg air-density, wind-speed)",
         "type": "array",
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          }
-        }
-      }
-    },
-    "4darray": {
-      "description": "Allows a power/thrust array to be defined varying with 4 parameters (eg air-density, wind-speed, reference-turbulence-intensity and wind-veer)",
-      "type": "array",
-      "items": {
+        "items": { "$ref": "#/$defs/arrays/1d" }
+      },
+      "3d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 3 parameters",
         "type": "array",
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          }
-        }
+        "items": { "$ref": "#/$defs/arrays/2d" }
+      },
+      "4d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 4 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/3d" }
+      },
+      "5d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 5 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/4d" }
+      },
+      "6d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 6 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/5d" }
+      },
+      "7d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 7 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/6d" }
+      },
+      "8d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 8 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/7d" }
+      },
+      "9d": {
+        "description": "Allows a power/thrust/rpm array to be defined varying with 9 parameters",
+        "type": "array",
+        "items": { "$ref": "#/$defs/arrays/8d" }
+      },
+      "ndarray": {
+        "description": "An N-dimensional array of numeric values, where N can be 1 to 9, representing power, thrust coefficient, or rotor RPM varying with up to 9 independent parameters.",
+        "oneOf": [
+          { "title": "1 Parameter (1D Array)", "$ref": "#/$defs/arrays/1d" },
+          { "title": "2 Parameters (2D Array)", "$ref": "#/$defs/arrays/2d" },
+          { "title": "3 Parameters (3D Array)", "$ref": "#/$defs/arrays/3d" },
+          { "title": "4 Parameters (4D Array)", "$ref": "#/$defs/arrays/4d" },
+          { "title": "5 Parameters (5D Array)", "$ref": "#/$defs/arrays/5d" },
+          { "title": "6 Parameters (6D Array)", "$ref": "#/$defs/arrays/6d" },
+          { "title": "7 Parameters (7D Array)", "$ref": "#/$defs/arrays/7d" },
+          { "title": "8 Parameters (8D Array)", "$ref": "#/$defs/arrays/8d" },
+          { "title": "9 Parameters (9D Array)", "$ref": "#/$defs/arrays/9d" }
+        ]
       }
     },
     "rated_power": {
@@ -1396,81 +1411,18 @@
               "power": {
                 "title": "Power Curve",
                 "description": "Electrical power values [kW], defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property.",
-                "oneOf": [
-                  {
-                    "title": "1 Parameters (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
-                    "type": "array",
-                    "$ref": "#/$defs/1darray"
-                  },
-                  {
-                    "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/2darray"
-                  },
-                  {
-                    "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/3darray"
-                  },
-                  {
-                    "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/4darray"
-                  }
-                ]
+                "$ref": "#/$defs/arrays/ndarray"
               },
               "thrust_coefficient": {
                 "title": "Thrust Coefficient Curve",
                 "description": "Thrust coefficients, defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. These arrays shall be the same size and shape as the `power` value. Where coefficient values are provided for only a single air density, the singleton dimension shall be expanded (ie repeat columns to match the size of the `power` array).",
                 "$comment": "Expanding the singleton value in the air-density dimension to match the dimension of the power array may seem futile. However, in an number of cases found during development of the schema, the thrust coefficient is still a function of air density (!!) due to nonlinear effects such as temperature regulation varying with density. Requiring this expansion regardless, whilst apparently wasteful, encourages data consumers to handle all cases consistently.",
-                "oneOf": [
-                  {
-                    "title": "1 Parameter (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
-                    "type": "array",
-                    "$ref": "#/$defs/1darray"
-                  },
-                  {
-                    "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/2darray"
-                  },
-                  {
-                    "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/3darray"
-                  },
-                  {
-                    "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/4darray"
-                  }
-                ]
+                "$ref": "#/$defs/arrays/ndarray"
               },
               "rotor_rpm": {
                 "title": "Rotor RPM Curve",
                 "description": "Angular speed of the rotor [RPM], defined as an N-D array (where N is the number of independent parameters) at the sample points described in the `parameters` property. These arrays shall be the same size and shape as the `power` value. This variation is useful for detailed loading simulations, wake simulation, and ice-throw analyses. If not given, a common practice is to assume a linear variation of rotational speed between cut_in_rpm and rated_rpm values if supplied in the `turbine` property.",
-                "oneOf": [
-                  {
-                    "title": "1 Parameter (1D Array, e.g. wind-speed for ISO standard air density of 1.225)",
-                    "type": "array",
-                    "$ref": "#/$defs/1darray"
-                  },
-                  {
-                    "title": "2 Parameters (2D Array, e.g. air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/2darray"
-                  },
-                  {
-                    "title": "3 Parameters (3D Array, e.g. turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/3darray"
-                  },
-                  {
-                    "title": "4 Parameters (4D Array, e.g. monin-obukhov-stability, turbulent-intensity, air-density and wind-speed)",
-                    "type": "array",
-                    "$ref": "#/$defs/4darray"
-                  }
-                ]
+                "$ref": "#/$defs/arrays/ndarray"
               },
               "acoustic_emissions": {
                 "title": "Acoustic emissions",
