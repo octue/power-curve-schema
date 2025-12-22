@@ -202,7 +202,7 @@
         },
         "derating": {
           "title": "Derating",
-          "description": "Define any number of thermal derating curves to limit power performance in extreme temperature ranges. Curves can be based on either altitude or air density.",
+          "description": "Define any number of thermal derating curves to limit power performance in extreme temperature ranges. Curves can be based on altitude, air density, or reactive power output.",
           "type": "array",
           "minItems": 1,
           "items": {
@@ -280,6 +280,38 @@
                     "description": "A note related to the applicability or extra context describing the derating",
                     "type": "string",
                     "maxLength": 80
+                  },
+                  "temperature": {
+                    "description": "A list of atmospheric temperature values [degrees C]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "power_limit": {
+                    "description": "A list of power limits each corresponding to an atmospheric temperature value in the previous list [W]",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "title": "Reactive power and temperature based derating",
+                "required": ["reactive_power", "power_limit", "temperature"],
+                "additionalProperties": false,
+                "properties": {
+                  "legend": {
+                    "title": "Legend",
+                    "description": "A note related to the applicability or extra context describing the derating",
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  "reactive_power": {
+                    "description": "The absolute value of reactive power at which this derating curve applies [VAr]",
+                    "type": "number",
+                    "minimum": 0
                   },
                   "temperature": {
                     "description": "A list of atmospheric temperature values [degrees C]",

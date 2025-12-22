@@ -166,3 +166,78 @@ def test_invalid_regulation_type(subschema, generic_turbine):
     with pytest.raises(ValidationError) as e:
         validate(instance=generic_turbine, schema=subschema)
     assert "'aeroflap' is not one of ['pitch', 'stall', 'other']" in str(e)
+
+
+def test_reactive_power_derating(subschema, generic_turbine):
+    """Validation should pass for reactive power based thermal derating"""
+    generic_turbine["turbine"]["thermal_regulation"] = {
+        "derating": [
+            {
+                "legend": "High temperature derating, reactive power 0 VAr",
+                "reactive_power": 0,
+                "temperature": [35, 36, 37, 38, 39, 40],
+                "power_limit": [20e6, 18.8e6, 17.5e6, 16.5e6, 15.3e6, 14e6],
+            }
+        ]
+    }
+    validate(instance=generic_turbine, schema=subschema)
+
+
+def test_reactive_power_derating_with_multiple_curves(subschema, generic_turbine):
+    """Validation should pass for multiple reactive power based thermal derating curves"""
+    generic_turbine["turbine"]["thermal_regulation"] = {
+        "derating": [
+            {
+                "legend": "High temperature derating, reactive power 0 VAr",
+                "reactive_power": 0,
+                "temperature": [35, 40],
+                "power_limit": [20e6, 14e6],
+            },
+            {
+                "legend": "High temperature derating, reactive power 6.5 MVAr",
+                "reactive_power": 6.5e6,
+                "temperature": [30, 40],
+                "power_limit": [20e6, 12.3e6],
+            },
+            {
+                "legend": "High temperature derating, reactive power 9.5 MVAr",
+                "reactive_power": 9.5e6,
+                "temperature": [30, 40, 41],
+                "power_limit": [20e6, 10.2e6, 0],
+            },
+        ]
+    }
+    validate(instance=generic_turbine, schema=subschema)
+
+
+def test_reactive_power_derating_negative_value_invalid(subschema, generic_turbine):
+    """Validation should fail for negative reactive power values"""
+    generic_turbine["turbine"]["thermal_regulation"] = {
+        "derating": [
+            {
+                "reactive_power": -1000,
+                "temperature": [35, 40],
+                "power_limit": [20e6, 14e6],
+            }
+        ]
+    }
+    with pytest.raises(ValidationError) as e:
+        validate(instance=generic_turbine, schema=subschema)
+    assert "minimum" in str(e)
+
+
+def test_reactive_power_derating_missing_required_field(subschema, generic_turbine):
+    """Validation should fail if reactive_power derating is missing temperature or power_limit"""
+    generic_turbine["turbine"]["thermal_regulation"] = {
+        "derating": [
+            {
+                "reactive_power": 0,
+                "temperature": [35, 40],
+                # missing power_limit
+            }
+        ]
+    }
+    with pytest.raises(ValidationError) as e:
+        validate(instance=generic_turbine, schema=subschema)
+    # Since derating uses anyOf, the error message indicates it doesn't match any schema
+    assert "is not valid under any of the given schemas" in str(e)

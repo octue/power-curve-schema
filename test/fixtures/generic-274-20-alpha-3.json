@@ -69,6 +69,24 @@
           "air_density": 0.9,
           "temperature": [40, 41, 42, 43, 44, 45],
           "power_limit": [2e6, 1.98e6, 1.88e6, 2.0e6, 1.7e6, 1.1e6]
+        },
+        {
+          "legend": "High temperature derating, reactive power 0 VAr",
+          "reactive_power": 0,
+          "temperature": [35, 36, 37, 38, 39, 40],
+          "power_limit": [20e6, 18.8e6, 17.5e6, 16.5e6, 15.3e6, 14e6]
+        },
+        {
+          "legend": "High temperature derating, reactive power 1.8 MVAr",
+          "reactive_power": 1.8e6,
+          "temperature": [30, 32, 34, 36, 38, 40],
+          "power_limit": [20e6, 18e6, 16e6, 14.5e6, 13.3e6, 12.3e6]
+        },
+        {
+          "legend": "High temperature derating, reactive power 2.7 MVAr",
+          "reactive_power": 2.7e6,
+          "temperature": [30, 32, 34, 36, 38, 40, 41],
+          "power_limit": [20e6, 16.5e6, 14e6, 12.5e6, 11.2e6, 10.2e6, 0]
         }
       ],
       "cold": {
